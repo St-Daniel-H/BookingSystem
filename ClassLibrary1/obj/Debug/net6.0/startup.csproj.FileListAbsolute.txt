@@ -1,0 +1,14 @@
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\bin\Debug\net6.0\startup.deps.json
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\bin\Debug\net6.0\startup.runtimeconfig.json
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\bin\Debug\net6.0\startup.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\bin\Debug\net6.0\startup.pdb
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\startup.csproj.AssemblyReference.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\startup.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\startup.AssemblyInfoInputs.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\startup.AssemblyInfo.cs
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\startup.csproj.CoreCompileInputs.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\startup.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\refint\startup.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\startup.pdb
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\startup.genruntimeconfig.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary1\obj\Debug\net6.0\ref\startup.dll

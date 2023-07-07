@@ -1,0 +1,14 @@
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\ClassLibrary2.deps.json
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\ClassLibrary2.runtimeconfig.json
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\ClassLibrary2.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\ClassLibrary2.pdb
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ClassLibrary2.csproj.AssemblyReference.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ClassLibrary2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ClassLibrary2.AssemblyInfoInputs.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ClassLibrary2.AssemblyInfo.cs
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ClassLibrary2.csproj.CoreCompileInputs.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ClassLibrary2.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\refint\ClassLibrary2.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ClassLibrary2.pdb
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ClassLibrary2.genruntimeconfig.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ref\ClassLibrary2.dll

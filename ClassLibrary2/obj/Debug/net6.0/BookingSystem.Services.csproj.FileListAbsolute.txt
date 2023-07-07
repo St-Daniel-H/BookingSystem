@@ -1,0 +1,17 @@
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\BookingSystem.Services.deps.json
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\BookingSystem.Services.runtimeconfig.json
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\BookingSystem.Services.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\BookingSystem.Services.pdb
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\BookingSystem.core.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\bin\Debug\net6.0\BookingSystem.core.pdb
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.csproj.AssemblyReference.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.AssemblyInfoInputs.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.AssemblyInfo.cs
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.csproj.CoreCompileInputs.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.csproj.CopyComplete
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\refint\BookingSystem.Services.dll
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.pdb
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\BookingSystem.Services.genruntimeconfig.cache
+C:\Users\danih\source\repos\calenderAPI\ClassLibrary2\obj\Debug\net6.0\ref\BookingSystem.Services.dll
