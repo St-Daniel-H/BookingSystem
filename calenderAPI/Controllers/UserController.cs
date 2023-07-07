@@ -19,12 +19,17 @@ namespace calenderAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        public UserController(IUserService userService, IMapper mapper)
+        {
+            this._mapper = mapper;
+            this._userService = userService;
+        }
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsers();
-            var userResources = _mapper.Map<IEnumerable<User>, IEnumerable<UserResource>>((IEnumerable<User>)users);
-            return Ok(users);
+            var userResources = _mapper.Map<IEnumerable<User>, IEnumerable<UserResource>>(users);
+            return Ok(userResources);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<UserResource>> GetUserById(int id)
@@ -34,11 +39,7 @@ namespace calenderAPI.Controllers
 
             return Ok(userResource);
         }
-        public UserController(IUserService UserService, IMapper mapper)
-        {
-            this._mapper = mapper;
-            this._userService = _userService;
-        }
+
         //create
         [HttpPost("")]
         public async Task<ActionResult<UserResource>> CreateUser([FromBody] SaveUserResource saveUserResource)

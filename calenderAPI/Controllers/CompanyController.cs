@@ -20,7 +20,7 @@ namespace calenderAPI.Controllers
         public CompanyController(ICompanyService companyService, IMapper mapper)
         {
             this._mapper = mapper;
-            this._companyService = _companyService;
+            this._companyService = companyService;
         }
 
         private readonly IMapper _mapper;
@@ -29,8 +29,11 @@ namespace calenderAPI.Controllers
        public async Task<ActionResult<IEnumerable<Company>>> GetAllCompanies()
        {
             var companies = await _companyService.GetAllCompanies();
-            var companyResources = _mapper.Map<IEnumerable<Company>, IEnumerable<CompanyResource>>((IEnumerable<Company>)companies);
-            return Ok(companies);
+          //  var companyResources = _mapper.Map<IEnumerable<Company>, IEnumerable<CompanyResource>>((IEnumerable<Company>)companies);
+            var companyResources = _mapper.Map<IEnumerable<Company>, IEnumerable<CompanyResource>>(companies);
+
+            return Ok(companyResources);
+
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyResource>> GetCompanyById(int id)

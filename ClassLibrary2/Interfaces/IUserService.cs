@@ -13,6 +13,6 @@ namespace BookingSystem.Services.Interfaces
         Task UpdateUser(User userToBeUpdated, User user);
         Task DeleteUser(User user);
         Task<User> GetUserById(int id);
-        Task<User> GetAllUsers();
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }

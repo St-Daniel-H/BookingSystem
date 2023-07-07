@@ -17,9 +17,9 @@ namespace BookingSystem.Services.Repository
         {
             this._unitOfWork = unitOfWork;
         }
-        public async Task<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return (User)await _unitOfWork.Users
+            return await _unitOfWork.Users
                 .GetAllUsers();
         }
         public async Task<User> GetUserById(int id)

@@ -13,6 +13,6 @@ namespace BookingSystem.Services.Interfaces
         Task UpdateCompany(Company companyToBeUpdated, Company company);
         Task DeleteCompany(Company company);
         Task<Company> GetCompanyById(int id);
-        Task<Company> GetAllCompanies();
+        Task<IEnumerable<Company>> GetAllCompanies();
     }
 }
