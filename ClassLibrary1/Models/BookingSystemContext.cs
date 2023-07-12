@@ -37,7 +37,7 @@ namespace startup.Models
                 entity.ToTable("Company");
 
                 entity.Property(e => e.CompanyId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("companyId");
 
                 entity.Property(e => e.Active).HasColumnName("active");
@@ -60,7 +60,7 @@ namespace startup.Models
                 entity.ToTable("Reservation");
 
                 entity.Property(e => e.ReservationId)
-                    .ValueGeneratedNever()
+                     .ValueGeneratedOnAdd()
                     .HasColumnName("reservationId");
 
                 entity.Property(e => e.EndTime)
@@ -95,7 +95,7 @@ namespace startup.Models
                 entity.ToTable("Room");
 
                 entity.Property(e => e.RoomId)
-                    .ValueGeneratedNever()
+                     .ValueGeneratedOnAdd()
                     .HasColumnName("roomId");
 
                 entity.Property(e => e.Capacity).HasColumnName("capacity");
@@ -128,7 +128,7 @@ namespace startup.Models
                 entity.ToTable("User");
 
                 entity.Property(e => e.UserId)
-                    .ValueGeneratedNever()
+                     .ValueGeneratedOnAdd()
                     .HasColumnName("userId");
 
                 entity.Property(e => e.CompanyId).HasColumnName("companyId");

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace startup.Models
 {
@@ -9,7 +11,8 @@ namespace startup.Models
         {
             Reservations = new HashSet<Reservation>();
         }
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string? Name { get; set; }
         public DateTime? DateOfBirth { get; set; }
