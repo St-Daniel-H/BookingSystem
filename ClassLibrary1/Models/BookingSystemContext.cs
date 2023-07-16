@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using BookingSystem.core.Models.Auth;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace startup.Models
 {
-    public partial class BookingSystemContext : DbContext
+    public partial class BookingSystemContext : IdentityDbContext<AUser, Role, Guid>
     {
         public BookingSystemContext()
         {
@@ -32,6 +34,8 @@ namespace startup.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Company>(entity =>
             {
                 entity.ToTable("Company");

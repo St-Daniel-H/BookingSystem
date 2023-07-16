@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using startup.Interfaces;
 using startup.Models;
 using startup.Repository;
+using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,11 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -64,7 +70,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 //swagger stuff
-
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1");
+    c.RoutePrefix = string.Empty; // Serve the Swagger UI at the root URL
+});
 
 app.UseCors();
 app.UseRouting();
@@ -77,10 +88,5 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1");
-    c.RoutePrefix = string.Empty; // Serve the Swagger UI at the root URL
-});
+
 app.Run();
