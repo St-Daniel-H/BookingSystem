@@ -83,14 +83,7 @@ builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 //automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //idenitty
-builder.Services.AddIdentity<AUser, Role>(options =>
-{
-    options.Password.RequiredLength = 8;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-}).AddEntityFrameworkStores<BookingSystemContext>()
+builder.Services.AddIdentity<AUser, Role>().AddEntityFrameworkStores<BookingSystemContext>()
             .AddDefaultTokenProviders();
 //jwt settings
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));

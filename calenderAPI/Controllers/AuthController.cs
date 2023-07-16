@@ -18,12 +18,12 @@ namespace calenderAPI.Controllers
         [ApiController]
         public class AuthController : ControllerBase
         {
-            private readonly UserManager<User> _userManager;
+            private readonly UserManager<AUser> _userManager;
             private readonly IMapper _mapper;
             private readonly RoleManager<Role> _roleManager;
             private readonly JwtSettings _jwtSettings;
 
-            public AuthController(IMapper mapper, UserManager<User> userManager, RoleManager<Role> roleManager,
+            public AuthController(IMapper mapper, UserManager<AUser> userManager, RoleManager<Role> roleManager,
                 IOptionsSnapshot<JwtSettings> jwtSettings)
             {
                 _mapper = mapper;
@@ -37,7 +37,7 @@ namespace calenderAPI.Controllers
             [HttpPost("signup")]
             public async Task<IActionResult> SignUp(UserSignUpResource userSignUpResource)
             {
-                var user = _mapper.Map<UserSignUpResource, User>(userSignUpResource);
+                var user = _mapper.Map<UserSignUpResource, AUser>(userSignUpResource);
 
                 var userCreateResult = await _userManager.CreateAsync(user, userSignUpResource.Password);
 
@@ -50,27 +50,28 @@ namespace calenderAPI.Controllers
             }
 
 
-            [HttpPost("SignIn")]
-            public async Task<IActionResult> SignIn(UserLoginResource userLoginResource)
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignIn(UserLoginResource userLoginResource)
+        {
+            var user = _userManager.Users.SingleOrDefault(u => u.Email == userLoginResource.Email);
+            if (user is null)
             {
-                var user = _userManager.Users.SingleOrDefault(u => u.Email == userLoginResource.Email);
-                if (user is null)
-                {
-                    return NotFound("User not found");
-                }
-
-                var userSigninResult = await _userManager.CheckPasswordAsync(user, userLoginResource.Password);
-
-                if (userSigninResult)
-                {
-                    var roles = await _userManager.GetRolesAsync(user);
-                    return Ok(GenerateJwt(user, roles));
-                }
-
-                return BadRequest("Email or password incorrect.");
+                return NotFound("User not found");
             }
 
-            [HttpPost("Roles")]
+            var userSigninResult = await _userManager.CheckPasswordAsync(user, userLoginResource.Password);
+
+            if (userSigninResult)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                return Ok(GenerateJwt(user, roles));
+            }
+
+            return BadRequest("Email or password incorrect.");
+        }
+
+
+        [HttpPost("Roles")]
             public async Task<IActionResult> CreateRole(string roleName)
             {
                 if (string.IsNullOrWhiteSpace(roleName))
@@ -96,7 +97,7 @@ namespace calenderAPI.Controllers
             [HttpPost("User/{userEmail}/Role")]
             public async Task<IActionResult> AddUserToRole(string userEmail, [FromBody] string roleName)
             {
-                var user = _userManager.Users.SingleOrDefault(u => u.Name == userEmail);
+                var user = _userManager.Users.SingleOrDefault(u => u.Email == userEmail);
 
                 var result = await _userManager.AddToRoleAsync(user, roleName);
 
@@ -107,14 +108,14 @@ namespace calenderAPI.Controllers
 
                 return Problem(result.Errors.First().Description, null, 500);
             }
-            private string GenerateJwt(User user, IList<string> roles)
+            private string GenerateJwt(AUser user, IList<string> roles)
             {
                 var claims = new List<Claim>
     {
-        new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
-        new Claim(ClaimTypes.Name, user.Name),
+        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+        new Claim(ClaimTypes.Name, user.UserName),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
     };
 
                 var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));

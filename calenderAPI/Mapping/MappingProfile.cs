@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookingSystem.core.Models.Auth;
 using calenderAPI.Resources;
 using startup.Models;
 using System.Net;
@@ -21,8 +22,8 @@ namespace calenderAPI.Mapping
             CreateMap<SaveCompanyResource, Company>();
             CreateMap<SaveUserResource, User>();
 
-            CreateMap<UserSignUpResource, User>()
-    .ForMember(u => u.Name, opt => opt.MapFrom(ur => ur.Email));
+            CreateMap<UserSignUpResource, AUser>()
+    .ForMember(u => u.UserName, opt => opt.MapFrom(ur => ur.Email));
 
         }
     }

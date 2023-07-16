@@ -10,7 +10,7 @@ namespace BookingSystem.core.Models.Auth
     public class AUser : IdentityUser<Guid>
     {
         public string FirstName { get; set; }
-
         public string LastName { get; set; }
+
     }
 }

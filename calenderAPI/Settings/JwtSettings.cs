@@ -8,5 +8,6 @@
         public string Secret { get; set; }
 
         public int ExpirationInDays { get; set; }
+
     }
 }
