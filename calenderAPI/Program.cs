@@ -1,10 +1,17 @@
 using AutoMapper;
+using BookingSystem.core.Models.Auth;
 using BookingSystem.core.Repository;
 using BookingSystem.Services.Interfaces;
 using BookingSystem.Services.Repository;
+using calenderAPI.Extensions;
+using calenderAPI.Settings;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using startup.Interfaces;
 using startup.Models;
@@ -19,9 +26,32 @@ builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(option =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "api", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
 });
 // Add CORS services
 builder.Services.AddCors(options =>
@@ -52,6 +82,22 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 //automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//idenitty
+builder.Services.AddIdentity<AUser, Role>(options =>
+{
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+}).AddEntityFrameworkStores<BookingSystemContext>()
+            .AddDefaultTokenProviders();
+//jwt settings
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+builder.Services.AddAuth(jwtSettings);
+
+
 
 builder.Services.AddDbContext<BookingSystemContext>(options =>
 {
@@ -61,7 +107,8 @@ builder.Services.AddDbContext<BookingSystemContext>(options =>
 var app = builder.Build();
 //map controllers
 app.MapControllers();
-
+//jwt
+app.UseAuth();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

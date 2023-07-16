@@ -36,7 +36,8 @@ namespace startup.Models
         {
             //base.OnModelCreating(builder);
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Company>(entity =>
+ 
+        modelBuilder.Entity<Company>(entity =>
             {
                 entity.ToTable("Company");
 

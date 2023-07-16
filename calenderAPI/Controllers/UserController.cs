@@ -8,13 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using startup.Models;
 using FluentValidation;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.AspNetCore.Authorization;
 
 namespace calenderAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
 
-
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;

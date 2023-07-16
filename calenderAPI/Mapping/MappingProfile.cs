@@ -21,6 +21,9 @@ namespace calenderAPI.Mapping
             CreateMap<SaveCompanyResource, Company>();
             CreateMap<SaveUserResource, User>();
 
+            CreateMap<UserSignUpResource, User>()
+    .ForMember(u => u.Name, opt => opt.MapFrom(ur => ur.Email));
+
         }
     }
 }

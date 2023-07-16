@@ -78,3 +78,6 @@ C:\Users\danih\source\repos\calenderAPI\calenderAPI\bin\Debug\net6.0\BookingSyst
 C:\Users\danih\source\repos\calenderAPI\calenderAPI\bin\Debug\net6.0\BookingSystem.Services.pdb
 C:\Users\danih\source\repos\calenderAPI\calenderAPI\bin\Debug\net6.0\FluentValidation.dll
 C:\Users\danih\source\repos\calenderAPI\calenderAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\danih\source\repos\calenderAPI\calenderAPI\bin\Debug\net6.0\Microsoft.AspNet.Identity.Core.dll
+C:\Users\danih\source\repos\calenderAPI\calenderAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\danih\source\repos\calenderAPI\calenderAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
