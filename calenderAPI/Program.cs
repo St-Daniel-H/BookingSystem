@@ -6,16 +6,19 @@ using BookingSystem.Services.Repository;
 using calenderAPI.Extensions;
 using calenderAPI.Settings;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using startup.Interfaces;
 using startup.Models;
 using startup.Repository;
+using System.Text;
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
@@ -85,10 +88,30 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //idenitty
 builder.Services.AddIdentity<AUser, Role>().AddEntityFrameworkStores<BookingSystemContext>()
             .AddDefaultTokenProviders();
-//jwt settings
+//jwt settings\
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
-builder.Services.AddAuth(jwtSettings);
+//builder.Services.AddAuth(jwtSettings);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.RequireHttpsMetadata = false;
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey
+            (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"])),
+
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 
 
 
@@ -116,7 +139,8 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1");
     c.RoutePrefix = string.Empty; // Serve the Swagger UI at the root URL
 });
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseCors();
 app.UseRouting();
 app.UseHttpsRedirection();
