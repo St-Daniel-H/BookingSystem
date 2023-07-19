@@ -14,7 +14,8 @@ namespace BookingSystem.core.Repository
         private readonly BookingSystemContext _context;
         private CompanyRepository _companyRepository;
         private UserRepository _userRepository;
-
+        private RoomRepository? _roomRepository;
+        private ReservationRepository? _reservationRepository;
 
         public UnitOfWork(BookingSystemContext context)
         {
@@ -23,6 +24,9 @@ namespace BookingSystem.core.Repository
 
         public ICompanyRepository Companies => _companyRepository = _companyRepository ?? new CompanyRepository(_context);
         public IUserRepository Users => _userRepository = _userRepository ?? new UserRepository(_context);
+
+        public IReservationRepository Reservations => _reservationRepository = _reservationRepository ?? new ReservationRepository(_context);
+        public IRoomRepository Rooms => _roomRepository = _roomRepository ?? new RoomRepository(_context);
 
 
         public async Task<int> CommitAsync()

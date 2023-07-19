@@ -10,6 +10,9 @@ namespace startup.Interfaces
     {
         ICompanyRepository Companies { get; }
         IUserRepository Users { get; }
+
+        IRoomRepository Rooms { get; }
+        IReservationRepository Reservations { get; }
         Task<int> CommitAsync();
     }
 }

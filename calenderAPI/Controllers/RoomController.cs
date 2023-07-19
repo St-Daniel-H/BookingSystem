@@ -1,0 +1,110 @@
+﻿using AutoMapper;
+using BookingSystem.Services.Interfaces;
+using BookingSystem.Services.Repository;
+using calenderAPI.Controllers;
+using calenderAPI.Resources;
+using calenderAPI.Validators;
+using Microsoft.AspNetCore.Mvc;
+using startup.Models;
+using FluentValidation;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
+namespace calenderAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+
+
+    public class RoomController : ControllerBase
+    {
+        public RoomController(IRoomService RoomService, IMapper mapper)
+        {
+            this._mapper = mapper;
+            this._RoomService = RoomService;
+        }
+
+        private readonly IMapper _mapper;
+        private readonly IRoomService _RoomService;
+        [HttpGet("")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetAllrooms()
+        {
+            var rooms = await _RoomService.GetAllRooms();
+            //  var RoomResources = _mapper.Map<IEnumerable<Room>, IEnumerable<RoomResource>>((IEnumerable<Room>)rooms);
+            var RoomResources = _mapper.Map<IEnumerable<Room>, IEnumerable<RoomResource>>(rooms);
+
+            return Ok(RoomResources);
+
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RoomResource>> GetRoomById(int id)
+        {
+            var Room = await _RoomService.GetRoomById(id);
+            var RoomResource = _mapper.Map<Room, RoomResource>(Room);
+
+            return Ok(RoomResource);
+        }
+
+        //create
+        [HttpPost("")]
+        public async Task<ActionResult<RoomResource>> CreateRoom([FromBody] SaveRoomResource saveRoomResource)
+        {
+            var validator = new SaveRoomResourceValidator();
+            var validationResult = await validator.ValidateAsync(saveRoomResource);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+
+            var RoomToCreate = _mapper.Map<SaveRoomResource, Room>(saveRoomResource);
+
+            var newRoom = await _RoomService.CreateRoom(RoomToCreate);
+
+            var Room = await _RoomService.GetRoomById(newRoom.RoomId);
+
+            var RoomResource = _mapper.Map<Room, RoomResource>(Room);
+
+            return Ok(RoomResource);
+        }
+        //update
+        [HttpPut("{id}")]
+        public async Task<ActionResult<RoomResource>> UpdateMusic(int id, [FromBody] SaveRoomResource saveRoomResource)
+        {
+            var validator = new SaveRoomResourceValidator();
+            var validationResult = await validator.ValidateAsync(saveRoomResource);
+
+            var requestIsInvalid = id == 0 || !validationResult.IsValid;
+
+            if (requestIsInvalid)
+                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+
+            var RoomToBeUpdate = await _RoomService.GetRoomById(id);
+
+            if (RoomToBeUpdate == null)
+                return NotFound();
+
+            var Room = _mapper.Map<SaveRoomResource, Room>(saveRoomResource);
+
+            await _RoomService.UpdateRoom(RoomToBeUpdate, Room);
+
+            var updatedRoom = await _RoomService.GetRoomById(id);
+            var updatedRoomResource = _mapper.Map<Room, RoomResource>(updatedRoom);
+
+            return Ok(updatedRoomResource);
+        }
+        //delete
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRoom(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            var Room = await _RoomService.GetRoomById(id);
+
+            if (Room == null)
+                return NotFound();
+
+            await _RoomService.DeleteRoom(Room);
+
+            return NoContent();
+        }
+    }
+}
