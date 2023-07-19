@@ -9,6 +9,8 @@
       "BookingSystem.core/1.0.0": {
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
+          "Fable.Builders.ReactRouterDom": "1.5.0",
+          "Fable.ReactDom.Types": "18.2.0",
           "FluentValidation": "11.0.2",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.0",
@@ -22,7 +24,8 @@
           "Swashbuckle.AspNetCore.Swagger": "6.2.3",
           "Swashbuckle.AspNetCore.SwaggerGen": "6.2.3",
           "Swashbuckle.AspNetCore.SwaggerUI": "6.2.3",
-          "System.IdentityModel.Tokens.Jwt": "6.32.0"
+          "System.IdentityModel.Tokens.Jwt": "6.32.0",
+          "react.js": "0.14.7"
         },
         "runtime": {
           "BookingSystem.core.dll": {}
@@ -51,11 +54,219 @@
           }
         }
       },
+      "Fable.AST/4.2.1": {
+        "runtime": {
+          "lib/netstandard2.0/Fable.AST.dll": {
+            "assemblyVersion": "4.2.1.0",
+            "fileVersion": "4.2.1.0"
+          }
+        }
+      },
+      "Fable.Browser.Blob/1.1.4": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.Core": "3.2.7"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Browser.Blob.dll": {
+            "assemblyVersion": "1.1.4.0",
+            "fileVersion": "1.1.4.0"
+          }
+        }
+      },
+      "Fable.Browser.Dom/2.4.4": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.Browser.Blob": "1.1.4",
+          "Fable.Browser.Event": "1.4.4",
+          "Fable.Browser.WebStorage": "1.0.4",
+          "Fable.Core": "3.2.7"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Browser.Dom.dll": {
+            "assemblyVersion": "2.4.4.0",
+            "fileVersion": "2.4.4.0"
+          }
+        }
+      },
+      "Fable.Browser.Event/1.4.4": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.Browser.Gamepad": "1.0.3",
+          "Fable.Core": "3.2.7"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Browser.Event.dll": {
+            "assemblyVersion": "1.4.4.0",
+            "fileVersion": "1.4.4.0"
+          }
+        }
+      },
+      "Fable.Browser.Gamepad/1.0.3": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.Core": "3.2.7"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Browser.Gamepad.dll": {
+            "assemblyVersion": "1.0.3.0",
+            "fileVersion": "1.0.3.0"
+          }
+        }
+      },
+      "Fable.Browser.WebStorage/1.0.4": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.Browser.Event": "1.4.4",
+          "Fable.Core": "3.2.7"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Browser.WebStorage.dll": {
+            "assemblyVersion": "1.0.4.0",
+            "fileVersion": "1.0.4.0"
+          }
+        }
+      },
+      "Fable.Builders.React/4.11.0": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Feliz": "2.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Fable.Builders.React.dll": {
+            "assemblyVersion": "4.11.0.0",
+            "fileVersion": "4.11.0.0"
+          }
+        }
+      },
+      "Fable.Builders.ReactRouterDom/1.5.0": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.Builders.React": "4.11.0",
+          "Feliz": "2.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Fable.Builders.ReactRouterDom.dll": {
+            "assemblyVersion": "1.5.0.0",
+            "fileVersion": "1.5.0.0"
+          }
+        }
+      },
+      "Fable.Core/3.2.7": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Fable.Core.dll": {
+            "assemblyVersion": "3.2.7.0",
+            "fileVersion": "3.2.7.0"
+          }
+        }
+      },
+      "Fable.React.Types/18.3.0": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.Browser.Dom": "2.4.4",
+          "Fable.Core": "3.2.7"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Fable.React.Types.dll": {
+            "assemblyVersion": "18.3.0.0",
+            "fileVersion": "18.3.0.0"
+          }
+        }
+      },
+      "Fable.ReactDom.Types/18.2.0": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.React.Types": "18.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Fable.ReactDom.Types.dll": {
+            "assemblyVersion": "18.2.0.0",
+            "fileVersion": "18.2.0.0"
+          }
+        }
+      },
+      "Feliz/2.3.0": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.React.Types": "18.3.0",
+          "Feliz.CompilerPlugins": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Feliz.dll": {
+            "assemblyVersion": "2.3.0.0",
+            "fileVersion": "2.3.0.0"
+          }
+        }
+      },
+      "Feliz.CompilerPlugins/2.0.0": {
+        "dependencies": {
+          "FSharp.Core": "6.0.7",
+          "Fable.AST": "4.2.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Feliz.CompilerPlugins.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
       "FluentValidation/11.0.2": {
         "runtime": {
           "lib/net6.0/FluentValidation.dll": {
             "assemblyVersion": "11.0.0.0",
             "fileVersion": "11.0.2.0"
+          }
+        }
+      },
+      "FSharp.Core/6.0.7": {
+        "runtime": {
+          "lib/netstandard2.1/FSharp.Core.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.722.51308"
+          }
+        },
+        "resources": {
+          "lib/netstandard2.1/cs/FSharp.Core.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netstandard2.1/de/FSharp.Core.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netstandard2.1/es/FSharp.Core.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netstandard2.1/fr/FSharp.Core.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netstandard2.1/it/FSharp.Core.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netstandard2.1/ja/FSharp.Core.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netstandard2.1/ko/FSharp.Core.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netstandard2.1/pl/FSharp.Core.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netstandard2.1/pt-BR/FSharp.Core.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netstandard2.1/ru/FSharp.Core.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netstandard2.1/tr/FSharp.Core.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netstandard2.1/zh-Hans/FSharp.Core.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netstandard2.1/zh-Hant/FSharp.Core.resources.dll": {
+            "locale": "zh-Hant"
           }
         }
       },
@@ -477,6 +688,7 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
+      "react.js/0.14.7": {},
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -1264,12 +1476,110 @@
       "path": "automapper.extensions.microsoft.dependencyinjection/11.0.0",
       "hashPath": "automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512"
     },
+    "Fable.AST/4.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/4V6U7Qw/WIRRxm9NJ7b+YTXTRCTk6/YKeJnbKYaVbtT45MstA3jkFvRfV0FqVFtkG9AL4uccetreygTjK7nbQ==",
+      "path": "fable.ast/4.2.1",
+      "hashPath": "fable.ast.4.2.1.nupkg.sha512"
+    },
+    "Fable.Browser.Blob/1.1.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+6aq2ClPFbh/wFEtKuuIPwoZwi2GlUJ6RRykT0R+i95ZmK22nfE6iWpP+jfKxDnGgrm2AGC+btobAHWXbkC1Sw==",
+      "path": "fable.browser.blob/1.1.4",
+      "hashPath": "fable.browser.blob.1.1.4.nupkg.sha512"
+    },
+    "Fable.Browser.Dom/2.4.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wFGefU1Idqkwa6kKdvz5oyHL5yP+i+cvTHPeJGlF22fnqOozFurFIuPqGToqpgl9DfyWr7MyNvTiLFOkfXNqnA==",
+      "path": "fable.browser.dom/2.4.4",
+      "hashPath": "fable.browser.dom.2.4.4.nupkg.sha512"
+    },
+    "Fable.Browser.Event/1.4.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jGwS4fjwUNBXgGuu+mklDp9sx4ql0E6Ml5F/CI+8gxwgmxG4IdBTo3yIgF8m0doy7Tc9fgBhOfP3xdGMDgJBBQ==",
+      "path": "fable.browser.event/1.4.4",
+      "hashPath": "fable.browser.event.1.4.4.nupkg.sha512"
+    },
+    "Fable.Browser.Gamepad/1.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3mIdAR8uy7eQoL+Nyp72OVWnIbTegoFD6yCvnqaHeWE2MZ3+Lc9EPMKDiHjX3VbImd1uQI57zg+hQJ6MTekgEA==",
+      "path": "fable.browser.gamepad/1.0.3",
+      "hashPath": "fable.browser.gamepad.1.0.3.nupkg.sha512"
+    },
+    "Fable.Browser.WebStorage/1.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kxKI1nM4TWIRjp4X0QfdbgdU3p1ite5E/to3/RqotnV5BTmS9Wl+yX38L0S4CTbnU+I6v8aPLYlZ/BKmtxggXQ==",
+      "path": "fable.browser.webstorage/1.0.4",
+      "hashPath": "fable.browser.webstorage.1.0.4.nupkg.sha512"
+    },
+    "Fable.Builders.React/4.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tvsW6+K3gYHUVg+sGUn6NbmffGols2Do4g7gkoHIIHiV6nLx6FmLHRhNvOZcZR2iVuc7rvE4N/6ndWiaaYeHxA==",
+      "path": "fable.builders.react/4.11.0",
+      "hashPath": "fable.builders.react.4.11.0.nupkg.sha512"
+    },
+    "Fable.Builders.ReactRouterDom/1.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HKr4hasjcOt9KjVujtF/dCCfTRMqKgIl9Qj6E4KuAJOvfDv4OtHniUK0eyrsyT1XGF0z28Xsd+H1P6Wg8Fh2Hg==",
+      "path": "fable.builders.reactrouterdom/1.5.0",
+      "hashPath": "fable.builders.reactrouterdom.1.5.0.nupkg.sha512"
+    },
+    "Fable.Core/3.2.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XYvisWEqzYap+9USQGRyI4F9DmZY5EE3STMiwnvlSrwoqHmZRPHyQR3Rp2oGv/mpzNy7PViKdgCiKC/eviG2Ng==",
+      "path": "fable.core/3.2.7",
+      "hashPath": "fable.core.3.2.7.nupkg.sha512"
+    },
+    "Fable.React.Types/18.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/b8WZ3Bdfhqy9r60ZK9JGZaGNjIMb0ogsrvWIg3k7KfCEvJs5X6+7hCybVkyjVoxwzn9wLyYGRbh5wmuHQT/Vg==",
+      "path": "fable.react.types/18.3.0",
+      "hashPath": "fable.react.types.18.3.0.nupkg.sha512"
+    },
+    "Fable.ReactDom.Types/18.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2WoBjsLiSgrvR68OJXko0iVaqeMbkPM5Bx813A1WlxOSCJ50M9fwnlwG/MUEZtiOIhQmku/YTJY5a8E8r1+j2Q==",
+      "path": "fable.reactdom.types/18.2.0",
+      "hashPath": "fable.reactdom.types.18.2.0.nupkg.sha512"
+    },
+    "Feliz/2.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QvKEgOluMpQ0h0lmq6Uhg5QLIICVxEY9lM5J5wW3iSseQT/Pk0EeyfVQav2+vN8fB3A5etVxWxrYvirJ9Ns6Gw==",
+      "path": "feliz/2.3.0",
+      "hashPath": "feliz.2.3.0.nupkg.sha512"
+    },
+    "Feliz.CompilerPlugins/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZOOxmOVv3cmuF5bZE5hGEJUX5YwWH2KoyliY+8UsQ9ER5BptD31zOxGF2q4fP3SFndqP/wJsfA7y4pkew45H9Q==",
+      "path": "feliz.compilerplugins/2.0.0",
+      "hashPath": "feliz.compilerplugins.2.0.0.nupkg.sha512"
+    },
     "FluentValidation/11.0.2": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-ik/xogKqBmZWIURMXNEbugJlKka6iV9a4qckmKDp7sHSwIfgkZ/ewzCuAeUTkFdVZujfDW6mCLMjrrR6GG4xLQ==",
       "path": "fluentvalidation/11.0.2",
       "hashPath": "fluentvalidation.11.0.2.nupkg.sha512"
+    },
+    "FSharp.Core/6.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-e6wGrq5smV3Yk2fBE/Y0nBG5oFyF59k5Je0a0QDydUpg6liyaafGjD3xvutciKepCP2knspZ/sWViC/F1OyyQQ==",
+      "path": "fsharp.core/6.0.7",
+      "hashPath": "fsharp.core.6.0.7.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",
@@ -1571,6 +1881,13 @@
       "sha512": "sha512-WcSp3+vP+yHNgS8EV5J7pZ9IRpeDuARBPN28by8zqff1wJQXm26PVU8L3/fYLBJVU7BtDyqNVWq2KlCVvSSR4A==",
       "path": "netstandard.library/1.6.1",
       "hashPath": "netstandard.library.1.6.1.nupkg.sha512"
+    },
+    "react.js/0.14.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vz/ldkXR45hqxm0nspBc0VCyk2ay4TTn+69C0HYAFmiYiHdq1trtmM6408FF3ZEG7OPFwOKVrsVyuGCDC/wyXw==",
+      "path": "react.js/0.14.7",
+      "hashPath": "react.js.0.14.7.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "T271/10icBRigKeMe+Te+/4dlqgplGCNe6ts4WYfQ10=",
+  "Hash": "BBfbSpSnCN1tuTDdRnkXeDESpqNZoUw/S7QciUWPHJA=",
   "Source": "calenderAPI",
   "BasePath": "_content/calenderAPI",
   "Mode": "Default",
@@ -16,40 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\obj\\Debug\\net6.0\\scopedcss\\bundle\\calenderAPI.styles.css",
-      "SourceId": "calenderAPI",
-      "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\obj\\Debug\\net6.0\\scopedcss\\bundle\\",
-      "BasePath": "_content/calenderAPI",
-      "RelativePath": "calenderAPI.styles.css",
-      "AssetKind": "All",
-      "AssetMode": "CurrentProject",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ApplicationBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\obj\\Debug\\net6.0\\scopedcss\\bundle\\calenderAPI.styles.css"
-    },
-    {
-      "Identity": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\calenderAPI.bundle.scp.css",
-      "SourceId": "calenderAPI",
-      "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\",
-      "BasePath": "_content/calenderAPI",
-      "RelativePath": "calenderAPI.bundle.scp.css",
-      "AssetKind": "All",
-      "AssetMode": "Reference",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ProjectBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\calenderAPI.bundle.scp.css"
-    },
     {
       "Identity": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\wwwroot\\css\\site.css",
       "SourceId": "calenderAPI",

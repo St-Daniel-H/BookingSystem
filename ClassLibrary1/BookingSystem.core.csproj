@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Fable.Builders.ReactRouterDom" Version="1.5.0" />
+    <PackageReference Include="Fable.ReactDom.Types" Version="18.2.0" />
     <PackageReference Include="FluentValidation" Version="11.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
@@ -20,6 +22,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.32.0" />
+    <PackageReference Include="react.js" Version="0.14.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />

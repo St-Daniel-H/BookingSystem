@@ -1,10 +1,6 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\calenderAPI.bundle.scp.css",
-      "PackagePath": "staticwebassets\\calenderAPI.bundle.scp.css"
-    },
-    {
       "Id": "C:\\Users\\danih\\source\\repos\\calenderAPI\\calenderAPI\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

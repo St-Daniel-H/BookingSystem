@@ -44,6 +44,14 @@
               "target": "Package",
               "version": "[11.0.0, )"
             },
+            "Fable.Builders.ReactRouterDom": {
+              "target": "Package",
+              "version": "[1.5.0, )"
+            },
+            "Fable.ReactDom.Types": {
+              "target": "Package",
+              "version": "[18.2.0, )"
+            },
             "FluentValidation": {
               "target": "Package",
               "version": "[11.0.2, )"
@@ -101,6 +109,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[6.32.0, )"
+            },
+            "react.js": {
+              "target": "Package",
+              "version": "[0.14.7, )"
             }
           },
           "imports": [
@@ -167,6 +179,14 @@
               "target": "Package",
               "version": "[11.0.0, )"
             },
+            "Fable.Builders.ReactRouterDom": {
+              "target": "Package",
+              "version": "[1.5.0, )"
+            },
+            "Fable.ReactDom.Types": {
+              "target": "Package",
+              "version": "[18.2.0, )"
+            },
             "FluentValidation": {
               "target": "Package",
               "version": "[11.0.2, )"
@@ -224,6 +244,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[6.32.0, )"
+            },
+            "react.js": {
+              "target": "Package",
+              "version": "[0.14.7, )"
             }
           },
           "imports": [
