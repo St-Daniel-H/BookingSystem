@@ -55,12 +55,11 @@ namespace calenderAPI.Controllers
                 return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
 
             var companyToCreate = _mapper.Map<SaveCompanyResource, Company>(saveCompanyResource);
-            var newCompany = await _companyService.CreateCompany(companyToCreate);
             if (saveCompanyResource.Logo != null && saveCompanyResource.Logo.Length > 0)
             {
                 // Generate the filename using the CompanyId or any other unique identifier
-                var fileName = newCompany.CompanyId.ToString() + Path.GetExtension(saveCompanyResource.Logo.FileName);
-                var filePath = Path.Combine(uploadsFolderPath, fileName);
+                var guidFileName = Guid.NewGuid().ToString() + Path.GetExtension(saveCompanyResource.Logo.FileName);
+                var filePath = Path.Combine(uploadsFolderPath, guidFileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
@@ -68,8 +67,10 @@ namespace calenderAPI.Controllers
                 }
 
                 // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
-                newCompany.Logo = filePath;
+                companyToCreate.Logo = filePath.ToString();
             }
+            var newCompany = await _companyService.CreateCompany(companyToCreate);
+
             var company = await _companyService.GetCompanyById(newCompany.CompanyId);
 
             var companyResource = _mapper.Map<Company, CompanyResource>(company);

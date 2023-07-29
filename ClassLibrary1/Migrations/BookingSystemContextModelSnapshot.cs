@@ -375,9 +375,9 @@ namespace BookingSystem.core.Migrations
                         .HasColumnName("gender");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50)
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("name");
 
                     b.Property<string>("Password")

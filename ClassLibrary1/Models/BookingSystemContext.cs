@@ -36,8 +36,8 @@ namespace startup.Models
         {
             //base.OnModelCreating(builder);
             base.OnModelCreating(modelBuilder);
- 
-        modelBuilder.Entity<Company>(entity =>
+
+            modelBuilder.Entity<Company>(entity =>
             {
                 entity.ToTable("Company");
 
@@ -153,7 +153,7 @@ namespace startup.Models
                     .HasColumnName("gender");
 
                 entity.Property(e => e.Name)
-                    .HasMaxLength(50)
+                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("name");
 

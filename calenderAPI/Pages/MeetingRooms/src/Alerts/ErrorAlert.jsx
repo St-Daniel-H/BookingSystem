@@ -20,6 +20,7 @@ export default function ErrorAlert({message }) {
 
         setOpen(false);
     };
+
     return (
         <Snackbar
             autoHideDuration={6000}

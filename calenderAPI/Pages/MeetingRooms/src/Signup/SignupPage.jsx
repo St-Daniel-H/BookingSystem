@@ -10,13 +10,36 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ErrorAlert from '../Alerts/ErrorAlert';
 import SuccessAlert from '../Alerts/SuccessAlert';
+import { useSnackbar } from 'notistack';
+
 import "./Signup.scss"
 const steps = ['Create An Account', 'Create Company Profile'];
 //forms
 import CreateAccountSignup from "./CreateAccount";
 import CreateCompany from "./CreateCompany";
 function Signup() {
-
+    //snackbars
+    const [errorMessage, setErrorMessage] = useState("");
+    const { enqueueSnackbar } = useSnackbar();
+    function handleSnackBar(){
+        enqueueSnackbar(errorMessage, {
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'right',
+            },
+            variant: "error"
+        });
+    }
+    function handleSnackBarSuccess() {
+        enqueueSnackbar("Signup Successful", {
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'right',
+            },
+            variant: "success"
+        });
+    }
+    //turn true when the user finishes the form.
 
     //user form
     const [userData, setUserData] = useState({
@@ -32,8 +55,7 @@ function Signup() {
         logo: null,
     })
     const navigateTo = useNavigate();
-    const [valid, setValid] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [valid, setValid] = useState();
     //forms
     const Forms = [<CreateAccountSignup state={userData} setState={setUserData} key="0" />, <CreateCompany state={companyData} setState={setCompanyData} key="1"  />];
  
@@ -59,8 +81,11 @@ function Signup() {
                     const errorResponse = await response.json();
                     throw new Error(errorResponse.detail);
                 } else {
+                    setErrorMessage(response.status);
+                    handleSnackBar();
                     // If the response is not JSON, throw a generic error
                     throw new Error("Error: " + response.status);
+                    
                 }
             }
 
@@ -72,89 +97,93 @@ function Signup() {
                 return response;
             }
         } catch (error) {
+            setErrorMessage(error.message);
+            handleSnackBar()
             throw new Error("Signup failed: " + error.message);
         }
     }
 
     async function signUp() {
         try { 
-            console.log(companyData.logo);
+            //company data
             const companyData2 = new FormData();
-            companyData2.append('Name', companyData.Name); // Replace with the actual company name
-            companyData2.append('email', companyData.email); // Replace with the actual company email
-            companyData2.append('logo', companyData.logo[0]); // Replace logoFileInput with your actual file input element
-            console.log(companyData2)
-            //const companyData2 = {
-            //    Name: companyData.Name,
-            //    email: companyData.email,
-            //    logo: companyData.logo,
-            //};
-            const compnayResponse = await fetch(APIs.apiLink+ '/api/Company', {
-                method: 'POST',
-                body: companyData2,
+            companyData2.append('Name', companyData.Name); 
+            companyData2.append('email', companyData.email);
+            companyData2.append('logo', companyData.logo[0]); 
 
-            })
-            const companyRes = await compnayResponse.json(); // Parse the response data
-
-            if (companyRes.companyId!==null) {
-                console.log(companyData)
-            } else {
-                console.error('Failed to create company:', companyRes.json());
-                return;
-            }
-        
-            const companyId = companyRes.companyId
-            
+            //authontication data
             const authData2 = {
                 firstName: userData.firstName,
                 lastName: userData.lastName,
                 email: userData.email,
                 password: userData.password,
             }
-
-            //get company first
-            //const companyResponse = await callApi("/api/Company", companyData2);
-            //console.log(companyResponse);
-            //console.log(companyResponse.companyId);
-            //if (companyResponse.companyId == undefined) {
-            //    throw new Error("Failed to create the company.");
-                
-            //}
-
-            //const companyId = companyResponse.companyId;
             
-            const userData2 = {
-                name: userData.firstName,
-                email: userData.email,
-                password: userData.password,
-                companyId: companyId
-            };
-            // Make the API calls concurrently using Promise.all
-            const [authResponse, userResponse] = await Promise.all([
-                callApi("/api/Auth/signup", authData2),
-                callApi("/api/User", userData2),
-                
-            ]);
+            //we make sure user is valid first.
+            const response = await fetch(APIs.apiLink + "/api/Auth/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstName: authData2.firstName,
+                    lastName: authData2.lastName,
+                    email: authData2.email,
+                    password: authData2.password,
+                }),
+            });
+            if (response.ok) {//user verified. 
+                //make a company
+                const data = await response;
+                const compnayResponse = await fetch(APIs.apiLink + '/api/Company', {
+                    method: 'POST',
+                    body: companyData2,
 
-            // Check if all API calls were successful
-            if (authResponse.ok && userResponse.ok) {
-                alert("Signup successful");
-               // setValid("true");
-                navigateTo("/");
+                })
+                const companyRes = await compnayResponse.json(); // Parse the response data
+
+                if (companyRes.companyId !== null) {
+                    console.log(companyData)
+                } else {
+                    console.error('Failed to create company:', companyRes.json());
+                    setErrorMessage('Failed to create company');
+                    handleSnackBar();
+                    throw new Error("something went wrong creating the company");
+                }
+
+                const companyId = companyRes.companyId
+                //after we got company id, assign it to userData2
+                const userData2 = {
+                    name: userData.firstName + " " + userData.lastName,
+                    email: userData.email,
+                    password: userData.password,
+                    role: "Admin",
+                    companyId: companyId
+                };
+                const userResponse = callApi("/api/User", userData2);
+                console.log(userResponse);
+                if (userResponse) {
+                    handleSnackBarSuccess();
+                    navigateTo("/login");
+                }
+
             } else {
-                setErrorMessage("Unknown error occurred during signup.");
-
-               // setValid(false);
+                const errorResponse = await response.json();
+                console.log("Signup failed:", errorResponse.detail);
+                throw new Error(errorResponse.detail);
+                //setErrorMessage(errorResponse.detail);
+                // Handle the error response here, e.g., show an error message to the user
             }
         } catch (error) {
             console.log(error.message);
             setErrorMessage(error.message);
+            handleSnackBar();
+            
             //setValid(false);
         }
       
  
     }
-
     //for stepper
     const [activeStep, setActiveStep] = React.useState(0);
     const [completed, setCompleted] = React.useState({});
@@ -170,11 +199,7 @@ function Signup() {
     const isLastStep = () => {
         return activeStep === totalSteps() - 1;
     };
-
     const allStepsCompleted = () => {
-        //if (completedSteps() === totalSteps()) {
-        //     signUp();//signup!! form is completed!
-        //}
         return completedSteps() === totalSteps();
     };
 
@@ -201,6 +226,7 @@ function Signup() {
         newCompleted[activeStep] = true;
         setCompleted(newCompleted);
         handleNext();
+
     };
 
     const handleReset = () => {
@@ -237,7 +263,7 @@ function Signup() {
                             </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleReset}>Reset</Button>
+                                <Button onClick={signUp}>Submit</Button>
                             </Box>
                         </React.Fragment>
                     ) : (
@@ -264,11 +290,11 @@ function Signup() {
                                             Step {activeStep + 1} already completed
                                         </Typography>
                                     ) : (
-                                                <Button onClick={handleComplete}>
+                                               <>
                                             {completedSteps() === totalSteps() - 1
-                                                        ? 'Finish' 
-                                                : 'Complete Step'}
-                                        </Button>
+                                                        ? <Button onClick={signUp}>Submit</Button>
+                                                        : <Button onClick={handleComplete}>Complete Step</Button>}
+                                        </>
                                     ))}
                             </Box>
                         </React.Fragment>
@@ -280,7 +306,7 @@ function Signup() {
                      */}
             </div>
             <button onClick={signUp}>signup</button>
-        </div>
+            </div>
     )
         
 }
