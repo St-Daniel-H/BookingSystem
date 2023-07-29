@@ -247,7 +247,7 @@ namespace BookingSystem.core.Migrations
                         .HasColumnName("email");
 
                     b.Property<byte[]>("Logo")
-                        .HasColumnType("varbinary(max)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("logo");
 
                     b.Property<string>("Name")

@@ -58,7 +58,7 @@ namespace BookingSystem.core.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     email = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    logo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    logo = table.Column<string>(type: "varchar(255)", nullable: true, maxLength: 255),
                     active = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>

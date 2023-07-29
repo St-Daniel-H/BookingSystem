@@ -17,7 +17,7 @@ namespace startup.Models
         public int CompanyId { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
-        public byte[]? Logo { get; set; }
+        public string? Logo { get; set; }
         public bool? Active { get; set; }
 
         public virtual ICollection<Room> Rooms { get; set; }

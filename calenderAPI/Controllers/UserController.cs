@@ -15,7 +15,7 @@ namespace calenderAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    [Authorize]
+    //[Authorize]
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;

@@ -1,5 +1,5 @@
 import APIs from "../Backend/backend";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -8,63 +8,136 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import ErrorAlert from '../Alerts/ErrorAlert';
+import SuccessAlert from '../Alerts/SuccessAlert';
 import "./Signup.scss"
 const steps = ['Create An Account', 'Create Company Profile'];
 //forms
 import CreateAccountSignup from "./CreateAccount";
 import CreateCompany from "./CreateCompany";
 function Signup() {
-    //const [email, setEmail] = useState("");
-    //const [password, setPassword] = useState("");
-    //const [firstName, setFirstName] = useState("");
-    //const [lastName, setLastName] = useState("");
+
+
+    //user form
+    const [userData, setUserData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password:"",
+    })
+    //company form
+    const [companyData, setCompanyData] = useState({
+        Name: "",
+        email: "",
+        logo: "",
+    })
     const navigateTo = useNavigate();
+    const [valid, setValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     //forms
-    // Function to get the form data from CreateCompany component
-    const getCompanyFormData = () => {
-        // Assuming Forms[1] corresponds to CreateCompany component
-        return Forms[1].props.getFormData();
-    };
-    const Forms = [<CreateAccountSignup key="0" />, <CreateCompany key="1" getCompanyFormData={getCompanyFormData} />];
-    // Example usage in the main component
-    const handleFormSubmit = () => {
-        // Get form data from CreateCompany component
-        const companyFormData = getCompanyFormData();
-        console.log(companyFormData);
-        // You can now use the companyFormData object as needed.
-    };
-    async function signUp(event) {
-        event.preventDefault();
-        if (password == "" || email == "" || firstName == "" || lastName == "") {
-            setErrorMessage("Please fill all the information");
-            return;
+    const Forms = [<CreateAccountSignup state={userData} setState={setUserData} key="0" />, <CreateCompany state={companyData} setState={setCompanyData} key="1"  />];
+ 
+    
+    // Define a helper function to handle API calls
+    async function callApi(endpoint, data) {
+        try {
+            const response = await fetch(APIs.apiLink + endpoint, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Check if the response is JSON
+            const contentType = response.headers.get("content-type");
+            const isJsonResponse = contentType && contentType.includes("application/json");
+
+            if (!response.ok) {
+                // If the response is JSON, parse the error message from the JSON data
+                if (isJsonResponse) {
+                    const errorResponse = await response.json();
+                    throw new Error(errorResponse.detail);
+                } else {
+                    // If the response is not JSON, throw a generic error
+                    throw new Error("Error: " + response.status);
+                }
+            }
+
+            // If the response is JSON, parse the data
+            if (isJsonResponse) {
+                return await response.json();
+            } else {
+                // If the response is not JSON, return the entire response object
+                return response;
+            }
+        } catch (error) {
+            throw new Error("Signup failed: " + error.message);
         }
-        const response = await fetch(APIs.apiLink + "/api/Auth/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                password: password,
-            }),
-        });
-        if (response.ok) {
-            const data = await response;
-            console.log(data);
-            alert("Signup successful");
-            navigateTo("/");
-        } else {
-            const errorResponse = await response.json();
-            console.log("Signup failed:", errorResponse.detail);
-            setErrorMessage(errorResponse.detail);
-            // Handle the error response here, e.g., show an error message to the user
+    }
+
+    async function signUp() {
+        //event.preventDefault();
+
+        try {
+            const companyData2 = {
+                Name: companyData.Name,
+                email: companyData.email,
+                logo: companyData.logo,
+            };
+
+            
+            const authData2 = {
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                email: userData.email,
+                password: userData.password,
+            }
+
+            //get company first
+            const companyResponse = await callApi("/api/Company", companyData2);
+            console.log(companyResponse);
+            console.log(companyResponse.companyId);
+            if (companyResponse.companyId == undefined) {
+                throw new Error("Failed to create the company.");
+                
+            }
+
+            const companyId = companyResponse.companyId;
+            
+            //assign companyId
+            const userData2 = {
+                name: userData.firstName,
+                email: userData.email,
+                password: userData.password,
+                companyId: companyId
+            };
+            // Make the API calls concurrently using Promise.all
+            const [authResponse, userResponse] = await Promise.all([
+                callApi("/api/Auth/signup", authData2),
+                callApi("/api/User", userData2),
+                
+            ]);
+
+            // Check if all API calls were successful
+            if (authResponse.ok && userResponse.ok && companyResponse.ok) {
+                alert("Signup successful");
+               // setValid("true");
+                navigateTo("/");
+            } else {
+                setErrorMessage("Unknown error occurred during signup.");
+
+               // setValid(false);
+            }
+        } catch (error) {
+            console.log(error.message);
+            setErrorMessage(error.message);
+            //setValid(false);
         }
+      
  
     }
+
     //for stepper
     const [activeStep, setActiveStep] = React.useState(0);
     const [completed, setCompleted] = React.useState({});
@@ -82,6 +155,9 @@ function Signup() {
     };
 
     const allStepsCompleted = () => {
+        //if (completedSteps() === totalSteps()) {
+        //     signUp();//signup!! form is completed!
+        //}
         return completedSteps() === totalSteps();
     };
 
@@ -113,13 +189,16 @@ function Signup() {
     const handleReset = () => {
         setActiveStep(0);
         setCompleted({});
+        console.log(userData)
     };
     //end of stepper
     return (
         <div id="SignupPage">
+            {!valid && errorMessage != "" ? <ErrorAlert message={errorMessage} /> : "" }
+
         <div id="container">
-            <h1>Signup</h1>
-            <p>{errorMessage}</p>
+                <h1>Signup</h1>
+               
             {/* 
              stepper 
              */}
@@ -183,6 +262,7 @@ function Signup() {
             end of stepper!!!!!!!!!!!!!!!!!!!
                      */}
             </div>
+            <button onClick={signUp}>signup</button>
         </div>
     )
         

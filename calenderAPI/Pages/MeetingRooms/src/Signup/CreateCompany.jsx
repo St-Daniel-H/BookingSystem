@@ -1,22 +1,32 @@
-import { useState } from 'react';
-function CreateCompany() {
+/* eslint-disable react/prop-types */
+function CreateCompany({ state, setState }) {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
+
 
 
     return (
-        <form >
-            <label htmlFor="firstName">Company Name</label><br />
-            <input id="firstName" type="text" onChange={(e) => setFirstName(e.target.value)}
-                value={firstName}></input><br />
+        <form>
+            <label htmlFor="Name">Name</label><br />
+            <input
+                id="Name"
+                type="text"
+                onChange={(e) => setState({ ...state, Name: e.target.value })}
+                value={state.Name}
+            /><br />
             <label htmlFor="email">Email</label><br />
-            <input id="email" type="text" onChange={(e) => setEmail(e.target.value)}
-                value={email}></input><br />
-            <label htmlFor="password">Password</label><br />
-            <input id="password" type="password" onChange={(e) => setPassword(e.target.value)}
-                value={password}></input><br />
+            <input
+                id="email"
+                type="text"
+                onChange={(e) => setState({ ...state, email: e.target.value })}
+                value={state.email}
+            /><br />
+            <label htmlFor="logo">Logo</label><br />
+            <input
+                id="logo"
+                type="file"
+                onChange={(e) => setState({ ...state, logo: e.target.value })}
+                value={state.logo}
+            /><br />
         </form>
     )
 }
