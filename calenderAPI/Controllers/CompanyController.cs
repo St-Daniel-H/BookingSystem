@@ -46,18 +46,30 @@ namespace calenderAPI.Controllers
 
         //create
         [HttpPost("")]
-        public async Task<ActionResult<CompanyResource>> CreateCompany([FromBody] SaveCompanyResource saveCompanyResource)
+        public async Task<ActionResult<CompanyResource>> CreateCompany([FromForm] SaveCompanyResource saveCompanyResource)
         {
             var validator = new SaveCompanyResourceValidator();
             var validationResult = await validator.ValidateAsync(saveCompanyResource);
-
+            var uploadsFolderPath = "Uploads/";
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
 
             var companyToCreate = _mapper.Map<SaveCompanyResource, Company>(saveCompanyResource);
-
             var newCompany = await _companyService.CreateCompany(companyToCreate);
+            if (saveCompanyResource.Logo != null && saveCompanyResource.Logo.Length > 0)
+            {
+                // Generate the filename using the CompanyId or any other unique identifier
+                var fileName = newCompany.CompanyId.ToString() + Path.GetExtension(saveCompanyResource.Logo.FileName);
+                var filePath = Path.Combine(uploadsFolderPath, fileName);
 
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await saveCompanyResource.Logo.CopyToAsync(stream);
+                }
+
+                // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
+                newCompany.Logo = filePath;
+            }
             var company = await _companyService.GetCompanyById(newCompany.CompanyId);
 
             var companyResource = _mapper.Map<Company, CompanyResource>(company);

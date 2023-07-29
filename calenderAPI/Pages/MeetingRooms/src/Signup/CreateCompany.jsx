@@ -24,8 +24,9 @@ function CreateCompany({ state, setState }) {
             <input
                 id="logo"
                 type="file"
-                onChange={(e) => setState({ ...state, logo: e.target.value })}
-                value={state.logo}
+                onChange={(ev) => setState({ ...state, logo: ev.target.files })}
+
+                accept="image/x-png,image/gif,image/jpeg"
             /><br />
         </form>
     )

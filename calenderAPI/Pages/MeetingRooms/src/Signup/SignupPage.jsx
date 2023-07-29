@@ -29,7 +29,7 @@ function Signup() {
     const [companyData, setCompanyData] = useState({
         Name: "",
         email: "",
-        logo: "",
+        logo: null,
     })
     const navigateTo = useNavigate();
     const [valid, setValid] = useState(false);
@@ -77,15 +77,33 @@ function Signup() {
     }
 
     async function signUp() {
-        //event.preventDefault();
+        try { 
+            console.log(companyData.logo);
+            const companyData2 = new FormData();
+            companyData2.append('Name', companyData.Name); // Replace with the actual company name
+            companyData2.append('email', companyData.email); // Replace with the actual company email
+            companyData2.append('logo', companyData.logo[0]); // Replace logoFileInput with your actual file input element
+            console.log(companyData2)
+            //const companyData2 = {
+            //    Name: companyData.Name,
+            //    email: companyData.email,
+            //    logo: companyData.logo,
+            //};
+            const compnayResponse = await fetch(APIs.apiLink+ '/api/Company', {
+                method: 'POST',
+                body: companyData2,
 
-        try {
-            const companyData2 = {
-                Name: companyData.Name,
-                email: companyData.email,
-                logo: companyData.logo,
-            };
+            })
+            const companyRes = await compnayResponse.json(); // Parse the response data
 
+            if (companyRes.companyId!==null) {
+                console.log(companyData)
+            } else {
+                console.error('Failed to create company:', companyRes.json());
+                return;
+            }
+        
+            const companyId = companyRes.companyId
             
             const authData2 = {
                 firstName: userData.firstName,
@@ -95,17 +113,16 @@ function Signup() {
             }
 
             //get company first
-            const companyResponse = await callApi("/api/Company", companyData2);
-            console.log(companyResponse);
-            console.log(companyResponse.companyId);
-            if (companyResponse.companyId == undefined) {
-                throw new Error("Failed to create the company.");
+            //const companyResponse = await callApi("/api/Company", companyData2);
+            //console.log(companyResponse);
+            //console.log(companyResponse.companyId);
+            //if (companyResponse.companyId == undefined) {
+            //    throw new Error("Failed to create the company.");
                 
-            }
+            //}
 
-            const companyId = companyResponse.companyId;
+            //const companyId = companyResponse.companyId;
             
-            //assign companyId
             const userData2 = {
                 name: userData.firstName,
                 email: userData.email,
@@ -120,7 +137,7 @@ function Signup() {
             ]);
 
             // Check if all API calls were successful
-            if (authResponse.ok && userResponse.ok && companyResponse.ok) {
+            if (authResponse.ok && userResponse.ok) {
                 alert("Signup successful");
                // setValid("true");
                 navigateTo("/");
