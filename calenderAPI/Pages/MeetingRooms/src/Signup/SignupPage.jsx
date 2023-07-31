@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import ErrorAlert from "../Alerts/ErrorAlert";
 import SuccessAlert from "../Alerts/SuccessAlert";
 import { useSnackbar } from "notistack";
-
+import colors from "../scss/SCSSVariables";
 import "./Signup.scss";
 const steps = ["Create An Account", "Create Company Profile"];
 //forms
@@ -20,10 +20,9 @@ import CreateCompany from "./CreateCompany";
 
 function Signup() {
   //snackbars
-  const [errorMessage, setErrorMessage] = useState("");
   const { enqueueSnackbar } = useSnackbar();
-  function handleSnackBar() {
-    enqueueSnackbar(errorMessage, {
+  function handleSnackBar(error) {
+    enqueueSnackbar(error, {
       anchorOrigin: {
         vertical: "bottom",
         horizontal: "right",
@@ -56,7 +55,6 @@ function Signup() {
     logo: null,
   });
   const navigateTo = useNavigate();
-  const [valid, setValid] = useState();
   //forms
   const Forms = [
     <CreateAccountSignup state={userData} setState={setUserData} key="0" />,
@@ -85,8 +83,6 @@ function Signup() {
           const errorResponse = await response.json();
           throw new Error(errorResponse.detail);
         } else {
-          setErrorMessage(response.status);
-          handleSnackBar();
           // If the response is not JSON, throw a generic error
           throw new Error("Error: " + response.status);
         }
@@ -100,8 +96,6 @@ function Signup() {
         return response;
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      handleSnackBar();
       throw new Error("Signup failed: " + error.message);
     }
   }
@@ -116,14 +110,15 @@ function Signup() {
         userData.email == "" ||
         userData.password == ""
       ) {
-        setErrorMessage("Please fill all information");
         throw new Error("Please fill all information");
       }
       //company data
       const companyData2 = new FormData();
       companyData2.append("Name", companyData.Name);
       companyData2.append("email", companyData.email);
-      companyData2.append("logo", companyData.logo[0]);
+      if (companyData.logo != null) {
+        companyData2.append("logo", companyData.logo[0]);
+      }
 
       //authontication data
       const authData2 = {
@@ -160,8 +155,6 @@ function Signup() {
           console.log(companyData);
         } else {
           console.error("Failed to create company:", companyRes.json());
-          setErrorMessage("Failed to create company");
-          handleSnackBar();
           throw new Error("something went wrong creating the company");
         }
 
@@ -184,14 +177,10 @@ function Signup() {
         const errorResponse = await response.json();
         console.log("Signup failed:", errorResponse.detail);
         throw new Error(errorResponse.detail);
-        //setErrorMessage(errorResponse.detail);
-        // Handle the error response here, e.g., show an error message to the user
       }
     } catch (error) {
       console.log(error.message);
-      setErrorMessage(error.message);
-      handleSnackBar();
-
+      handleSnackBar(error.message);
       //setValid(false);
     }
   }
@@ -247,14 +236,19 @@ function Signup() {
   //end of stepper
   return (
     <div id="SignupPage">
-      <div id="rightOfSignUp">
+      {/* <div id="rightOfSignUp">
         <div>
           <h1>
             Join <span>MeetingRooms</span> Today!
           </h1>
         </div>
-      </div>
+      </div> */}
       <div id="leftSideOfSignup">
+        <section id="welcome">
+          {" "}
+          <h1>Sign up to MeetingRooms today</h1>
+        </section>
+
         <div id="container">
           {/* 
              stepper 
@@ -351,6 +345,12 @@ function Signup() {
             end of stepper!!!!!!!!!!!!!!!!!!!
                      */}
         </div>
+        <section id="login">
+          {" "}
+          <h2>
+            Already have an account? <a href="./login">click here</a>
+          </h2>
+        </section>
       </div>
     </div>
   );

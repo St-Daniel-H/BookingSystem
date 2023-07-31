@@ -1,19 +1,19 @@
 /* eslint-disable react/prop-types */
 import TextField from "@mui/material/TextField";
+import colors from "../scss/SCSSVariables";
+
 function CreateAccountSignup({ state, setState }) {
-  const colors = {
-    primaryColor: "#00b200",
-    secondaryColor: "#333",
-  };
   return (
     <form>
       <TextField
         className="input"
         sx={{
-          input: { color: "white" },
-          "& .MuiInput-underline:before": { borderBottomColor: "white" },
+          input: { color: colors.accentColor },
+          "& .MuiInput-underline:before": {
+            borderBottomColor: colors.accentColor,
+          },
           "& .MuiFormLabel-root": {
-            color: "white",
+            color: colors.accentColor,
           },
           "& .MuiInputLabel-root:focused": {
             color: colors.primaryColor,
@@ -30,10 +30,12 @@ function CreateAccountSignup({ state, setState }) {
       <TextField
         className="input"
         sx={{
-          input: { color: "white" },
-          "& .MuiInput-underline:before": { borderBottomColor: "white" },
+          input: { color: colors.accentColor },
+          "& .MuiInput-underline:before": {
+            borderBottomColor: colors.accentColor,
+          },
           "& .MuiFormLabel-root": {
-            color: "white",
+            color: colors.accentColor,
           },
           "& .MuiInputLabel-root:focused": {
             color: colors.primaryColor,
@@ -50,10 +52,12 @@ function CreateAccountSignup({ state, setState }) {
       <TextField
         className="input"
         sx={{
-          input: { color: "white" },
-          "& .MuiInput-underline:before": { borderBottomColor: "white" },
+          input: { color: colors.accentColor },
+          "& .MuiInput-underline:before": {
+            borderBottomColor: colors.accentColor,
+          },
           "& .MuiFormLabel-root": {
-            color: "white",
+            color: colors.accentColor,
           },
           "& .MuiInputLabel-root:focused": {
             color: colors.primaryColor,
@@ -70,10 +74,12 @@ function CreateAccountSignup({ state, setState }) {
       <TextField
         className="input"
         sx={{
-          input: { color: "white" },
-          "& .MuiInput-underline:before": { borderBottomColor: "white" },
+          input: { color: colors.accentColor },
+          "& .MuiInput-underline:before": {
+            borderBottomColor: colors.accentColor,
+          },
           "& .MuiFormLabel-root": {
-            color: "white",
+            color: colors.accentColor,
           },
           "& .MuiInputLabel-root:focused": {
             color: colors.primaryColor,

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import TextField from "@mui/material/TextField";
+import colors from "../scss/SCSSVariables";
 
 function CreateCompany({ state, setState }) {
   return (
@@ -8,13 +9,15 @@ function CreateCompany({ state, setState }) {
       <TextField
         className="input"
         sx={{
-          input: { color: "white" },
-          "& .MuiInput-underline:before": { borderBottomColor: "white" },
+          input: { color: colors.accentColor },
+          "& .MuiInput-underline:before": {
+            borderBottomColor: colors.accentColor,
+          },
           "& .MuiFormLabel-root": {
-            color: "white",
+            color: colors.accentColor,
           },
           "& .MuiInputLabel-root:focused": {
-            color: "primary.main",
+            color: colors.primaryColor,
           },
         }}
         id="standard-basic Name"
@@ -28,13 +31,15 @@ function CreateCompany({ state, setState }) {
       <TextField
         className="input"
         sx={{
-          input: { color: "white" },
-          "& .MuiInput-underline:before": { borderBottomColor: "white" },
+          input: { color: colors.accentColor },
+          "& .MuiInput-underline:before": {
+            borderBottomColor: colors.accentColor,
+          },
           "& .MuiFormLabel-root": {
-            color: "white",
+            color: colors.accentColor,
           },
           "& .MuiInputLabel-root:focused": {
-            color: "primary.main",
+            color: colors.primaryColor,
           },
         }}
         id="standard-basic email"

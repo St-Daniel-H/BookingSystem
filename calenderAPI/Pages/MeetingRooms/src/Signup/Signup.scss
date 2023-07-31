@@ -5,13 +5,14 @@
     padding: 0;
 }
 
-@media only screen and (max-width: 724px) {
-    #SignupPage {
-        #rightOfSignUp {
-            display: hidden;
-        }
-    }
+a {
+    text-decoration: none;
+    color: white;
+    transition: 0.2s;
 
+    &:hover {
+        color: $primary-color;
+    }
 }
 
 #SignupPage {
@@ -21,125 +22,157 @@
     height: 100vh;
     background-color: white;
     display: flex;
-    color: black;
+    color: $accent-color;
 
     #leftSideOfSignup {
-        width: 60%;
-        position: relative;
-        background-color: rgb(22, 22, 22);
-    }
-
-    #rightOfSignUp {
-        display: hidden;
-        width: 40%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-image: url("../Images/signupBackground.jpg");
+        background-image: url("../Images/background-image.jpg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        width: 100%;
+        position: relative;
+        background-color: rgb(22, 22, 22);
 
-        // -webkit-box-shadow: 10px 1.5px 10px 3px #dddddd;
-        // -moz-box-shadow: 10px 1.5px 10px 3px #dddddd;
-        // box-shadow: 10px 1.5px 10px 3px #dddddd;
-        // border-right: 2px solid $primary-color;
-        span {
-            color: $primary-color;
-        }
-
-        div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        #welcome {
+            color: white;
+            width: 100%;
             text-align: center;
-            height: 80px;
-            width: 100%;
-            background-color: #23222288;
-            color: $accent-color;
-
-        }
-    }
-
-    #container {
-        color: $accent-color;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border: 2px solid $primary-color;
-        background-color: #232222;
-        border-radius: 25px;
-        padding: 20px;
-        max-width: 750px;
-        width: 80%;
-        -webkit-box-shadow: 1px 2px 5.5px 5px $primary-color;
-        -moz-box-shadow: 1px 2px 5.5px 5px $primary-color;
-        box-shadow: 1px 2px 5.5px 5px $primary-color;
-
-
-        form {
-
-            display: block;
-            width: 100%;
-
-
-            input[type="file"] {
-                opacity: 0;
-                position: absolute;
-                z-index: -1;
-            }
-
-            #customLabel {
-                appearance: none;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                display: block;
-                content: "Logo";
-                cursor: pointer;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 20px;
-                height: 40px;
-                width: 80px;
-                background-color: #232222;
-                border: 2px solid $primary-color;
-                cursor: pointer;
-                transition: 0.6s;
-
-                &:hover {
-                    background-color: $primary-color;
-                    color: #232222
-                }
-            }
-
-
-
-
-            .input {
-                margin: auto;
-                margin-top: 10px;
-
-                width: 60%;
-
-            }
-
-            height: 220px;
-        }
-
-
-        .css-1vyamtt-MuiStepLabel-labelContainer {
-            color: $accent-color;
-        }
-
-        h1 {
-            margin-top: 10px;
-        }
-
-        .stepper {
-            height: 300px;
             margin-top: 40px;
+            font-size: 2rem;
+            /* Use a relative font size */
+            line-height: 1.5;
+            /* Set a reasonable line height for readability */
         }
+
+        #login {
+            color: white;
+            width: 100%;
+            text-align: center;
+            margin-top: 40px;
+            position: absolute;
+            bottom: 0;
+            margin-bottom: 100px;
+            font-size: 1.5rem;
+            /* Use a relative font size */
+            line-height: 1.5;
+            /* Set a reasonable line height for readability */
+        }
+
+        #container {
+            color: $accent-color;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid $primary-color;
+            background-color: white;
+            border-radius: 25px;
+            padding: 20px;
+            max-width: 750px;
+            width: 80%;
+            -webkit-box-shadow: 3px 3px 10px 3px #6d6d6d;
+            -moz-box-shadow: 3px 3px 10px 3px #6d6d6d;
+            box-shadow: 3px 3px 10px 3px #6d6d6d;
+
+
+            form {
+
+                display: block;
+                width: 100%;
+
+
+                input[type="file"] {
+                    opacity: 0;
+                    position: absolute;
+                    z-index: -1;
+                }
+
+                #customLabel {
+                    appearance: none;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    display: block;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 20px;
+                    height: 40px;
+                    width: 80px;
+                    background-color: white;
+                    border: 2px solid $primary-color;
+                    cursor: pointer;
+                    transition: 0.6s;
+
+                    &:hover {
+                        background-color: $primary-color;
+                        color: $accent-color;
+                    }
+                }
+
+
+
+
+                .input {
+                    margin: auto;
+                    margin-top: 10px;
+
+                    width: 60%;
+
+                }
+
+                height: 220px;
+            }
+
+
+            .css-1vyamtt-MuiStepLabel-labelContainer {
+                color: $accent-color;
+            }
+
+            h1 {
+                margin-top: 10px;
+            }
+
+            .stepper {
+                height: 300px;
+                margin-top: 40px;
+            }
+        }
+
+
     }
+
+    // #rightOfSignUp {
+    //     display: hidden;
+    //     width: 40%;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     background-image: url("../Images/signupBackground.jpg");
+    //     background-position: center;
+    //     background-repeat: no-repeat;
+    //     background-size: cover;
+
+    //     // -webkit-box-shadow: 10px 1.5px 10px 3px #dddddd;
+    //     // -moz-box-shadow: 10px 1.5px 10px 3px #dddddd;
+    //     // box-shadow: 10px 1.5px 10px 3px #dddddd;
+    //     // border-right: 2px solid $primary-color;
+    //     span {
+    //         color: $primary-color;
+    //     }
+
+    //     div {
+    //         word-wrap: break-word;
+    //         display: flex;
+    //         align-items: center;
+    //         justify-content: center;
+    //         text-align: center;
+    //         height: 80px;
+    //         width: 100%;
+    //         background-color: #23222288;
+    //         color: $accent-color;
+
+    //     }
+    // }
+
 }
