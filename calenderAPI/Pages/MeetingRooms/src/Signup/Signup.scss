@@ -15,6 +15,7 @@
 }
 
 #SignupPage {
+    background-color: rgb(22, 22, 22);
     line-height: 0%;
     width: 100%;
     height: 100vh;
@@ -31,21 +32,37 @@
     #rightOfSignUp {
         display: hidden;
         width: 40%;
-        display: grid;
-        place-items: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background-image: url("../Images/signupBackground.jpg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        -webkit-box-shadow: 10px 1.5px 10px 3px #dddddd;
-        -moz-box-shadow: 10px 1.5px 10px 3px #dddddd;
-        box-shadow: 10px 1.5px 10px 3px #dddddd;
-        border-right: 2px solid $primary-color;
+
+        // -webkit-box-shadow: 10px 1.5px 10px 3px #dddddd;
+        // -moz-box-shadow: 10px 1.5px 10px 3px #dddddd;
+        // box-shadow: 10px 1.5px 10px 3px #dddddd;
+        // border-right: 2px solid $primary-color;
+        span {
+            color: $primary-color;
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 80px;
+            width: 100%;
+            background-color: #23222288;
+            color: $accent-color;
+
+        }
     }
 
     #container {
         color: $accent-color;
-
         position: absolute;
         left: 50%;
         top: 50%;
@@ -53,14 +70,20 @@
         border: 2px solid $primary-color;
         background-color: #232222;
         border-radius: 25px;
-        padding: 10px;
+        padding: 20px;
         max-width: 750px;
         width: 80%;
         -webkit-box-shadow: 1px 2px 5.5px 5px $primary-color;
         -moz-box-shadow: 1px 2px 5.5px 5px $primary-color;
         box-shadow: 1px 2px 5.5px 5px $primary-color;
 
+
         form {
+
+            display: block;
+            width: 100%;
+
+
             input[type="file"] {
                 opacity: 0;
                 position: absolute;
@@ -95,7 +118,11 @@
 
 
             .input {
+                margin: auto;
                 margin-top: 10px;
+
+                width: 60%;
+
             }
 
             height: 220px;

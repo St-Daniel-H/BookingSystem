@@ -17,6 +17,7 @@ const steps = ["Create An Account", "Create Company Profile"];
 //forms
 import CreateAccountSignup from "./CreateAccount";
 import CreateCompany from "./CreateCompany";
+
 function Signup() {
   //snackbars
   const [errorMessage, setErrorMessage] = useState("");
@@ -115,6 +116,7 @@ function Signup() {
         userData.email == "" ||
         userData.password == ""
       ) {
+        setErrorMessage("Please fill all information");
         throw new Error("Please fill all information");
       }
       //company data
@@ -246,7 +248,11 @@ function Signup() {
   return (
     <div id="SignupPage">
       <div id="rightOfSignUp">
-        <h1>Join the best work place!</h1>
+        <div>
+          <h1>
+            Join <span>MeetingRooms</span> Today!
+          </h1>
+        </div>
       </div>
       <div id="leftSideOfSignup">
         <div id="container">

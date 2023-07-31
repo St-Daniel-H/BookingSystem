@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
 import TextField from "@mui/material/TextField";
 function CreateAccountSignup({ state, setState }) {
+  const colors = {
+    primaryColor: "#00b200",
+    secondaryColor: "#333",
+  };
   return (
     <form>
       <TextField
@@ -12,7 +16,7 @@ function CreateAccountSignup({ state, setState }) {
             color: "white",
           },
           "& .MuiInputLabel-root:focused": {
-            color: "primary.main",
+            color: colors.primaryColor,
           },
         }}
         id="standard-basic firstName"
@@ -32,7 +36,7 @@ function CreateAccountSignup({ state, setState }) {
             color: "white",
           },
           "& .MuiInputLabel-root:focused": {
-            color: "primary.main",
+            color: colors.primaryColor,
           },
         }}
         id="standard-basic lastName"
@@ -52,7 +56,7 @@ function CreateAccountSignup({ state, setState }) {
             color: "white",
           },
           "& .MuiInputLabel-root:focused": {
-            color: "primary.main",
+            color: colors.primaryColor,
           },
         }}
         id="standard-basic email"
@@ -72,7 +76,7 @@ function CreateAccountSignup({ state, setState }) {
             color: "white",
           },
           "& .MuiInputLabel-root:focused": {
-            color: "primary.main",
+            color: colors.primaryColor,
           },
         }}
         id="standard-basic password"
