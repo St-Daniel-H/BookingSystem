@@ -32,22 +32,40 @@ namespace calenderAPI.Controllers
                 _jwtSettings = jwtSettings.Value;
 
             }
+        [HttpPost("signup")]
+        public async Task<IActionResult> SignUp(UserSignUpResource userSignUpResource)
+        {
+            var user = _mapper.Map<UserSignUpResource, AUser>(userSignUpResource);
 
+            var userCreateResult = await _userManager.CreateAsync(user, userSignUpResource.Password);
 
-            [HttpPost("signup")]
-            public async Task<IActionResult> SignUp(UserSignUpResource userSignUpResource)
+            if (userCreateResult.Succeeded)
             {
-                var user = _mapper.Map<UserSignUpResource, AUser>(userSignUpResource);
+                // User creation succeeded, extract the user ID
+                var userId = user.Id;
 
-                var userCreateResult = await _userManager.CreateAsync(user, userSignUpResource.Password);
-
-                if (userCreateResult.Succeeded)
-                {
-                    return Created(string.Empty, string.Empty);
-                }
-
-                return Problem(userCreateResult.Errors.First().Description, null, 500);
+                // Return the ID in the response
+                return Created(string.Empty, new { UserId = userId });
             }
+
+            // User creation failed, return the error description
+            return Problem(userCreateResult.Errors.First().Description, null, 500);
+        }
+
+        //[HttpPost("signup")]
+        //public async Task<IActionResult> SignUp(UserSignUpResource userSignUpResource)
+        //{
+        //    var user = _mapper.Map<UserSignUpResource, AUser>(userSignUpResource);
+
+        //    var userCreateResult = await _userManager.CreateAsync(user, userSignUpResource.Password);
+
+        //    if (userCreateResult.Succeeded)
+        //    {
+        //        return Created(string.Empty, string.Empty);
+        //    }
+
+        //    return Problem(userCreateResult.Errors.First().Description, null, 500);
+        //}
 
 
         [HttpPost("SignIn")]

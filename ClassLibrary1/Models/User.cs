@@ -22,6 +22,8 @@ namespace startup.Models
         public string? Role { get; set; }
         public int? CompanyId { get; set; }
 
+        public string? AuthId { get; set; }
+
         public virtual Company? Company { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
     }

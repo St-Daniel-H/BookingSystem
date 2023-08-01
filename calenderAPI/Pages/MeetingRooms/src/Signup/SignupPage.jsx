@@ -141,10 +141,14 @@ function Signup() {
           password: authData2.password,
         }),
       });
-      if (response.ok) {
+        if (response.ok) {
+           
         //user verified.
         //make a company
-        const data = await response;
+            const data = await response.json();
+            const authId = data.userId;
+            console.log(data);
+            console.log(authId);
         const compnayResponse = await fetch(APIs.apiLink + "/api/Company", {
           method: "POST",
           body: companyData2,
@@ -159,13 +163,14 @@ function Signup() {
         }
 
         const companyId = companyRes.companyId;
-        //after we got company id, assign it to userData2
+
         const userData2 = {
           name: userData.firstName + " " + userData.lastName,
           email: userData.email,
           password: userData.password,
           role: "Admin",
           companyId: companyId,
+          authId: authId
         };
         const userResponse = callApi("/api/User", userData2);
         console.log(userResponse);

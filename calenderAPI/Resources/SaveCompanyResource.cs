@@ -6,6 +6,6 @@
 
        public string Email { get; set; }
 
-        public IFormFile Logo { get; set; }
+        public IFormFile? Logo { get; set; }
     }
 }

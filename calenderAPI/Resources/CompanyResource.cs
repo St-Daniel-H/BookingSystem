@@ -7,7 +7,7 @@
 
         public string Email { get; set; }
 
-        public string Logo { get; set; }
+        public string? Logo { get; set; }
 
 
     }

@@ -1,7 +1,6 @@
 import APIs from "../Backend/backend";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import * as React from "react";
+import { useState,  } from "react";
 import { useSnackbar } from "notistack";
 import colors from "../scss/SCSSVariables";
 import "./LoginPage.scss";
@@ -17,19 +16,18 @@ function Login() {
       variant: "error",
     });
   }
-  function handleSnackBarSuccess() {
-    enqueueSnackbar("Signup Successful", {
-      anchorOrigin: {
-        vertical: "bottom",
-        horizontal: "right",
-      },
-      variant: "success",
-    });
-  }
+  //function handleSnackBarSuccess() {
+  //  enqueueSnackbar("Signup Successful", {
+  //    anchorOrigin: {
+  //      vertical: "bottom",
+  //      horizontal: "right",
+  //    },
+  //    variant: "success",
+  //  });
+  //}
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigateTo = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
 
   async function login(event) {
     event.preventDefault();
