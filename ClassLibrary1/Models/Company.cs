@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using BookingSystem.core.Models.Auth;
 
 namespace startup.Models
 {
@@ -10,7 +11,7 @@ namespace startup.Models
         public Company()
         {
             Rooms = new HashSet<Room>();
-            Users = new HashSet<User>();
+            AUsers = new HashSet<AUser>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,6 +22,6 @@ namespace startup.Models
         public bool? Active { get; set; }
 
         public virtual ICollection<Room> Rooms { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<AUser> AUsers { get; set; }
     }
 }

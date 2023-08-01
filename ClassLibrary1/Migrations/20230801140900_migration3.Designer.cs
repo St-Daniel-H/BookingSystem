@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using startup.Models;
 
@@ -11,9 +12,10 @@ using startup.Models;
 namespace BookingSystem.core.Migrations
 {
     [DbContext(typeof(BookingSystemContext))]
-    partial class BookingSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20230801140900_migration3")]
+    partial class migration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

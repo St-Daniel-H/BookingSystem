@@ -21,7 +21,9 @@ namespace startup.Models
         public virtual DbSet<Company> Companies { get; set; } = null!;
         public virtual DbSet<Reservation> Reservations { get; set; } = null!;
         public virtual DbSet<Room> Rooms { get; set; } = null!;
+        public virtual DbSet<AUser> AUsers { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -82,16 +84,16 @@ namespace startup.Models
                     .HasColumnType("datetime")
                     .HasColumnName("startTime");
 
-                entity.Property(e => e.UserId).HasColumnName("userId");
+                //entity.Property(e => e.AUserId).HasColumnName("userId");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.Reservations)
                     .HasForeignKey(d => d.RoomId)
                     .HasConstraintName("FK__Reservati__roomI__4CA06362");
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.AUser)
                     .WithMany(p => p.Reservations)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.AUserId)
                     .HasConstraintName("FK__Reservati__userI__4D94879B");
             });
 
@@ -168,10 +170,7 @@ namespace startup.Models
                     .IsUnicode(false)
                     .HasColumnName("role");
 
-                entity.HasOne(d => d.Company)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.CompanyId)
-                    .HasConstraintName("FK__User__companyId__4E88ABD4");
+                
             });
 
             OnModelCreatingPartial(modelBuilder);

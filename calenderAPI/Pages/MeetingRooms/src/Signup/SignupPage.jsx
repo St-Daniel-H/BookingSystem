@@ -1,5 +1,5 @@
 import APIs from "../Backend/backend";
-import { useState, useEffect } from "react";
+import { useState,  } from "react";
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
 import Box from "@mui/material/Box";
@@ -8,10 +8,7 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import ErrorAlert from "../Alerts/ErrorAlert";
-import SuccessAlert from "../Alerts/SuccessAlert";
 import { useSnackbar } from "notistack";
-import colors from "../scss/SCSSVariables";
 import "./Signup.scss";
 const steps = ["Create An Account", "Create Company Profile"];
 //forms
