@@ -45,6 +45,10 @@ namespace BookingSystem.Services.Repository
             RoomToBeUpdated.Name = Room.Name;
             await _unitOfWork.CommitAsync();
         }
+        public async Task<IEnumerable<Room>> GetRoomsByCompanyId(int companyId)
+        {
+            return await _unitOfWork.Rooms.GetRoomsByCompanyId(companyId);
+        }
     }
 }
 

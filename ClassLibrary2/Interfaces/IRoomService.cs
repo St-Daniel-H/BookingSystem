@@ -14,5 +14,6 @@ namespace BookingSystem.Services.Interfaces
         Task DeleteRoom(Room room);
         Task<Room> GetRoomById(int id);
         Task<IEnumerable<Room>> GetAllRooms();
+        Task<IEnumerable<Room>> GetRoomsByCompanyId(int companyId);
     }
 }

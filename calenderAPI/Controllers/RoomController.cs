@@ -106,5 +106,13 @@ namespace calenderAPI.Controllers
 
             return NoContent();
         }
+        [HttpGet("/commpany/{companyId}")]//get rooms related to a company
+        public async Task<ActionResult<IEnumerable<Room>>> GetRoomsByCompanyId(int companyId)
+        {
+            var rooms = await _RoomService.GetRoomsByCompanyId(companyId);
+            return Ok(rooms);
+
+
+        }
     }
 }

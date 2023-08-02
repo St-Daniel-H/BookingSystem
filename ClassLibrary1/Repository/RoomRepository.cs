@@ -30,6 +30,13 @@ namespace startup.Repository
         {
             get { return Context as BookingSystemContext; }
         }
+        public async Task<IEnumerable<Room>> GetRoomsByCompanyId(int companyId)
+        {
+            // Assuming Rooms is a DbSet<Room> in your DbContext
+            return await BookingSystemContext.Rooms
+                .Where(room => room.CompanyId == companyId)
+                .ToListAsync();
+        }
     }
 }
 

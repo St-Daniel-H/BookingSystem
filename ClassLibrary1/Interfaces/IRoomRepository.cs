@@ -11,6 +11,7 @@ namespace startup.Interfaces
     {
         Task<IEnumerable<Room>> GetAllRooms();
         Task<Room> GetRoomById(int id);
+        Task<IEnumerable<Room>> GetRoomsByCompanyId(int companyId);
 
     }
 }

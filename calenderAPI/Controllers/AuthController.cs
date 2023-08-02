@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System.Data.SqlTypes;
+using Microsoft.EntityFrameworkCore;
 
 namespace calenderAPI.Controllers
 {
@@ -116,7 +117,22 @@ namespace calenderAPI.Controllers
             return BadRequest("Email or password incorrect.");
         }
 
+        [HttpGet("users/{id}")]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
 
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Optionally, you can remove sensitive information from the user object before returning it.
+            // For example, you may not want to include the user's password hash.
+            // user.PasswordHash = null;
+
+            return Ok(user);
+        }
         [HttpPost("Roles")]
             public async Task<IActionResult> CreateRole(string roleName)
             {

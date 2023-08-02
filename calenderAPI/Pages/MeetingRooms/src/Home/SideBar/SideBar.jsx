@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -21,9 +22,12 @@ import ManageReservation from "../ManageReservation/ManageReservation";
 import ManageEmployees from "../ManageEmployees/ManageEmployees";
 import Calender from "../Calender/Calender";
 import "./SideBar.scss";
+import {useEffect} from 'react'
 const drawerWidth = 240;
 
-function SideBar(props) {
+function SideBar(props ) {
+    const userData = props.user;
+
   const { window2 } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const href = window.location.href;
@@ -32,13 +36,13 @@ function SideBar(props) {
     console.log(arr[3]);
     switch (arr[3]) {
       case "Calender":
-        return <Calender />;
+            return <Calender user={userData } />;
       case "Employees":
-        return <ManageEmployees />;
+            return <ManageEmployees user={userData} />;
       case "Rooms":
-        return <ManageRooms />;
-      case "Reservation":
-        return <ManageReservation />;
+            return <ManageRooms user={userData} />;
+        case "Reservation":
+            return <ManageReservation user={userData} />;
     }
   }
   const handleDrawerToggle = () => {
