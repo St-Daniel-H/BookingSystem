@@ -14,13 +14,15 @@ function App() {
       <Routes>
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Login" element={<Login />} />
-        <Route path="/" element={<Home />} />
         <Route path="/test" element={<MessageButtons />} />
-
-        <Route path="/Calender" Component={<Calender />} />
-        <Route path="/ManageReservation" Component={<ManageReservation />} />
-        <Route path="/ManageeEmployees" Component={<ManageEmployees />} />
-        <Route path="/ManageRooms" Component={<ManageRooms />} />
+        {/* <Home /> */}
+      </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/Calender" element={<Calender />} />
+        <Route path="/Reservation" element={<ManageReservation />} />
+        <Route path="/Employees" element={<ManageEmployees />} />
+        <Route path="/Rooms" element={<ManageRooms />} /> */}
       </Routes>
     </SnackbarProvider>
   );

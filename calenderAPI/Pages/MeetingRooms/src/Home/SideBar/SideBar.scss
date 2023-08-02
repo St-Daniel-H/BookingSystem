@@ -1,0 +1,35 @@
+@import '../../scss/variables';
+
+.drawer {
+    background-color: white;
+    height: 100%;
+    position: relative;
+
+    #signout {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+    }
+
+    #header {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        h1 {
+            margin-top: 50px;
+        }
+    }
+
+    a {
+        color: $primary-color;
+    }
+
+    a:active {
+        background-color: $primary-color;
+        color: white;
+    }
+
+}

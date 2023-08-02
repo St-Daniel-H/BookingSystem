@@ -2,6 +2,10 @@ import jwt_decode from "jwt-decode";
 import SideBar from "./SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import ManageRooms from "./ManageRooms/ManageRooms";
+import ManageReservation from "./ManageReservation/ManageReservation";
+import ManageEmployees from "./ManageEmployees/ManageEmployees";
+import Calender from "./Calender/Calender";
 function Home() {
   const navigateTo = useNavigate();
 
@@ -17,7 +21,7 @@ function Home() {
       navigateTo("/Signup");
     }
   }
-
+  // let href = windows.location.href;
   return (
     <div>
       <SideBar />
