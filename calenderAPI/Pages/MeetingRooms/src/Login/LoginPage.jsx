@@ -1,6 +1,6 @@
 import APIs from "../Backend/backend";
 import { useNavigate } from "react-router-dom";
-import { useState,  } from "react";
+import { useState } from "react";
 import { useSnackbar } from "notistack";
 import colors from "../scss/SCSSVariables";
 import "./LoginPage.scss";
@@ -54,8 +54,9 @@ function Login() {
         localStorage.setItem("token", data);
         navigateTo("/");
       } else {
-        const errorResponse = await response;
+        const errorResponse = await response.json();
         console.log("Login failed:", errorResponse);
+        throw new Error(errorResponse.details);
       }
     } catch (error) {
       console.log(error.message);

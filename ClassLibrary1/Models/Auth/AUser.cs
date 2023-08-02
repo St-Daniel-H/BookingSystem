@@ -14,10 +14,19 @@ namespace BookingSystem.core.Models.Auth
         {
             Reservations = new HashSet<Reservation>();
         }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string? Role { get; set; }
+
+        public string Email { get; set; }
+        public string Role { get; set; }
+
+
+        public int CompanyId { get; set; }
+
+
         public virtual Company? Company { get; set; }
+        
         public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

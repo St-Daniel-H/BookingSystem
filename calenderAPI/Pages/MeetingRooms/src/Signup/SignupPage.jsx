@@ -1,5 +1,5 @@
 import APIs from "../Backend/backend";
-import { useState,  } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
 import Box from "@mui/material/Box";
@@ -58,47 +58,11 @@ function Signup() {
     <CreateCompany state={companyData} setState={setCompanyData} key="1" />,
   ];
 
-  // Define a helper function to handle API calls
-  async function callApi(endpoint, data) {
-    try {
-      const response = await fetch(APIs.apiLink + endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      // Check if the response is JSON
-      const contentType = response.headers.get("content-type");
-      const isJsonResponse =
-        contentType && contentType.includes("application/json");
-
-      if (!response.ok) {
-        // If the response is JSON, parse the error message from the JSON data
-        if (isJsonResponse) {
-          const errorResponse = await response.json();
-          throw new Error(errorResponse.detail);
-        } else {
-          // If the response is not JSON, throw a generic error
-          throw new Error("Error: " + response.status);
-        }
-      }
-
-      // If the response is JSON, parse the data
-      if (isJsonResponse) {
-        return await response.json();
-      } else {
-        // If the response is not JSON, return the entire response object
-        return response;
-      }
-    } catch (error) {
-      throw new Error("Signup failed: " + error.message);
-    }
-  }
-
+  const [loading, setLoading] = useState(false);
   async function signUp() {
+    if (loading) return;
     try {
+      setLoading(true);
       if (
         companyData.Name == "" ||
         companyData.Email == "" ||
@@ -117,15 +81,32 @@ function Signup() {
         companyData2.append("logo", companyData.logo[0]);
       }
 
+      //user verified.
+      //make a company
+      const compnayResponse = await fetch(APIs.apiLink + "/api/Company", {
+        method: "POST",
+        body: companyData2,
+      });
+      const companyRes = await compnayResponse.json(); // Parse the response data
+
+      if (companyRes.companyId !== null) {
+        console.log(companyData);
+      } else {
+        console.error("Failed to create company:", companyRes.json());
+        throw new Error("something went wrong creating the company");
+      }
+
+      const companyId = companyRes.companyId;
+      console.log(companyId);
       //authontication data
       const authData2 = {
         firstName: userData.firstName,
         lastName: userData.lastName,
         email: userData.email,
         password: userData.password,
+        role: "Admin",
+        companyId: companyId,
       };
-
-      //we make sure user is valid first.
       const response = await fetch(APIs.apiLink + "/api/Auth/signup", {
         method: "POST",
         headers: {
@@ -136,54 +117,23 @@ function Signup() {
           lastName: authData2.lastName,
           email: authData2.email,
           password: authData2.password,
+          role: "Admin",
+          companyId: authData2.companyId,
         }),
       });
-        if (response.ok) {
-           
-        //user verified.
-        //make a company
-            const data = await response.json();
-            const authId = data.userId;
-            console.log(data);
-            console.log(authId);
-        const compnayResponse = await fetch(APIs.apiLink + "/api/Company", {
-          method: "POST",
-          body: companyData2,
-        });
-        const companyRes = await compnayResponse.json(); // Parse the response data
-
-        if (companyRes.companyId !== null) {
-          console.log(companyData);
-        } else {
-          console.error("Failed to create company:", companyRes.json());
-          throw new Error("something went wrong creating the company");
-        }
-
-        const companyId = companyRes.companyId;
-
-        const userData2 = {
-          name: userData.firstName + " " + userData.lastName,
-          email: userData.email,
-          password: userData.password,
-          role: "Admin",
-          companyId: companyId,
-          authId: authId
-        };
-        const userResponse = callApi("/api/User", userData2);
-        console.log(userResponse);
-        if (userResponse) {
-          handleSnackBarSuccess();
-          navigateTo("/login");
-        }
+      //const data = await response;
+      if (response.ok) {
+        handleSnackBarSuccess();
+        navigateTo("/login");
       } else {
         const errorResponse = await response.json();
-        console.log("Signup failed:", errorResponse.detail);
-        throw new Error(errorResponse.detail);
+        console.log("Signup failed:", errorResponse);
+          throw new Error(errorResponse.detail || "User creation failed. Please try again later." );
       }
     } catch (error) {
       console.log(error.message);
       handleSnackBar(error.message);
-      //setValid(false);
+      setLoading(false);
     }
   }
   //for stepper

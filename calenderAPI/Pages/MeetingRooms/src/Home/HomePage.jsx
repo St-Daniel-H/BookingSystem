@@ -1,18 +1,27 @@
-import jwt_decode from 'jwt-decode';
-
+import jwt_decode from "jwt-decode";
+import SideBar from "./SideBar/SideBar";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 function Home() {
-    const jwtToken = localStorage.getItem("token");
+  const navigateTo = useNavigate();
 
+  const jwtToken = localStorage.getItem("token");
+  useEffect(() => {
+    Valid();
+  }, []);
+  function Valid() {
     try {
-        const decodedPayload = jwt_decode(jwtToken);
-        console.log("Decoded JWT Payload:", decodedPayload);
+      const decodedPayload = jwt_decode(jwtToken);
+      console.log("Decoded JWT Payload:", decodedPayload);
     } catch (error) {
-        console.error("Error decoding JWT token:", error.message);
+      navigateTo("/Signup");
     }
-    return (
-        <div>
-        <h1>Welcome Home!</h1>
-       </div>
-    )
+  }
+
+  return (
+    <div>
+      <SideBar />
+    </div>
+  );
 }
 export default Home;

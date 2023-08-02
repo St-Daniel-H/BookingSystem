@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using System.Data.SqlTypes;
 
 namespace calenderAPI.Controllers
 {
@@ -33,26 +34,53 @@ namespace calenderAPI.Controllers
 
             }
         [HttpPost("signup")]
+
         public async Task<IActionResult> SignUp(UserSignUpResource userSignUpResource)
         {
             var user = _mapper.Map<UserSignUpResource, AUser>(userSignUpResource);
-
-            var userCreateResult = await _userManager.CreateAsync(user, userSignUpResource.Password);
-
-            if (userCreateResult.Succeeded)
+            try
             {
-                // User creation succeeded, extract the user ID
-                var userId = user.Id;
+                var userCreateResult = await _userManager.CreateAsync(user, userSignUpResource.Password);
+                if (userCreateResult.Succeeded)
+                {
+                    // Return the ID in the response
+                    return Created(string.Empty, string.Empty);
+                }
 
-                // Return the ID in the response
-                return Created(string.Empty, new { UserId = userId });
+                // User creation failed, return the error description
+                return Problem(userCreateResult.Errors.First().Description, null, 500);
+
+            }
+            catch(Exception ex)
+            {
+                if(ex.Message == "Data is Null. This method or property cannot be called on Null values.")
+                return BadRequest(new { detail = "Email already exists" });
+
+                else return BadRequest(ex.Message);
             }
 
-            // User creation failed, return the error description
-            return Problem(userCreateResult.Errors.First().Description, null, 500);
+
         }
 
+        //}
         //[HttpPost("signup")]
+        //public async Task<IActionResult> SignUp(UserSignUpResource userSignUpResource)
+        //{
+        //    var user = _mapper.Map<UserSignUpResource, AUser>(userSignUpResource);
+
+        //var userCreateResult = await _userManager.CreateAsync(user, userSignUpResource.Password);
+
+        //    if (userCreateResult.Succeeded)
+        //    { 
+
+        //        return Created(string.Empty, string.Empty);
+        //    }
+
+        //    // User creation failed, return the error description
+        //    return Problem(userCreateResult.Errors.First().Description, null, 500);
+        //}
+
+        //1-  //[HttpPost("signup")]
         //public async Task<IActionResult> SignUp(UserSignUpResource userSignUpResource)
         //{
         //    var user = _mapper.Map<UserSignUpResource, AUser>(userSignUpResource);
