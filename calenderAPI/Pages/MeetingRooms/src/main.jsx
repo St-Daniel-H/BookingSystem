@@ -5,11 +5,11 @@ import { BrowserRouter } from "react-router-dom";
 import Home from "./Home/HomePage";
 
 let href = window.location.href;
-console.log(href.includes("/signup"));
+// console.log(href.includes("/signup"));
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      {href.includes("/signup") || href.includes("/login") ? "" : <Home />}
+      {/*{href.includes("/signup") || href.includes("/login") ? "" : <Home />}*/}
       <App />
     </BrowserRouter>
   </React.StrictMode>

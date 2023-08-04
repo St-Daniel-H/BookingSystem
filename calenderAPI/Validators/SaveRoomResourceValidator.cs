@@ -9,7 +9,17 @@ namespace calenderAPI.Validators
         {
             RuleFor(a => a.Name)
                 .NotEmpty()
-                .MaximumLength(50);
+                .MaximumLength(255);
+
+            RuleFor(a => a.Description)
+                .NotEmpty()
+                .MaximumLength(255);  
+            RuleFor(a => a.Location)
+                .NotEmpty()
+                .MaximumLength(255);
+            RuleFor(a => a.Capacity)
+               .NotEmpty()
+               .GreaterThan(0);
         }
     }
 }

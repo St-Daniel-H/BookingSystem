@@ -66,7 +66,7 @@ namespace calenderAPI.Controllers
         }
         //update
         [HttpPut("{id}")]
-        public async Task<ActionResult<RoomResource>> UpdateMusic(int id, [FromBody] SaveRoomResource saveRoomResource)
+        public async Task<ActionResult<RoomResource>> UpdateRoom(int id, [FromBody] SaveRoomResource saveRoomResource)
         {
             var validator = new SaveRoomResourceValidator();
             var validationResult = await validator.ValidateAsync(saveRoomResource);
@@ -106,7 +106,7 @@ namespace calenderAPI.Controllers
 
             return NoContent();
         }
-        [HttpGet("/commpany/{companyId}")]//get rooms related to a company
+        [HttpGet("/company/{companyId}")]//get rooms related to a company
         public async Task<ActionResult<IEnumerable<Room>>> GetRoomsByCompanyId(int companyId)
         {
             var rooms = await _RoomService.GetRoomsByCompanyId(companyId);

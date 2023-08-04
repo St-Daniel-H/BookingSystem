@@ -40,15 +40,10 @@ namespace BookingSystem.Services.Repository
             await _unitOfWork.CommitAsync();
         }
 
-        public Task UpdateReservation(Reservation reservationToBeUpdated, Reservation reservation)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public async Task UpdateReservation(Reservation ReservationToBeUpdated, Reservation Reservation)
-        //{
-        //    ReservationToBeUpdated.Name = Reservation.Name;
-        //    await _unitOfWork.CommitAsync();
+      //  public async Task UpdateReservation(Reservation ReservationToBeUpdated, Reservation Reservation)
+      //  {
+           // ReservationToBeUpdated.Name = Reservation.Name;
+           // await _unitOfWork.CommitAsync();
         //}
     }
 }

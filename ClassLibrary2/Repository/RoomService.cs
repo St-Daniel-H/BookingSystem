@@ -43,6 +43,9 @@ namespace BookingSystem.Services.Repository
         public async Task UpdateRoom(Room RoomToBeUpdated, Room Room)
         {
             RoomToBeUpdated.Name = Room.Name;
+            RoomToBeUpdated.Location = Room.Location;
+            RoomToBeUpdated.Capacity = Room.Capacity;
+            RoomToBeUpdated.Description = Room.Description;
             await _unitOfWork.CommitAsync();
         }
         public async Task<IEnumerable<Room>> GetRoomsByCompanyId(int companyId)

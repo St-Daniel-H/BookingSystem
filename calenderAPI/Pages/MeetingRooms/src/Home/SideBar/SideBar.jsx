@@ -22,27 +22,37 @@ import ManageReservation from "../ManageReservation/ManageReservation";
 import ManageEmployees from "../ManageEmployees/ManageEmployees";
 import Calender from "../Calender/Calender";
 import "./SideBar.scss";
-import {useEffect} from 'react'
+import { useSnackbar } from "notistack";
+
+import { useEffect } from "react";
 const drawerWidth = 240;
 
-function SideBar(props ) {
-    const userData = props.user;
-
+function SideBar(props) {
+    const { enqueueSnackbar } = useSnackbar();
+    function handleSnackBar(error) {
+        enqueueSnackbar(error, {
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "right",
+            },
+            variant: "error",
+        });
+    }
+  const userData = props.user;
   const { window2 } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const href = window.location.href;
   function componentToRender() {
     const arr = href.split("/");
-    console.log(arr[3]);
-    switch (arr[3]) {
+    switch (arr[4]) {
       case "Calender":
-            return <Calender user={userData } />;
+        return <Calender user={userData} />;
       case "Employees":
-            return <ManageEmployees user={userData} />;
+        return <ManageEmployees user={userData} />;
       case "Rooms":
-            return <ManageRooms user={userData} />;
-        case "Reservation":
-            return <ManageReservation user={userData} />;
+        return <ManageRooms user={userData} />;
+      case "Reservation":
+        return <ManageReservation user={userData} />;
     }
   }
   const handleDrawerToggle = () => {
@@ -61,7 +71,7 @@ function SideBar(props ) {
         {["Rooms", "Reservation", "Calender", "Employees"].map(
           (text, index) => (
             <ListItem key={text} disablePadding className="links">
-              <ListItemButton href={text}>
+                    <ListItemButton href={`/Home/${text}`}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>

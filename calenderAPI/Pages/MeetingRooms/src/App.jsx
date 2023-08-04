@@ -8,6 +8,7 @@ import ManageRooms from "./Home/ManageRooms/ManageRooms";
 import ManageReservation from "./Home/ManageReservation/ManageReservation";
 import ManageEmployees from "./Home/ManageEmployees/ManageEmployees";
 import Calender from "./Home/Calender/Calender";
+
 function App() {
   return (
     <SnackbarProvider maxSnack={3}>
@@ -16,14 +17,15 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/test" element={<MessageButtons />} />
         {/* <Home /> */}
-      </Routes>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/Calender" element={<Calender />} />
-        <Route path="/Reservation" element={<ManageReservation />} />
-        <Route path="/Employees" element={<ManageEmployees />} />
-        <Route path="/Rooms" element={<ManageRooms />} /> */}
-      </Routes>
+ 
+              <Route path="/Home" element={<Home />}>
+                  <Route index element={<h2>Welcome to Home!</h2>} />
+                  <Route path="/Home/Rooms" element={<ManageRooms />} />
+                  <Route path="/Home/Reservation" element={<ManageReservation />} />
+                  <Route path="/Home/Employees" element={<ManageEmployees />} />
+                  <Route path="/Home/Calender" element={<Calender />} />
+              </Route>
+          </Routes>
     </SnackbarProvider>
   );
 }

@@ -79,7 +79,7 @@ namespace calenderAPI.Controllers
         }
         //update
         [HttpPut("{id}")]
-        public async Task<ActionResult<CompanyResource>> UpdateMusic(int id, [FromBody] SaveCompanyResource saveCompanyResource)
+        public async Task<ActionResult<CompanyResource>> UpdateCompany(int id, [FromBody] SaveCompanyResource saveCompanyResource)
         {
             var validator = new SaveCompanyResourceValidator();
             var validationResult = await validator.ValidateAsync(saveCompanyResource);

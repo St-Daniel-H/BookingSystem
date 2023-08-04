@@ -43,6 +43,10 @@ namespace BookingSystem.Services.Repository
         public async Task UpdateCompany(Company companyToBeUpdated, Company company)
         {
             companyToBeUpdated.Name = company.Name;
+            companyToBeUpdated.Email = company.Email;
+            companyToBeUpdated.Logo = company.Logo;
+
+
             await _unitOfWork.CommitAsync();
         }
     }
