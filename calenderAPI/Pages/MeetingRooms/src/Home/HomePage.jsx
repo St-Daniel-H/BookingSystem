@@ -30,14 +30,17 @@ function Home() {
     //    });
     //}
     const [dataLoad, setDataLoad] = useState(false);
+    const [companyLoad, setCompanyLoad] = useState(false);
   const navigateTo = useNavigate();
-  const [user, setUser] = useState({});
+    const [user, setUser] = useState({});
+    const [company, setCompany] = useState({})
   const jwtToken = localStorage.getItem("token");
-  useEffect(() => {
-    Valid();
-    getUserById();
-    //console.log(user)
-  }, []);
+    useEffect(() => {
+        Valid();
+       if (!dataLoad) getUserById();
+       if(dataLoad) getCompanyById();
+        //console.log(user)
+    }, [dataLoad]);
 
   let decodedPayload;
   function Valid() {
@@ -47,7 +50,7 @@ function Home() {
     } catch (error) {
       navigateTo("/Signup");
     }
-  }
+    }
     async function getUserById() {
         try {
             const userId = decodedPayload.sub;
@@ -61,6 +64,26 @@ function Home() {
                 response.json().then((user) => {
                     setUser(user);
                     setDataLoad(true);
+                });
+            });
+        } catch (error) {
+            console.log(error.message);
+            handleSnackBar(error.message);
+        }
+    }
+    async function getCompanyById() {
+        try {
+            const companyId = user.companyId;
+
+            const apiUrl = `${APIs.apiLink}/api/Company/${companyId}`;
+            const res = await fetch(apiUrl).then((response) => {
+                if (!response.ok) {
+                    handleSnackBar("Network response was not ok");
+                    throw new Error("Network response was not ok");
+                }
+                response.json().then((company) => {
+                    setCompany(company);
+                    setCompanyLoad(true)
                     // console.log(user);
                 });
             });
@@ -72,7 +95,7 @@ function Home() {
 
   return (
     <div>
-          {dataLoad ? <SideBar user={user} /> : ""}
+          {dataLoad && companyLoad ? <SideBar user={user} company={company} /> : ""}
     </div>
   );
 }

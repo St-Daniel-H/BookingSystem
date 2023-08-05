@@ -2,13 +2,14 @@
 /* eslint-disable react/prop-types */
 import APIs from "../../Backend/backend";
 import { useState, useEffect } from "react";
-import TextField from "@mui/material/TextField";
+import { Container, InputAdornment, TextField } from "@mui/material";
 import colors from "../../scss/SCSSVariables";
 import UpdateRoom from "./updateRoom";
 import "./ManageRooms.scss"
 import { useSnackbar } from "notistack";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function ManageRooms(props) {
     //loading
@@ -141,7 +142,16 @@ export default function ManageRooms(props) {
         setUpdateRoom(true); 
         
     }
-
+    //search bar
+    const [searchInput, setSearchInput] = useState("");
+    const [searching, setSearching] = useState(false);
+    const [searchResult, setSearchResult] = useState([]);
+    function search() {
+        console.log(searchInput)
+        const array = rooms.filter((x) => x.name.toLowerCase().includes(searchInput.toLowerCase()) );
+        setSearchResult([...array]);
+        setSearching(true);
+    }
    return (
     <div id="ManageRooms">
           <h1>Rooms</h1>
@@ -250,7 +260,32 @@ export default function ManageRooms(props) {
               </div>
              
                   </form></> : ""}
-          
+           <div id="searchBar">
+               <TextField  id="outlined-basic searchBarInput" sx={{
+                   input: { color: colors.accentColor },
+                   "& .MuiInput-underline:before": {
+                       borderBottomColor: colors.accentColor,
+                   },
+                   "& .MuiFormLabel-root": {
+                       color: colors.accentColor,
+                   },
+                   "& .MuiInputLabel-root:focused": {
+                       color: colors.primaryColor,
+                   }, 
+                   width: '100%'
+               }}
+                   InputProps={{
+                       endAdornment: (
+                           <InputAdornment  id="searchButton" onClick={search} position="end">
+                               <SearchIcon />
+                           </InputAdornment>
+                       ),
+                   }}
+                   label="Search by name" variant="outlined"
+                   value={searchInput}
+                   onChange={(e) => {setSearchInput(e.target.value) } }
+               />
+           </div>
           <div id="table">
           <table>
               <thead>
@@ -269,7 +304,7 @@ export default function ManageRooms(props) {
                   </tr>
               </thead>
               <tbody>
-                  {
+                  {!searching ?
                       rooms.map((units, index) => {
                           return (
                               <tr key={index}>
@@ -288,7 +323,26 @@ export default function ManageRooms(props) {
 
                               </tr>
                           )
-                      })}
+                      }) : 
+                           searchResult.map((units, index) => {
+                               return (
+                                   <tr key={index}>
+                                       <td>{units.roomId}</td>
+                                       <td>{units.name}</td>
+                                       <td>{units.location}</td>
+                                       <td>{units.capacity}</td>
+                                       <td>{units.description}</td>
+                                       {isAdmin() ? <>
+                                           <td><button onClick={() => {
+                                               //document.body.style.overflow = "hidden";
+                                               updateTheRoomOnClick(units.roomId, units.name, units.location, units.capacity, units.description);
+                                           }}>Update</button></td>
+                                           <td><button>Delete</button></td>
+                                       </> : ""}
+
+                                   </tr>
+                               )
+                           }) }
               </tbody>
           </table>
           </div>

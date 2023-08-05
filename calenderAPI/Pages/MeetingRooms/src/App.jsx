@@ -1,7 +1,7 @@
 import Signup from "./Signup/SignupPage";
 import Login from "./Login/LoginPage";
 import Home from "./Home/HomePage";
-import MessageButtons from "./Home/test";
+import MessageButtons from "./Signup/test";
 import { Route, Routes } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import ManageRooms from "./Home/ManageRooms/ManageRooms";

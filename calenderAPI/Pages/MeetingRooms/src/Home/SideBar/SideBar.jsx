@@ -23,22 +23,24 @@ import ManageEmployees from "../ManageEmployees/ManageEmployees";
 import Calender from "../Calender/Calender";
 import "./SideBar.scss";
 import { useSnackbar } from "notistack";
-
+import noLogo from "../../Images/defLogo.jpg";
 import { useEffect } from "react";
 const drawerWidth = 240;
 
 function SideBar(props) {
-    const { enqueueSnackbar } = useSnackbar();
-    function handleSnackBar(error) {
-        enqueueSnackbar(error, {
-            anchorOrigin: {
-                vertical: "bottom",
-                horizontal: "right",
-            },
-            variant: "error",
-        });
-    }
+  const { enqueueSnackbar } = useSnackbar();
+  function handleSnackBar(error) {
+    enqueueSnackbar(error, {
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "right",
+      },
+      variant: "error",
+    });
+  }
   const userData = props.user;
+  const companyData = props.company;
+  console.log(companyData.logo);
   const { window2 } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const href = window.location.href;
@@ -58,12 +60,20 @@ function SideBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const companyName = "companyName";
-
+  console.log(companyData.logo);
   const drawer = (
     <div className="drawer">
       <div id="header">
-        <h1>MeetingRooms</h1>
+        <div id="drawerImgContainer">
+          {companyData.logo ? (
+            <img src={companyData.logo}></img>
+          ) : (
+            <img src={noLogo}></img>
+          )}
+        </div><br/>
+        <div>
+          <h2>{companyData.name}</h2>
+        </div>
       </div>
       <Toolbar />
       <Divider />
@@ -71,7 +81,7 @@ function SideBar(props) {
         {["Rooms", "Reservation", "Calender", "Employees"].map(
           (text, index) => (
             <ListItem key={text} disablePadding className="links">
-                    <ListItemButton href={`/Home/${text}`}>
+              <ListItemButton href={`/Home/${text}`}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
@@ -132,7 +142,7 @@ function SideBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            {companyName}
+            {companyData.name}
           </Typography>
         </Toolbar>
       </AppBar>

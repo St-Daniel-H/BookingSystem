@@ -5,6 +5,28 @@
     height: 100%;
     position: relative;
 
+    #drawerImgContainer {
+        display: block;
+        padding: 20px;
+        border: 1px solid $primary-color;
+        border-radius: 50%;
+
+        img {
+            border-radius: 50%;
+        }
+    }
+
+    #header {
+        height:200px;
+        display: block;
+    }
+
+    #header::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
     #signout {
         width: 100%;
         position: absolute;
@@ -31,5 +53,4 @@
         background-color: $primary-color;
         color: white;
     }
-
 }
