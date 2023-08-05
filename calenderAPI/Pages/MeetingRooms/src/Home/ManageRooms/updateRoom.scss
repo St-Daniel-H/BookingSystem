@@ -37,7 +37,7 @@
         width: 100%;
         max-width: 500px;
         background-color: white;
-        height:300px;
+        height: 300px;
         border-radius: 25px;
         -webkit-box-shadow: 3px 3px 10px 3px #6d6d6d;
         -moz-box-shadow: 3px 3px 10px 3px #6d6d6d;
@@ -61,7 +61,8 @@
         border: 2px solid $primary-color;
         cursor: pointer;
         transition: 0.6s;
-        margin-left:10px;
+        margin-left: 10px;
+
         &:hover {
             background-color: $primary-color;
             color: #fff;

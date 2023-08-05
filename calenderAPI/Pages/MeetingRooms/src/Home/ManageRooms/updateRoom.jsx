@@ -8,7 +8,7 @@ import colors from "../../scss/SCSSVariables";
 import { useSnackbar } from "notistack";
 
 function UpdateRoom({ state, setState, roomToUpdate, companyId }) {
-
+    console.log(roomToUpdate);
     const { enqueueSnackbar } = useSnackbar();
     function handleSnackBar(error) {
         enqueueSnackbar(error, {
@@ -28,12 +28,12 @@ function UpdateRoom({ state, setState, roomToUpdate, companyId }) {
             variant: "success",
         });
     }
-    const [theNewRoom, setTheNewRoom] = useState({});
-    useEffect(() => {
-        setTheNewRoom(roomToUpdate);
-    }, [roomToUpdate]);
-    console.log(theNewRoom);
-    //update room function
+    const [theNewRoom, setTheNewRoom] = useState(roomToUpdate);
+
+    //useEffect(() => {
+    //    setTheNewRoom(roomToUpdate);
+    //}, [roomToUpdate]);
+    //console.log(theNewRoom);
     async function updateTheRoomFunc() {
         const response = await fetch(APIs.apiLink + "/api/Room/" + theNewRoom.roomId, {
             method: 'PUT',

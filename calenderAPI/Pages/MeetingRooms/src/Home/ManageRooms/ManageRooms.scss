@@ -2,8 +2,8 @@
 #ManageRooms {
     width: 100%;
 
-    h3{
-        margin-left:20px;
+    h3 {
+        margin-left: 20px;
     }
 
 
@@ -58,7 +58,7 @@
 
     #table {
         @media screen and (max-width:420px) {
-            margin-top:200px;
+            margin-top: 200px;
         }
 
         width: 100%; /* You can adjust this to your desired width */
@@ -88,6 +88,8 @@
             }
 
             tbody tr {
+                word-break: break-word;
+                vertical-align: top;
                 display: table-row;
                 background: #f6f6f6;
 

@@ -11,6 +11,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 export default function ManageRooms(props) {
+    //loading
+    const [rerenderRooms, setRerenderRooms] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const { enqueueSnackbar } = useSnackbar();
 
     function handleSnackBarSuccess(success) {
@@ -39,19 +43,16 @@ export default function ManageRooms(props) {
     function isAdmin() {
         return role == "Admin"
     }
-  useEffect(() => {
-    getAllRoomsWithCompanyId();
-  }, [rooms]);
     async function getAllRoomsWithCompanyId() {
         try {
             const getrooms = await fetch(APIs.apiLink + "/company/" + companyId).then(
                 (response) => {
                     if (response) {
                         response.json().then((result) => {
-                            console.log(result.$values)
+                            //console.log(result.$values)
                             setRooms(result.$values)
                         });
-                        console.log(rooms);
+                        // console.log(rooms);
                     } else {
                         throw new Error(
                             "something went wrong loading the Rooms, try again later."
@@ -62,8 +63,12 @@ export default function ManageRooms(props) {
         } catch (error) {
             handleSnackBar(error)
         }
-   
-  }
+        setRerenderRooms(false);
+    }
+  useEffect(() => {
+    getAllRoomsWithCompanyId();
+  }, [rerenderRooms]);
+
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -113,7 +118,8 @@ export default function ManageRooms(props) {
               location: "",
               capacity: "",
               description: "",
-});
+          });
+          setRerenderRooms(true);
           //window.location.reload();
       } else {
         const errorResponse = await response.json();
@@ -135,9 +141,8 @@ export default function ManageRooms(props) {
         setUpdateRoom(true); 
         
     }
-  //loading
-    const [loading, setLoading] = useState(false);
-  return (
+
+   return (
     <div id="ManageRooms">
           <h1>Rooms</h1>
           {isAdmin() ?
@@ -287,7 +292,7 @@ export default function ManageRooms(props) {
               </tbody>
           </table>
           </div>
-          <UpdateRoom companyId={companyId} roomToUpdate={roomToUpdate}  setState={setUpdateRoom} state={updateTheRoom} /> 
+           {updateTheRoom ? <UpdateRoom companyId={companyId} roomToUpdate={roomToUpdate} setState={setUpdateRoom} state={updateTheRoom} /> : ""}
     </div>
   );
 }
