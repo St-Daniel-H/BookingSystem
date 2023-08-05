@@ -1,0 +1,72 @@
+@import '../../scss/variables';
+
+#deleteRoom {
+    top: 0;
+    left: 150px;
+    @media screen and (max-width:835px){
+        left:100px;
+    }
+    @media screen and (max-width: 600px){
+        left:0;
+    }
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    background-color: rgb(0,0,0,0.2);
+    position: fixed;
+    //z-index: 1001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #DeleteRoomContainer {
+        width: 100%;
+        max-width: 300px;
+        background-color: white;
+        height: 220px;
+        border-radius: 25px;
+        -webkit-box-shadow: 3px 3px 10px 3px #6d6d6d;
+        -moz-box-shadow: 3px 3px 10px 3px #6d6d6d;
+        box-shadow: 3px 3px 10px 3px #6d6d6d;
+    }
+
+    #message {
+        margin: 10px;
+    }
+
+    #deleteRoomButton {
+        margin-right: 20px;
+        float: right;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        width: 80px;
+        background-color: white;
+        border: 2px solid red;
+        cursor: pointer;
+        transition: 0.6s;
+
+        &:hover {
+            background-color: red;
+            color: #fff;
+        }
+    }
+
+    #topDeleteRoom {
+        display: flex;
+        background-color: red;
+        color: white;
+        justify-content: space-between;
+        padding: 10px;
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+
+        button {
+            background-color: red;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}

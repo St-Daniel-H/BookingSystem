@@ -10,7 +10,7 @@ import { useSnackbar } from "notistack";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import SearchIcon from "@mui/icons-material/Search";
-
+import DeleteRoom from "./deleteRoom"
 export default function ManageRooms(props) {
     //loading
     const [rerenderRooms, setRerenderRooms] = useState(false);
@@ -135,12 +135,23 @@ export default function ManageRooms(props) {
     }
     }
     //handling updates
-    const [updateTheRoom, setUpdateRoom] = useState(false);
+    const [updateTheRoom, setUpdateRoom] = useState(false);//update popup
     const [roomToUpdate, setRoomToUpdate] = useState({ roomId: "", description: "",capacity:0,location:""})
     async function updateTheRoomOnClick(roomId, name, location, capacity, description) {
+        document.body.style.overflow = "hidden";
         setRoomToUpdate({ roomId: roomId,name:name, location: location, capacity: capacity, description: description });
         setUpdateRoom(true); 
         
+    }
+    //handling deletion
+    const [deleteTheRoom, setDeleteTheRoom] = useState(false);//delet popup
+    const [roomToDelete, setRoomToDelete] = useState(0)
+
+    async function deleteTheRoomOnClick(roomId) {
+        document.body.style.overflow = "hidden";
+        setRoomToDelete(roomId);
+        setDeleteTheRoom(true);
+
     }
     //search bar
     const [searchInput, setSearchInput] = useState("");
@@ -318,7 +329,9 @@ export default function ManageRooms(props) {
                                           //document.body.style.overflow = "hidden";
                                           updateTheRoomOnClick(units.roomId, units.name, units.location,units.capacity,units.description);
                                       }}>Update</button></td>
-                                      <td><button>Delete</button></td>
+                                      <td><button onClick={() => {
+                                          deleteTheRoomOnClick(units.roomId);
+                                      } }>Delete</button></td>
                                   </> : ""}
 
                               </tr>
@@ -334,10 +347,12 @@ export default function ManageRooms(props) {
                                        <td>{units.description}</td>
                                        {isAdmin() ? <>
                                            <td><button onClick={() => {
-                                               //document.body.style.overflow = "hidden";
                                                updateTheRoomOnClick(units.roomId, units.name, units.location, units.capacity, units.description);
                                            }}>Update</button></td>
-                                           <td><button>Delete</button></td>
+                                           <td><button onClick={() => {
+ 
+                                              deleteTheRoomOnClick(units.roomId)
+                                           } }>Delete</button></td>
                                        </> : ""}
 
                                    </tr>
@@ -345,7 +360,8 @@ export default function ManageRooms(props) {
                            }) }
               </tbody>
           </table>
-          </div>
+           </div>
+           {deleteTheRoom ? <DeleteRoom  roomToDelete={roomToDelete} setState={setDeleteTheRoom} state={deleteTheRoom} /> : ""}
            {updateTheRoom ? <UpdateRoom companyId={companyId} roomToUpdate={roomToUpdate} setState={setUpdateRoom} state={updateTheRoom} /> : ""}
     </div>
   );

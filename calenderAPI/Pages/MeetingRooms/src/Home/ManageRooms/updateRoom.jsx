@@ -34,7 +34,8 @@ function UpdateRoom({ state, setState, roomToUpdate, companyId }) {
     //    setTheNewRoom(roomToUpdate);
     //}, [roomToUpdate]);
     //console.log(theNewRoom);
-    async function updateTheRoomFunc() {
+    async function updateTheRoomFunc(e) {
+        e.preventDefault();
         const response = await fetch(APIs.apiLink + "/api/Room/" + theNewRoom.roomId, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -47,7 +48,8 @@ function UpdateRoom({ state, setState, roomToUpdate, companyId }) {
             })     
         })
         if (response.ok) {
-            handleSnackBarSuccess("Room updated successfully")
+            handleSnackBarSuccess("Room updated successfully");
+            //setState(false);
             window.location.reload();
         } else {
             const errorResponse = await response.json();
@@ -61,7 +63,10 @@ function UpdateRoom({ state, setState, roomToUpdate, companyId }) {
             <div id="updateRoomContainer">
                 <div id="topUpdateRoom">
                     <h1>Update Room</h1>
-                    <button onClick={() => { setState(false) }}><CloseIcon/></button>
+                    <button onClick={() => {
+                        document.body.style.overflow = "unset";
+                        setState(false)
+                    }}><CloseIcon /></button>
                 </div>
                 <div id="updateForm">
                 <div id="updateLeftSide">
@@ -85,7 +90,7 @@ function UpdateRoom({ state, setState, roomToUpdate, companyId }) {
                         type="text"
                         onChange={(e) => setTheNewRoom({ ...theNewRoom, name: e.target.value })}
                         value={theNewRoom.name}
-                    /><br /><br /><br />
+                    />
                     <TextField
                         className="input"
                         sx={{
@@ -133,7 +138,7 @@ function UpdateRoom({ state, setState, roomToUpdate, companyId }) {
                             setTheNewRoom({ ...theNewRoom, location: e.target.value })
                         }
                         value={theNewRoom.location}
-                    /><br /><br /><br />
+                    />
                     <TextField
                         className="input"
                         sx={{
