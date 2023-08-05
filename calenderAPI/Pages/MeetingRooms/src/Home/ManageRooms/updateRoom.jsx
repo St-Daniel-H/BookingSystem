@@ -1,12 +1,33 @@
 /* eslint-disable react/prop-types */
+import CloseIcon from '@mui/icons-material/Close';
 import "./updateRoom.scss"
 import { useState, useEffect } from "react";
 import APIs from "../../Backend/backend";
 import TextField from "@mui/material/TextField";
 import colors from "../../scss/SCSSVariables";
+import { useSnackbar } from "notistack";
 
-function UpdateRoom({ state, setState,roomToUpdate,companyId }) {
-    console.log(roomToUpdate)
+function UpdateRoom({ state, setState, roomToUpdate, companyId }) {
+
+    const { enqueueSnackbar } = useSnackbar();
+    function handleSnackBar(error) {
+        enqueueSnackbar(error, {
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "right",
+            },
+            variant: "error",
+        });
+    }
+    function handleSnackBarSuccess(success) {
+        enqueueSnackbar(success, {
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "right",
+            },
+            variant: "success",
+        });
+    }
     const [theNewRoom, setTheNewRoom] = useState({});
     useEffect(() => {
         setTheNewRoom(roomToUpdate);
@@ -14,7 +35,7 @@ function UpdateRoom({ state, setState,roomToUpdate,companyId }) {
     console.log(theNewRoom);
     //update room function
     async function updateTheRoomFunc() {
-        const response = await fetch(APIs.apiLink + "/api/Room/" + roomId, {
+        const response = await fetch(APIs.apiLink + "/api/Room/" + theNewRoom.roomId, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -26,11 +47,12 @@ function UpdateRoom({ state, setState,roomToUpdate,companyId }) {
             })     
         })
         if (response.ok) {
-            alert("Room updated successfully");
+            handleSnackBarSuccess("Room updated successfully")
             window.location.reload();
         } else {
             const errorResponse = await response.json();
             console.log("Signup failed:", errorResponse);
+            handleSnackBar(errorResponse.$value[0].errorMessage)
         }
            
     }
@@ -39,8 +61,10 @@ function UpdateRoom({ state, setState,roomToUpdate,companyId }) {
             <div id="updateRoomContainer">
                 <div id="topUpdateRoom">
                     <h1>Update Room</h1>
-                    <button onClick={() => { setState(false) }}>click</button>                </div>
+                    <button onClick={() => { setState(false) }}><CloseIcon/></button>
+                </div>
                 <div id="updateForm">
+                <div id="updateLeftSide">
                     <TextField
                         className="input"
                         sx={{
@@ -84,9 +108,9 @@ function UpdateRoom({ state, setState,roomToUpdate,companyId }) {
                             setTheNewRoom({ ...theNewRoom, description: e.target.value })
                         }
                         value={theNewRoom.description}
-                    /><br /><br /><br />
-                </div>
-                <div id="rightSide">
+                    />
+                    </div>
+                    <div id="updateLeftSide">
                     <TextField
                         className="input"
                         sx={{
@@ -129,12 +153,13 @@ function UpdateRoom({ state, setState,roomToUpdate,companyId }) {
                         variant="standard"
                         type="number"
                         onChange={(e) =>
-                            setTheNewRoom({ ...theNewRoom, capactiy: e.target.value })
+                            setTheNewRoom({ ...theNewRoom, capacity: e.target.value })
                         }
-                        value={theNewRoom.capactiy}
-                    /><br /><br /><br />
-                    <button id="updateRoom" onClick={updateTheRoomFunc}>Update</button>
+                        value={theNewRoom.capacity}
+                        /></div>
+                    
                 </div>
+                <button id="updateRoomButton" onClick={updateTheRoomFunc}>Update</button>
             </div>
            
         </div>

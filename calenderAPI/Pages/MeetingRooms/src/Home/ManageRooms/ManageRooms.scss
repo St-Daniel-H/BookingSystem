@@ -2,11 +2,13 @@
 #ManageRooms {
     width: 100%;
 
-
+    h3{
+        margin-left:20px;
+    }
 
 
     form {
-        padding:10px;
+        padding: 20px;
         height: 220px;
         width: 100%;
         max-width: 700px;
@@ -14,15 +16,27 @@
         //border: 2px solid $primary-color;
         border-radius: 25px;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         position: relative;
+
+        @media screen and (max-width:420px) {
+            display: block;
+        }
         //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        .input {
+            width: 100%;
+        }
+
+        #buttonContainer {
+            display: flex;
+            align-content: end;
+            justify-content: end;
+        }
 
         #addRoom {
-            position: absolute;
-            bottom: 5%;
-            right: 5%;
-            display: block;
+            //position: absolute;
+            //bottom: 0;
+            //right: 0;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -43,6 +57,10 @@
     }
 
     #table {
+        @media screen and (max-width:420px) {
+            margin-top:200px;
+        }
+
         width: 100%; /* You can adjust this to your desired width */
         padding: 20px; /* You can adjust this as needed */
         box-sizing: border-box;

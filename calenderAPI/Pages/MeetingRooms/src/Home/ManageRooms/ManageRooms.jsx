@@ -7,12 +7,21 @@ import colors from "../../scss/SCSSVariables";
 import UpdateRoom from "./updateRoom";
 import "./ManageRooms.scss"
 import { useSnackbar } from "notistack";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 export default function ManageRooms(props) {
+    const { enqueueSnackbar } = useSnackbar();
 
-
- 
-        const { enqueueSnackbar } = useSnackbar();
+    function handleSnackBarSuccess(success) {
+        enqueueSnackbar(success, {
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "right",
+            },
+            variant: "success",
+        });
+    }
         function handleSnackBar(error) {
             enqueueSnackbar(error, {
                 anchorOrigin: {
@@ -32,7 +41,7 @@ export default function ManageRooms(props) {
     }
   useEffect(() => {
     getAllRoomsWithCompanyId();
-  }, []);
+  }, [rooms]);
     async function getAllRoomsWithCompanyId() {
         try {
             const getrooms = await fetch(APIs.apiLink + "/company/" + companyId).then(
@@ -58,24 +67,31 @@ export default function ManageRooms(props) {
   const [formData, setFormData] = useState({
     name: "",
     location: "",
-    capactiy: 0,
+      capacity: "",
     description: "",
   });
   async function submitRoom(e) {
     e.preventDefault();
     //console.log(companyId);
+      setLoading(true);
     try {
       if (
         formData.name == "" ||
         formData.location == "" ||
-        formData.capactiy == "" ||
+          formData.capacitiy == 0 ||
         formData.description == ""
       ) {
-        throw new Error("fill all the information");
+          setLoading(false);
+          handleSnackBar("fill all the information");
+          throw new Error("fill all the information");
+
       }
-      if (!formData.capactiy > 0) {
-        throw new Error("Invalid capacity");
-      }
+        if (!formData.capacity > 0) {
+            setLoading(false);
+            handleSnackBar("Invalid capacity");
+            throw new Error("Invalid capacity");
+        }
+        console.log(formData.capacity);
       const response = await fetch(APIs.apiLink + "/api/Room", {
         method: "POST",
         headers: {
@@ -84,20 +100,31 @@ export default function ManageRooms(props) {
         body: JSON.stringify({
           name: formData.name,
           location: formData.location,
-          capactiy: formData.capactiy,
+            Capacity: formData.capacity,
           description: formData.description,
           companyId: companyId,
         }),
       });
       if (response.ok) {
-          alert("Room added successfully");
-          window.location.reload();
+          handleSnackBarSuccess("Room Added!");
+          setLoading(false);
+          setFormData({
+              name: "",
+              location: "",
+              capacity: "",
+              description: "",
+});
+          //window.location.reload();
       } else {
         const errorResponse = await response.json();
-        console.log("Signup failed:", errorResponse);
+          console.log("Adding Room failed:", errorResponse.$values[0].errorMessage);
+          handleSnackBar(errorResponse.$values[0].errorMessage);
+          throw new Error(errorResponse.$values[0]);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+        //handleSnackBar(error.errorMessage || error);
+        setLoading(false);
+        console.log(error);
     }
     }
     //handling updates
@@ -108,11 +135,16 @@ export default function ManageRooms(props) {
         setUpdateRoom(true); 
         
     }
-  
+  //loading
+    const [loading, setLoading] = useState(false);
   return (
     <div id="ManageRooms">
           <h1>Rooms</h1>
-          {isAdmin() ? <form>
+          {isAdmin() ?
+              <>
+              <h3>Add Room</h3>
+              <form>
+              
               <div id="leftSide">
                   <TextField
                       className="input"
@@ -198,17 +230,21 @@ export default function ManageRooms(props) {
                           },
                       }}
                       id="standard-basic capactiy"
-                      label="Capactiy"
+                      label="Capacitiy"
                       variant="standard"
                       type="number"
                       onChange={(e) =>
-                          setFormData({ ...formData, capactiy: e.target.value })
+                          setFormData({ ...formData, capacity: e.target.value })
                       }
-                      value={formData.capactiy}
-                  /><br /><br /><br />
+                              value={formData.capacity}
+                  />
+                          <div id="buttonContainer"> {loading ? <Box sx={{ display: 'flex' }}>
+                              <CircularProgress />
+                          </Box> : <button id="addRoom" onClick={submitRoom}>Submit</button> }
+                          </div>
               </div>
-              <button id="addRoom" onClick={submitRoom}>Submit</button>
-          </form> : ""}
+             
+                  </form></> : ""}
           
           <div id="table">
           <table>
@@ -239,7 +275,7 @@ export default function ManageRooms(props) {
                                   <td>{units.description}</td>
                                   {isAdmin() ? <>
                                       <td><button onClick={() => {
-                                          document.body.style.overflow = "hidden";
+                                          //document.body.style.overflow = "hidden";
                                           updateTheRoomOnClick(units.roomId, units.name, units.location,units.capacity,units.description);
                                       }}>Update</button></td>
                                       <td><button>Delete</button></td>
