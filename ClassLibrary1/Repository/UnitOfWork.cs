@@ -1,4 +1,5 @@
-﻿using startup.Interfaces;
+﻿using BookingSystem.core.Interfaces;
+using startup.Interfaces;
 using startup.Models;
 using startup.Repository;
 using System;
@@ -16,7 +17,7 @@ namespace BookingSystem.core.Repository
         private UserRepository _userRepository;
         private RoomRepository? _roomRepository;
         private ReservationRepository? _reservationRepository;
-
+        private AUserRepository? _auserRepository;
         public UnitOfWork(BookingSystemContext context)
         {
             this._context = context;
@@ -27,6 +28,7 @@ namespace BookingSystem.core.Repository
 
         public IReservationRepository Reservations => _reservationRepository = _reservationRepository ?? new ReservationRepository(_context);
         public IRoomRepository Rooms => _roomRepository = _roomRepository ?? new RoomRepository(_context);
+        public IAUserRepository AUsers => _auserRepository = _auserRepository ?? new AUserRepository(_context);
 
 
         public async Task<int> CommitAsync()

@@ -1,0 +1,118 @@
+@import '../../scss/variables';
+
+#updateRoom {
+    top: 0;
+    left: 150px;
+
+    @media screen and (max-width:835px) {
+        left: 100px;
+    }
+
+    @media screen and (max-width: 600px) {
+        left: 0;
+    }
+
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    background-color: rgb(0,0,0,0.2);
+    position: fixed;
+    z-index: 1001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #topUpdateRoom {
+        display: flex;
+        background-color: $primary-color;
+        color: white;
+        justify-content: space-between;
+        padding: 10px;
+
+        button {
+            background-color: $primary-color;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+
+            &:hover {
+                color: red;
+            }
+        }
+    }
+
+    #updateRoomContainer {
+        width: 100%;
+        max-width: 500px;
+
+        @media screen and (max-width:800px) {
+            max-width: 300px;
+        }
+
+        @media screen and (max-width:600px) {
+            max-width: 500px;
+        }
+
+        background-color: white;
+        height: 300px;
+
+        @media screen and (max-width:800px) {
+            height: 450px;
+        }
+
+        @media screen and (max-width:600px) {
+            height: 300px;
+        }
+
+        @media screen and (max-width:400px) {
+            height: 450px;
+        }
+
+        border-radius: 25px;
+        -webkit-box-shadow: 3px 3px 10px 3px #6d6d6d;
+        -moz-box-shadow: 3px 3px 10px 3px #6d6d6d;
+        box-shadow: 3px 3px 10px 3px #6d6d6d;
+    }
+
+    #updateForm {
+        margin: 10px;
+        display: flex;
+        justify-content: space-between;
+
+        @media screen and (max-width:800px) {
+            display: block;
+        }
+
+        @media screen and (max-width:400px) {
+            display: block;
+
+            .input {
+                width: 100%;
+            }
+        }
+    }
+
+    .input {
+        margin-top: 20px;
+    }
+
+    #updateRoomButton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        height: 40px;
+        width: 80px;
+        background-color: white;
+        border: 2px solid $primary-color;
+        cursor: pointer;
+        transition: 0.6s;
+        margin-left: 10px;
+
+        &:hover {
+            background-color: $primary-color;
+            color: #fff;
+        }
+    }
+}

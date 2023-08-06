@@ -28,6 +28,7 @@ namespace calenderAPI.Mapping
             CreateMap<SaveRoomResource, Room>();
             CreateMap<SaveReservationResource, Reservation>();
 
+            CreateMap<UpdateAUserResource, AUser>();
             CreateMap<UserSignUpResource, AUser>()
     .ForMember(u => u.UserName, opt => opt.MapFrom(ur => ur.Email));
 

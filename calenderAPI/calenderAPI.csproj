@@ -46,7 +46,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\MeetingRooms\public\Uploads\" />
-    <Folder Include="Pages\MeetingRooms\src\defUpload\" />
     <Folder Include="Pages\MeetingRooms\src\scss\" />
     <Folder Include="Pages\MeetingRooms\src\Login\" />
     <Folder Include="Pages\MeetingRooms\src\Backend\" />

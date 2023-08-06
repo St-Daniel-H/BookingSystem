@@ -12,6 +12,10 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System.Data.SqlTypes;
 using Microsoft.EntityFrameworkCore;
+using BookingSystem.Services.Interfaces;
+using BookingSystem.Services.Repository;
+using calenderAPI.Validators;
+using FluentValidation;
 
 namespace calenderAPI.Controllers
 {
@@ -25,15 +29,17 @@ namespace calenderAPI.Controllers
             private readonly RoleManager<Role> _roleManager;
             private readonly JwtSettings _jwtSettings;
 
-            public AuthController(IMapper mapper, UserManager<AUser> userManager, RoleManager<Role> roleManager,
+            public AuthController(IMapper mapper, UserManager<AUser> userManager,IAUserService AUserService, RoleManager<Role> roleManager,
                 IOptionsSnapshot<JwtSettings> jwtSettings)
             {
                 _mapper = mapper;
                 _userManager = userManager;
+                _auserService = AUserService;
                 _roleManager = roleManager;
                 _jwtSettings = jwtSettings.Value;
 
             }
+        private readonly IAUserService _auserService;
         [HttpPost("signup")]
 
         public async Task<IActionResult> SignUp(UserSignUpResource userSignUpResource)
@@ -155,8 +161,51 @@ namespace calenderAPI.Controllers
 
                 return Problem(roleResult.Errors.First().Description, null, 500);
             }
+        //get user by companyId
+        [HttpGet("/auth/company/{companyId}")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetUsersByCompanyId(int companyId)
+        {
+            var users = await _auserService.GetUsersByCompanyId(companyId);
+            return Ok(users);
+        }
+        //delete User request.
+        [HttpDelete("/auth/User")]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            if (id == null)
+                return BadRequest();
 
-            [HttpPost("User/{userEmail}/Role")]
+            var User = await _userManager.FindByIdAsync(id.ToString());
+
+            if (User == null)
+                return NotFound();
+
+            await _auserService.DeleteUser(User);
+
+            return NoContent();
+        }
+        //update
+        [HttpPut("/auth/user/{id}")]
+        public async Task<ActionResult<UpdateAUserResource>> UpdateUser(Guid id, [FromBody] UpdateAUserResource updateUseresource)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userToBeUpdated = await _userManager.FindByIdAsync(id.ToString());
+            if (userToBeUpdated == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var user = _mapper.Map<UpdateAUserResource, AUser>(updateUseresource);
+
+            await _auserService.UpdateUser(userToBeUpdated, user);
+
+            return NoContent();
+        }
+        [HttpPost("User/{userEmail}/Role")]
             public async Task<IActionResult> AddUserToRole(string userEmail, [FromBody] string roleName)
             {
                 var user = _userManager.Users.SingleOrDefault(u => u.Email == userEmail);

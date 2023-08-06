@@ -1,4 +1,5 @@
 using AutoMapper;
+using BookingSystem.core.Interfaces;
 using BookingSystem.core.Models.Auth;
 using BookingSystem.core.Repository;
 using BookingSystem.Services.Interfaces;
@@ -77,11 +78,13 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<IAUserRepository, AUserRepository>();
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped< IRoomService, RoomService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IAUserService, AUserService>();
 
 builder.Services.AddTransient<ICompanyService, CompanyService>();
 builder.Services.AddTransient<IUserService, UserService>();
