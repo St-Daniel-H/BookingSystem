@@ -52,15 +52,15 @@ function Login() {
         console.log(data);
         alert(data);
         localStorage.setItem("token", data);
-        navigateTo("/");
+        navigateTo("/Home/Rooms");
       } else {
-        const errorResponse = await response.json();
+        const errorResponse = await response.text()
         console.log("Login failed:", errorResponse);
-        throw new Error(errorResponse.details);
+        throw new Error(errorResponse);
       }
     } catch (error) {
-      console.log(error.message);
-      handleSnackBar(error.message);
+      console.log(error);
+      handleSnackBar(error.toString());
     }
   }
   return (

@@ -24,7 +24,7 @@ import Calender from "../Calender/Calender";
 import "./SideBar.scss";
 import { useSnackbar } from "notistack";
 import noLogo from "../../Images/defLogo.jpg";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 const drawerWidth = 240;
 
 function SideBar(props) {
@@ -59,14 +59,24 @@ function SideBar(props) {
   }
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-  console.log(companyData.logo);
+    };
+    const [image, setImage] = useState(`../../../public/Uploads/${companyData.logo}`)
+    console.log(image);
+    //async function setImage2() {
+    //    let logo;
+    //    await import(`../../../../../${companyData.logo}`).then((module) => {
+    //        logo = module.default; 
+    //    });
+    //    console.log(logo)
+    //    return "../../../../../"+companyData.logo;
+    //}
+    //const logo = setImage2();
   const drawer = (
     <div className="drawer">
       <div id="header">
         <div id="drawerImgContainer">
           {companyData.logo ? (
-            <img src={companyData.logo}></img>
+                      <img src={image}></img>
           ) : (
             <img src={noLogo}></img>
           )}
@@ -142,7 +152,7 @@ function SideBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            {companyData.name}
+            <h2>Meeting Rooms</h2>
           </Typography>
         </Toolbar>
       </AppBar>

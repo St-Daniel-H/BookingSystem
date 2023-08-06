@@ -50,7 +50,7 @@ namespace calenderAPI.Controllers
         {
             var validator = new SaveCompanyResourceValidator();
             var validationResult = await validator.ValidateAsync(saveCompanyResource);
-            var uploadsFolderPath = "Uploads/";
+            var uploadsFolderPath = "../calenderAPI/Pages/MeetingRooms/public/Uploads/";
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
 
@@ -67,7 +67,7 @@ namespace calenderAPI.Controllers
                 }
 
                 // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
-                companyToCreate.Logo = filePath.ToString();
+                companyToCreate.Logo = guidFileName;
             }
             var newCompany = await _companyService.CreateCompany(companyToCreate);
 

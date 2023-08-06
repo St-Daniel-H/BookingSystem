@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { useSnackbar } from "notistack";
 import "./Signup.scss";
 const steps = ["Create An Account", "Create Company Profile"];
+import isValidJSON from "../Backend/validJson"
 //forms
 import CreateAccountSignup from "./CreateAccount";
 import CreateCompany from "./CreateCompany";
@@ -126,13 +127,20 @@ function Signup() {
         handleSnackBarSuccess();
         navigateTo("/login");
       } else {
-        const errorResponse = await response.json();
-        console.log("Signup failed:", errorResponse);
-          throw new Error(errorResponse.detail || "User creation failed. Please try again later." );
+          let errorResponse = await response;
+          if (isValidJSON(errorResponse)) {
+              console.log("Signup failed:", errorResponse);
+              throw new Error(errorResponse.detail || "User creation failed. Please try again later.");
+
+          } else {
+              console.log(response);
+              throw new Error(errorResponse);
+          }
+
       }
     } catch (error) {
       console.log(error.message);
-      handleSnackBar(error.message);
+      handleSnackBar(error.message || error.toString());
       setLoading(false);
     }
   }

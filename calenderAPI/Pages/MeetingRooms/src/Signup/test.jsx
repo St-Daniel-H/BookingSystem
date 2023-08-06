@@ -35,7 +35,7 @@ const MessageButtons = () => {
       <Button variant="outlined" style={styles.button} onClick={handleClick}>
         Show Snackbar
       </Button>
-      <img alt="Default Logo" />
+          <img src="../../public/Uploads/48577dcf-c452-483c-8da0-c4fdf71f9321.jfif" alt="Default Logo" />
     </Paper>
   );
 };
