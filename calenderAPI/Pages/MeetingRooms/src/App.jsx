@@ -7,7 +7,7 @@ import { SnackbarProvider } from "notistack";
 import ManageRooms from "./Home/ManageRooms/ManageRooms";
 import ManageReservation from "./Home/ManageReservation/ManageReservation";
 import ManageEmployees from "./Home/ManageEmployees/ManageEmployees";
-import Calender from "./Home/Calender/Calender";
+import CalendarView from "./Home/Calender/Calender";
 
 function App() {
   return (
@@ -17,13 +17,14 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/test" element={<MessageButtons />} />
         {/* <Home /> */}
- 
+              <Route path="/Calender" element={<CalendarView />} />
+
               <Route path="/Home" element={<Home />}>
                   <Route index element={<h2>Welcome to Home!</h2>} />
+                  <Route path="/Home/Calender" element={<CalendarView />} />
                   <Route path="/Home/Rooms" element={<ManageRooms />} />
                   <Route path="/Home/Reservation" element={<ManageReservation />} />
                   <Route path="/Home/Employees" element={<ManageEmployees />} />
-                  <Route path="/Home/Calender" element={<Calender />} />
               </Route>
           </Routes>
     </SnackbarProvider>

@@ -20,7 +20,7 @@ import Typography from "@mui/material/Typography";
 import ManageRooms from "../ManageRooms/ManageRooms";
 import ManageReservation from "../ManageReservation/ManageReservation";
 import ManageEmployees from "../ManageEmployees/ManageEmployees";
-import Calender from "../Calender/Calender";
+import CalenderView from "../Calender/Calender";
 import "./SideBar.scss";
 import { useSnackbar } from "notistack";
 import noLogo from "../../Images/defLogo.jpg";
@@ -48,7 +48,7 @@ function SideBar(props) {
     const arr = href.split("/");
     switch (arr[4]) {
       case "Calender":
-        return <Calender user={userData} />;
+            return <CalenderView user={userData} />;
       case "Employees":
         return <ManageEmployees user={userData} />;
       case "Rooms":

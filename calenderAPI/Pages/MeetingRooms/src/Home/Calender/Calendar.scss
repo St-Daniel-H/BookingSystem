@@ -1,0 +1,18 @@
+﻿@import '../../scss/variables';
+
+.rbc-event {
+    background-color: $primary-color;
+}
+.rbc-toolbar-label {
+    font-weight: bold;
+}
+.rbc-btn-group button{
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid $primary-color;
+    transition: 0.6s;
+    &:hover{
+    background-color: $primary-color;
+    color: #fff;
+    }
+}
