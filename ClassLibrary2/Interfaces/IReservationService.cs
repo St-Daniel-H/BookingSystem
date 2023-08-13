@@ -14,5 +14,8 @@ namespace BookingSystem.Services.Interfaces
         Task DeleteReservation(Reservation reservation);
         Task<Reservation> GetReservationById(int id);
         Task<IEnumerable<Reservation>> GetAllReservations();
+
+        Task<IEnumerable<Reservation>> GetReservationsByCompanyId(int companyId);
+
     }
 }

@@ -45,6 +45,10 @@ namespace BookingSystem.Services.Repository
             ReservationToBeUpdated.StartTime = Reservation.StartTime;
             await _unitOfWork.CommitAsync();
         }
+        public async Task<IEnumerable<Reservation>> GetReservationsByCompanyId(int companyId)
+        {
+            return await _unitOfWork.Reservations.GetReservationsByCompanyId(companyId);
+        }
     }
 }
 

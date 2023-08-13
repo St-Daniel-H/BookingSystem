@@ -54,7 +54,7 @@ function Login() {
         localStorage.setItem("token", data);
         navigateTo("/Home/Rooms");
       } else {
-        const errorResponse = await response.text()
+        const errorResponse = await response.text();
         console.log("Login failed:", errorResponse);
         throw new Error(errorResponse);
       }

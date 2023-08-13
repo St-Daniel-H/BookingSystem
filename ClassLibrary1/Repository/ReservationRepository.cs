@@ -3,6 +3,7 @@ using startup.Interfaces;
 using startup.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,12 @@ namespace startup.Repository
         private BookingSystemContext BookingSystemContext
         {
             get { return Context as BookingSystemContext; }
+        }
+        public async Task<IEnumerable<Reservation>> GetReservationsByCompanyId(int companyId)
+        {
+            return await BookingSystemContext.Reservations
+            .Where(r => r.AUser.CompanyId == companyId)
+            .ToListAsync();
         }
     }
 }

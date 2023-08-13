@@ -21,6 +21,7 @@ namespace calenderAPI.Controllers
         {
             this._mapper = mapper;
             this._ReservationService = ReservationService;
+
         }
 
         private readonly IMapper _mapper;
@@ -105,6 +106,15 @@ namespace calenderAPI.Controllers
             await _ReservationService.DeleteReservation(Reservation);
 
             return NoContent();
+        }
+        [HttpGet("/reservation/{companyId}")]//get rooms related to a company
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservationsByCompanyId(int companyId)
+        {
+            
+            var reservations = await _ReservationService.GetReservationsByCompanyId(companyId);
+            return Ok(reservations);
+
+
         }
     }
 }
