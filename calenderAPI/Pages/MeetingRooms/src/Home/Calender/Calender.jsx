@@ -9,52 +9,58 @@ import "./Calendar.scss";
 import EventsAnchor from "./EventAnchor";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
+import SaveMonthEvent from "./SaveMonthEvent.jsx";
 moment.locale("en-GB");
 
 const localizer = momentLocalizer(moment);
+//const formattedStart = moment(event.start).format("YYYY, M, D, H, m");
+//const formattedEnd = moment(event.end).format("YYYY, M, D, H, m");
 
-
-function CalendarView() {
-    //events
-    const [eventss, setEventss] = useState([
-        {
-            title: "hey",
-            description: "room321",
-            start: new Date(2023, 7, 14, 10, 0),
-            end: new Date(2023, 7, 14, 12, 0),
-        },
-        {
-            title: "hey",
-            description: "room321",
-            start: new Date(2023, 7, 14, 10, 0),
-            end: new Date(2023, 7, 14, 12, 0),
-        },
-        {
-            title: "hey",
-            description: "room321",
-            start: new Date(2023, 7, 14, 10, 0),
-            end: new Date(2023, 7, 14, 12, 0),
-        },
-        {
-            title: "hey",
-            description: "room321",
-            start: new Date(2023, 7, 14, 10, 0),
-            end: new Date(2023, 7, 14, 12, 0),
-        },
-        {
-            title: "hey",
-            description: "room321",
-            start: new Date(2023, 7, 14, 10, 0),
-            end: new Date(2023, 7, 14, 12, 0),
-        },
-        {
-            title: "hey",
-            description: "room321",
-            start: new Date(2023, 7, 14, 10, 0),
-            end: new Date(2023, 7, 14, 12, 0),
-        },
-    ]);
-    //end of events
+function CalendarView(props) {
+  const user = props.user;
+  //month view
+  const [openMonthSave, setOpenMonthSave] = useState(false);
+  //day/week
+  //events
+  const [eventss, setEventss] = useState([
+    {
+      title: "hey",
+      description: "room321",
+      start: new Date(2023, 7, 14, 10, 0),
+      end: new Date(2023, 7, 14, 12, 0),
+    },
+    {
+      title: "hey",
+      description: "room321",
+      start: new Date(2023, 7, 14, 10, 0),
+      end: new Date(2023, 7, 14, 12, 0),
+    },
+    {
+      title: "hey",
+      description: "room321",
+      start: new Date(2023, 7, 14, 10, 0),
+      end: new Date(2023, 7, 14, 12, 0),
+    },
+    {
+      title: "hey",
+      description: "room321",
+      start: new Date(2023, 7, 14, 10, 0),
+      end: new Date(2023, 7, 14, 12, 0),
+    },
+    {
+      title: "hey",
+      description: "room321",
+      start: new Date(2023, 7, 14, 10, 0),
+      end: new Date(2023, 7, 14, 12, 0),
+    },
+    {
+      title: "hey",
+      description: "room321",
+      start: new Date(2023, 7, 14, 10, 0),
+      end: new Date(2023, 7, 14, 12, 0),
+    },
+  ]);
+  //end of events
   //events drawer
   const [EventAncorState, setEventAncorState] = useState({
     right: false,
@@ -73,23 +79,27 @@ function CalendarView() {
   };
   //end of events drawer
   //handle click
-    const [currentView, setCurrentView] = useState(Views.MONTH); // Define currentView state
-    //slot
-    const handleSlotSelect = (event) => {
-        const newEvent = {
-            title: "New Event",
-            start: moment(event.start).toDate(), // Convert to Date object
-            end: moment(event.end).toDate(),     // Convert to Date object
-        };
-
-        setEventss([...eventss, newEvent]);
+  const [currentView, setCurrentView] = useState(Views.MONTH); // Define currentView state
+  //slot
+  const handleSlotSelect = (event) => {
+    document.body.style.overflow = "hidden";
+    console.log(event.start);
+    const newEvent = {
+      title: "New Event",
+      start: moment(event.start).toDate(), // Convert to Date object
+      end: moment(event.end).toDate(), // Convert to Date object
     };
-    //end
+    if (currentView == "month") {
+      setOpenMonthSave(true);
+    }
+    setEventss([...eventss, newEvent]);
+  };
+  //end
   const minTime = moment().set("hour", 8).set("minute", 0).toDate();
   const maxTime = moment().set("hour", 20).set("minute", 0).toDate();
-    const handleViewChange = (view) => {
-        setCurrentView(view);
-    };
+  const handleViewChange = (view) => {
+    setCurrentView(view);
+  };
   return (
     <div style={{ height: 700 }}>
       <Calendar
@@ -97,19 +107,19 @@ function CalendarView() {
         events={eventss}
         startAccessor="start"
         endAccessor="end"
-        step={30}
+        step={15}
         views={[Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA]} // Use allViews here
         defaultDate={new Date()}
         tooltipAccessor="description"
         //min={minTime}
         //max={maxTime}
         onSelectEvent={(event) => {
-        setEventAncorState({ right: true });
-         console.log(EventAncorState);
+          setEventAncorState({ right: true });
+          console.log(EventAncorState);
         }}
         longpressthreshold={10}
         selectable={true} // Enable selection of slots
-              onSelectSlot={handleSlotSelect}
+        onSelectSlot={handleSlotSelect}
         // Handle slot selection
         onView={handleViewChange}
       />
@@ -121,6 +131,11 @@ function CalendarView() {
       >
         <EventsAnchor state={EventAncorState} setState={setEventAncorState} />
       </Drawer>
+      {openMonthSave ? (
+        <SaveMonthEvent state={openMonthSave} setState={setOpenMonthSave} />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

@@ -8,6 +8,7 @@ namespace startup.Models
 {
     public partial class Reservation
     {
+  
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReservationId { get; set; }
@@ -17,6 +18,9 @@ namespace startup.Models
         public int NumberOfAttendees { get; set; }
         public bool? MeetingStatus { get; set; }
         public Guid AUserId { get; set; }
+
+        public String Description { get; set; }
+        public String Title { get; set; }   
 
         public virtual Room? Room { get; set; }
         public virtual AUser? AUser { get; set; }

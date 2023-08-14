@@ -8,6 +8,7 @@
         public int roomId { get; set; }
         public Guid AUserId { get; set; }
         public int NumberOfAttendees { get; set; }
-
+        public String Description { get; set; }
+        public String Title { get; set; }
     }
 }

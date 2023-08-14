@@ -31,7 +31,7 @@ namespace BookingSystem.core.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -39,6 +39,7 @@ namespace BookingSystem.core.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -77,6 +78,7 @@ namespace BookingSystem.core.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Role")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -278,8 +280,12 @@ namespace BookingSystem.core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"), 1L, 1);
 
-                    b.Property<Guid?>("AUserId")
+                    b.Property<Guid>("AUserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime")
@@ -301,9 +307,12 @@ namespace BookingSystem.core.Migrations
                         .HasColumnType("datetime")
                         .HasColumnName("startTime");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("userId");
+                        .HasColumnType("int");
 
                     b.HasKey("ReservationId");
 
@@ -419,8 +428,10 @@ namespace BookingSystem.core.Migrations
             modelBuilder.Entity("BookingSystem.core.Models.Auth.AUser", b =>
                 {
                     b.HasOne("startup.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
+                        .WithMany("AUsers")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Company");
                 });
@@ -478,23 +489,25 @@ namespace BookingSystem.core.Migrations
 
             modelBuilder.Entity("startup.Models.Reservation", b =>
                 {
-                    b.HasOne("BookingSystem.core.Models.Auth.AUser", null)
+                    b.HasOne("BookingSystem.core.Models.Auth.AUser", "AUser")
                         .WithMany("Reservations")
-                        .HasForeignKey("AUserId");
+                        .HasForeignKey("AUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK__Reservati__userI__4D94879B");
 
                     b.HasOne("startup.Models.Room", "Room")
                         .WithMany("Reservations")
                         .HasForeignKey("RoomId")
                         .HasConstraintName("FK__Reservati__roomI__4CA06362");
 
-                    b.HasOne("startup.Models.User", "User")
+                    b.HasOne("startup.Models.User", null)
                         .WithMany("Reservations")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK__Reservati__userI__4D94879B");
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("AUser");
 
                     b.Navigation("Room");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("startup.Models.Room", b =>
@@ -510,9 +523,8 @@ namespace BookingSystem.core.Migrations
             modelBuilder.Entity("startup.Models.User", b =>
                 {
                     b.HasOne("startup.Models.Company", "Company")
-                        .WithMany("Users")
-                        .HasForeignKey("CompanyId")
-                        .HasConstraintName("FK__User__companyId__4E88ABD4");
+                        .WithMany()
+                        .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });
@@ -524,9 +536,9 @@ namespace BookingSystem.core.Migrations
 
             modelBuilder.Entity("startup.Models.Company", b =>
                 {
-                    b.Navigation("Rooms");
+                    b.Navigation("AUsers");
 
-                    b.Navigation("Users");
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("startup.Models.Room", b =>

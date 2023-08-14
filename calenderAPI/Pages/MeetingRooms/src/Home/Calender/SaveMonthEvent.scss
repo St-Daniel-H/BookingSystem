@@ -1,0 +1,71 @@
+@import '../../scss/variables';
+@import url("https://cdn.syncfusion.com/ej2/material.css");
+
+#SaveMonthEvent {
+    top: 0;
+    left: 150px;
+    z-index: 10;
+    width: 100%;
+
+    @media screen and (max-width:835px) {
+        left: 100px;
+    }
+
+    @media screen and (max-width: 600px) {
+        left: 0;
+    }
+
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    background-color: rgb(0, 0, 0, 0.2);
+    position: fixed;
+    //z-index: 1001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #SaveMonthContainer {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    form {
+        padding: 10px;
+        background-color: white;
+
+        .input {
+            width: 100%;
+        }
+
+        #selectContainer {
+            display: flex;
+        }
+
+        #selectStart {
+            max-height: 100px;
+            background-color: red;
+        }
+
+        #selectEnd {
+            margin-left: 40px;
+        }
+    }
+
+    #saveMonthTitle {
+        display: flex;
+        background-color: $primary-color;
+        color: white;
+        justify-content: space-between;
+        padding: 10px;
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+
+        button {
+            background-color: $primary-color;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}
