@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import APIs from "../../Backend/backend";
 import TextField from "@mui/material/TextField";
 import colors from "../../scss/SCSSVariables";
@@ -7,8 +9,10 @@ import timeSlots from "./timeSlots";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-function SaveMonthEvent({ state, setState }) {
-  function close() {
+function SaveMonthEvent({ state, setState, rooms, user }) {
+    const roomToPick = [...rooms];
+    console.log(roomToPick)
+   function close() {
     setState(false);
     document.body.style.overflow = "unset";
   }
@@ -31,15 +35,15 @@ function SaveMonthEvent({ state, setState }) {
     description: "",
     start: timeSlots[0],
     end: timeSlots[1],
-    room: "",
+    room: roomToPick[0],
     title: "",
     NumberOfAttendees: 0,
-    MeetingStatus: "",
+    MeetingStatus: true,
   });
   useEffect(() => {
     validateEnd();
   }, [formData.start]);
-  return state ? (
+  return state ?  (
     <div id="SaveMonthEvent">
       <div id="SaveMonthContainer">
         <div id="saveMonthTitle">
@@ -95,30 +99,6 @@ function SaveMonthEvent({ state, setState }) {
             value={formData.name}
           />
           <br />
-          <TextField
-            className="input"
-            sx={{
-              input: { color: colors.accentColor },
-              "& .MuiInput-underline:before": {
-                borderBottomColor: colors.accentColor,
-              },
-              "& .MuiFormLabel-root": {
-                color: colors.accentColor,
-              },
-              "& .MuiInputLabel-root:focused": {
-                color: colors.primaryColor,
-              },
-            }}
-            id="standard-basic NumberOfAttendees"
-            label="Number Of Attendees"
-            variant="standard"
-            type="Number"
-            onChange={(e) => {
-              setFormData({ ...formData, NumberOfAttendees: e.target.value });
-            }}
-            value={formData.name}
-          />
-          <br />
           <div id="selectContainer">
             <div>
               <InputLabel id="demo-simple-select-label">Start</InputLabel>
@@ -158,14 +138,61 @@ function SaveMonthEvent({ state, setState }) {
                     </MenuItem>
                   );
                 })}
-              </Select>
-            </div>
-          </div>
-        </form>
+               </Select>
+
+                      </div>
+
+                  </div>
+                  <InputLabel id="demo-simple-select-label">Room</InputLabel>
+                  <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select "
+                      value={formData.room}
+                      label="Room"
+                      onChange={(e) => {
+                          setFormData({ ...formData, room: e.target.value })
+                         }
+                      }
+                  >
+                      {roomToPick.map((x) => {
+                          return (
+                              <MenuItem key={x.roomId} value={x} >
+                                  {x.name}
+                              </MenuItem>
+                          );
+                      })}
+                  </Select>
+                  <TextField
+                      className="input"
+                      sx={{
+                          input: { color: colors.accentColor },
+                          "& .MuiInput-underline:before": {
+                              borderBottomColor: colors.accentColor,
+                          },
+                          "& .MuiFormLabel-root": {
+                              color: colors.accentColor,
+                          },
+                          "& .MuiInputLabel-root:focused": {
+                              color: colors.primaryColor,
+                          },
+                      }}
+                      id="standard-basic capactiy"
+                      label="Number Of Attendees"
+                      variant="standard"
+                      type="number"
+                      onChange={(e) =>
+                          setFormData({ ...formData, NumberOfAttendees: e.target.value })
+                      }
+                      value={formData.capacity}
+                  />
+                  <div id="buttonContainer">
+                      <button id="cancelButton">Cancel</button>
+                      <button id="saveButton">Save</button></div>
+                  
+              </form>
+       
       </div>
-    </div>
-  ) : (
-    ""
-  );
+        </div>
+    ) : "";
 }
 export default SaveMonthEvent;

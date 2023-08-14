@@ -17,7 +17,6 @@ export default function ManageRooms(props) {
   const [loading, setLoading] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
-
   function handleSnackBarSuccess(success) {
     enqueueSnackbar(success, {
       anchorOrigin: {

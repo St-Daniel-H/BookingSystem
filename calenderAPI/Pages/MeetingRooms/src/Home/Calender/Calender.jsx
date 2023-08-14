@@ -1,7 +1,9 @@
-import { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState,useEffect } from "react";
 import { render } from "react-dom";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
+import APIs from "../../Backend/backend";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 //import 'react-big-calendar/lib/sass/styles';
 //import 'react-big-calendar/lib/addons/dragAndDrop/styles';/// Corrected typo: "indes.css" to "index.css"
@@ -20,7 +22,37 @@ function CalendarView(props) {
   const user = props.user;
   //month view
   const [openMonthSave, setOpenMonthSave] = useState(false);
-  //day/week
+  //get the rooms
+    const [rooms, setRooms] = useState([])
+    const [roomsLoaded, setRoomsLoaded] = useState(false)
+
+    async function getAllRoomsWithCompanyId() {
+        try {
+            const getrooms = await fetch(APIs.apiLink + "/company/" + user.companyId).then(
+                (response) => {
+                    if (response) {
+                        response.json().then((result) => {
+                            //console.log(result.$values)
+                            setRooms(result.$values);
+                            setRoomsLoaded(true)
+                        });
+                        // console.log(rooms);
+                    } else {
+                        throw new Error(
+                            "something went wrong loading the Rooms, try again later."
+                        );
+                    }
+                }
+            );
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        if (!roomsLoaded) {
+            getAllRoomsWithCompanyId()
+        }
+    })
   //events
   const [eventss, setEventss] = useState([
     {
@@ -79,7 +111,10 @@ function CalendarView(props) {
   };
   //end of events drawer
   //handle click
-  const [currentView, setCurrentView] = useState(Views.MONTH); // Define currentView state
+    const [currentView, setCurrentView] = useState(Views.MONTH); // Define currentView state
+    async function openMonthEvent() {
+        setOpenMonthSave(true)
+    }
   //slot
   const handleSlotSelect = (event) => {
     document.body.style.overflow = "hidden";
@@ -90,7 +125,7 @@ function CalendarView(props) {
       end: moment(event.end).toDate(), // Convert to Date object
     };
     if (currentView == "month") {
-      setOpenMonthSave(true);
+        openMonthEvent();
     }
     setEventss([...eventss, newEvent]);
   };
@@ -131,8 +166,8 @@ function CalendarView(props) {
       >
         <EventsAnchor state={EventAncorState} setState={setEventAncorState} />
       </Drawer>
-      {openMonthSave ? (
-        <SaveMonthEvent state={openMonthSave} setState={setOpenMonthSave} />
+          {openMonthSave && roomsLoaded ? (
+              <SaveMonthEvent rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} />
       ) : (
         ""
       )}
