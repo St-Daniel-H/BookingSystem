@@ -2,7 +2,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
@@ -24,7 +23,9 @@ import CalenderView from "../Calender/Calender";
 import "./SideBar.scss";
 import { useSnackbar } from "notistack";
 import noLogo from "../../Images/defLogo.jpg";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+
 const drawerWidth = 240;
 
 function SideBar(props) {
@@ -48,7 +49,7 @@ function SideBar(props) {
     const arr = href.split("/");
     switch (arr[4]) {
       case "Calender":
-            return <CalenderView user={userData} />;
+        return <CalenderView user={userData} />;
       case "Employees":
         return <ManageEmployees user={userData} />;
       case "Rooms":
@@ -59,28 +60,31 @@ function SideBar(props) {
   }
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-    };
-    const [image, setImage] = useState(`../../../public/Uploads/${companyData.logo}`)
-    console.log(image);
-    //async function setImage2() {
-    //    let logo;
-    //    await import(`../../../../../${companyData.logo}`).then((module) => {
-    //        logo = module.default; 
-    //    });
-    //    console.log(logo)
-    //    return "../../../../../"+companyData.logo;
-    //}
-    //const logo = setImage2();
+  };
+  const [image, setImage] = useState(
+    `../../../public/Uploads/${companyData.logo}`
+  );
+  console.log(image);
+  //async function setImage2() {
+  //    let logo;
+  //    await import(`../../../../../${companyData.logo}`).then((module) => {
+  //        logo = module.default;
+  //    });
+  //    console.log(logo)
+  //    return "../../../../../"+companyData.logo;
+  //}
+  //const logo = setImage2();
   const drawer = (
     <div className="drawer">
       <div id="header">
         <div id="drawerImgContainer">
           {companyData.logo ? (
-                      <img src={image}></img>
+            <img src={image}></img>
           ) : (
             <img src={noLogo}></img>
           )}
-        </div><br/>
+        </div>
+        <br />
         <div>
           <h2>{companyData.name}</h2>
         </div>

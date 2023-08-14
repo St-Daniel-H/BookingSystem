@@ -8,9 +8,10 @@ import ManageRooms from "./Home/ManageRooms/ManageRooms";
 import ManageReservation from "./Home/ManageReservation/ManageReservation";
 import ManageEmployees from "./Home/ManageEmployees/ManageEmployees";
 import CalendarView from "./Home/Calender/Calender";
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 function App() {
-  return (
+    return (
     <SnackbarProvider maxSnack={3}>
       <Routes>
         <Route path="/Signup" element={<Signup />} />
@@ -27,7 +28,8 @@ function App() {
                   <Route path="/Home/Employees" element={<ManageEmployees />} />
               </Route>
           </Routes>
-    </SnackbarProvider>
+            </SnackbarProvider>
+
   );
 }
 

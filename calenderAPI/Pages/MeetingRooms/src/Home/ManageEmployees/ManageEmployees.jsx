@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import APIs from "../../Backend/backend";
 import { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -14,6 +13,8 @@ import { useSnackbar } from "notistack";
 import CircularProgress from "@mui/material/CircularProgress";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteEmployee from "./deleteEmployee";
+import Box from "@mui/material/Box";
+
 export default function ManageEmployees(props) {
   //loading
   const [rerenderEmployees, setRerenderEmployees] = useState(false);

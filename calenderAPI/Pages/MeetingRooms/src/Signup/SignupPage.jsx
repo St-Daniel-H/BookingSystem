@@ -2,7 +2,6 @@ import APIs from "../Backend/backend";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
@@ -11,10 +10,11 @@ import Typography from "@mui/material/Typography";
 import { useSnackbar } from "notistack";
 import "./Signup.scss";
 const steps = ["Create An Account", "Create Company Profile"];
-import isValidJSON from "../Backend/validJson"
+import isValidJSON from "../Backend/validJson";
 //forms
 import CreateAccountSignup from "./CreateAccount";
 import CreateCompany from "./CreateCompany";
+import Box from "@mui/material/Box";
 
 function Signup() {
   //snackbars
@@ -127,16 +127,17 @@ function Signup() {
         handleSnackBarSuccess();
         navigateTo("/login");
       } else {
-          let errorResponse = await response;
-          if (isValidJSON(errorResponse)) {
-              console.log("Signup failed:", errorResponse);
-              throw new Error(errorResponse.detail || "User creation failed. Please try again later.");
-
-          } else {
-              console.log(response);
-              throw new Error(errorResponse);
-          }
-
+        let errorResponse = await response;
+        if (isValidJSON(errorResponse)) {
+          console.log("Signup failed:", errorResponse);
+          throw new Error(
+            errorResponse.detail ||
+              "User creation failed. Please try again later."
+          );
+        } else {
+          console.log(response);
+          throw new Error(errorResponse);
+        }
       }
     } catch (error) {
       console.log(error.message);
