@@ -9,9 +9,14 @@ import timeSlots from "./timeSlots";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-function SaveMonthEvent({ state, setState, rooms, user }) {
+import moment from "moment";
+//import Checkbox from '@mui/material/Checkbox';
+
+function SaveMonthEvent({ state, setState, rooms, user,eventTime,view }) {
     const roomToPick = [...rooms];
-    console.log(roomToPick)
+    console.log(eventTime)
+
+    const [allDay, setAllDay] = useState(view == "month");
    function close() {
     setState(false);
     document.body.style.overflow = "unset";
@@ -30,11 +35,24 @@ function SaveMonthEvent({ state, setState, rooms, user }) {
     }
   }
   //end time slots
-  //Which Room?
-  const [formData, setFormData] = useState({
-    description: "",
-    start: timeSlots[0],
-    end: timeSlots[1],
+  //fix time format 
+    function timeFormat(time) {
+        // Assuming the provided time string
+        const inputTime = time;
+
+        // Parse the input time using moment.js
+        const parsedTime = moment(inputTime);
+
+        // Format the parsed time in the desired 12-hour format with AM/PM
+        const formattedTime = parsedTime.format("hh:mm A");
+
+        return formattedTime;      
+    }
+    
+    const [formData, setFormData] = useState({
+        description: "",
+        start: timeFormat(eventTime.start),
+        end: timeFormat(eventTime.end),
     room: roomToPick[0],
     title: "",
     NumberOfAttendees: 0,
@@ -120,6 +138,7 @@ function SaveMonthEvent({ state, setState, rooms, user }) {
                 })}
               </Select>
             </div>
+
             <div id="selectEnd">
               <InputLabel id="demo-simple-select-label">End</InputLabel>
               <Select
@@ -162,6 +181,10 @@ function SaveMonthEvent({ state, setState, rooms, user }) {
                           );
                       })}
                   </Select>
+                  {/*<Checkbox*/}
+                  {/*    color="primary"*/}
+                  {/*/>*/}
+                  {/*<span>Check this box</span>*/}
                   <TextField
                       className="input"
                       sx={{

@@ -112,6 +112,7 @@ function CalendarView(props) {
   //end of events drawer
   //handle click
     const [currentView, setCurrentView] = useState(Views.MONTH); // Define currentView state
+    const [eventToAddTime, setEventToAddTime] = useState();
     async function openMonthEvent() {
         setOpenMonthSave(true)
     }
@@ -124,10 +125,8 @@ function CalendarView(props) {
       start: moment(event.start).toDate(), // Convert to Date object
       end: moment(event.end).toDate(), // Convert to Date object
     };
-    if (currentView == "month") {
-        openMonthEvent();
-    }
-    setEventss([...eventss, newEvent]);
+      openMonthEvent();
+    setEventToAddTime(newEvent);
   };
   //end
   const minTime = moment().set("hour", 8).set("minute", 0).toDate();
@@ -167,7 +166,7 @@ function CalendarView(props) {
         <EventsAnchor state={EventAncorState} setState={setEventAncorState} />
       </Drawer>
           {openMonthSave && roomsLoaded ? (
-              <SaveMonthEvent rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} />
+              <SaveMonthEvent view={currentView}  rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} eventTime={eventToAddTime} />
       ) : (
         ""
       )}
