@@ -66,11 +66,18 @@ function CalendarView(props) {
                 (response) => {
                     if (response) {
                         response.json().then((result) => {
-                            //console.log(result.$values)
-                            setEventss(result.$values);
+                            console.log(result.$values)
+                            setEventss(result.$values.map(obj => ({
+    
+                                start: moment(obj.startTime).toDate(),
+                                end: moment(obj.endTime).toDate(),
+                                title: obj.title,
+                                description: obj.description,
+                                roomId: obj.roomId,
+                                aUserId: obj.aUserId,
+                            })));
                             setEventsLoaded(true)
                         });
-                        //console.log(rooms);
                     } else {
                         throw new Error(
                             "something went wrong loading the Rooms, try again later."
@@ -147,12 +154,17 @@ function CalendarView(props) {
   //slot
   const handleSlotSelect = (event) => {
     document.body.style.overflow = "hidden";
-    console.log(event.start);
+      console.log(event);
+
     const newEvent = {
       title: "New Event",
       start: moment(event.start).toDate(), // Convert to Date object
       end: moment(event.end).toDate(), // Convert to Date object
-    };
+      };
+      if (currentView == "month") {
+          newEvent.end = moment(newEvent.end).subtract("day", 1).toDate();
+      }
+      console.log(newEvent)
       openMonthEvent();
     setEventToAddTime(newEvent);
   };

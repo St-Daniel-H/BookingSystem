@@ -53,25 +53,20 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,set
     }
     //fix the format on submiton
     function replaceTimeInDate(originalMoment, newTime) {
+        console.log("originalMoment:" + originalMoment);
         let newDate = moment(originalMoment).format("YYYY-MM-DD h:mm:ss")
-
-        if (allDay) {
-            newDate = moment(originalMoment)
-                .startOf('day')
-                .format('yyyy-MM-ddTHH:mm:ss.fff')
-            return newDate;
-        }
-
-        const parsedTime1 = moment(newTime, 'h:mm A');
-        const formattedTime1 = parsedTime1.format('h:mm:ss');
-
-         newDate = moment(originalMoment)
-            .set('hour', parsedTime1.hours())
-            .set('minute', parsedTime1.minutes())
-            .set('second', parsedTime1.seconds())
-             .format('yyyy-MM-ddTHH:mm:ss.fff')
+        const parsedTime1 = moment(newTime, ["h:mm A"]).format("HH:mm");
+        const time = parsedTime1.split(":");
+        console.log("time: " + time[0])
+        newDate = moment(originalMoment)
+            .set('hour', time[0])
+            .set('minute', time[1])
+            .set('second', 0)
+            .format('YYYY-MM-DDTHH:mm:ss')
+        console.log(newDate);
         return newDate;
     }
+
 
     const [formData, setFormData] = useState({
         description: "",
@@ -84,27 +79,35 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,set
     });
   
   //save and cancel
-    function validateEventTimeSlots() {
+    function validateEventTimeSlots(start,end) {
+        console.log(formData.room.roomId)
         const array = events.filter((x) => x.roomId == formData.room.roomId);
-        return array.some(
-            (event) =>
-            ((formData.start >= event.start && formData.start < event.end) ||
-                (formData.end > event.start && formData.end <= event.end))
+        console.log(array);
+        const arr = array.some((event) =>
+            moment(start).isBetween(event.start, event.end) ||
+            moment(end).isBetween(event.start, event.end) ||
+            (moment(start).isSameOrBefore(event.start) && moment(end).isSameOrAfter(event.end))
         );
+        console.log(arr);
+        return arr;
     }
     async function saveEvent(event) {
         event.preventDefault();
         console.log(formData.start);
         console.log(eventTime)
-        const startTime = replaceTimeInDate(eventTime.start, formData.start);
-        let endTime = replaceTimeInDate(eventTime.end, formData.end);
+        let startTime;
+        let endTime;
         if (allDay) {
-            endTime = moment(endTime).add(1, 'day').format('yyyy-MM-ddTHH:mm:ss.fff');
+            startTime = moment(replaceTimeInDate(eventTime.start, "12:00 AM")).format('YYYY-MM-DDTHH:mm:ss');
+            endTime = moment(replaceTimeInDate(eventTime.end, "11:59 PM")).format('YYYY-MM-DDTHH:mm:ss');
+        } else {
+            startTime = moment(replaceTimeInDate(eventTime.start, formData.start)).format('YYYY-MM-DDTHH:mm:ss');
+            endTime = moment(replaceTimeInDate(eventTime.end, formData.end)).format('YYYY-MM-DDTHH:mm:ss');
         }
         console.log("start time " + startTime);
         console.log("end time " + endTime)
 
-        if (!validateEventTimeSlots()) {
+        if (!validateEventTimeSlots(startTime, endTime)) {
             console.log("good")
             //setEvents({start: formData.start,})
             console.log(user);
@@ -113,8 +116,8 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,set
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        start: startTime,
-                        end: endTime,
+                        "startTime": startTime,
+                        "endTime": endTime,
                         roomId: formData.room.roomId,
                         title: formData.title,
                         description: formData.description,
@@ -126,7 +129,7 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,set
                 );
                 if (response) {
                     console.log(response);
-                    //setEvents()
+                    setEvents([...events,])
                 } else {
                     const errorResponse = await response.json();
                     console.log("reservation failed:", errorResponse);
@@ -134,6 +137,8 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,set
             } catch (error) {
                 console.log(error)
             }
+        } else {
+            console.log("A meeting in the same room overlapping")
         }
     }
   useEffect(() => {
