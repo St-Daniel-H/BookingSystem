@@ -11,9 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import moment from "moment";
 
-function SaveMonthEvent({ state, setState, rooms, user,eventTime,view }) {
+function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,setEvents }) {
     const roomToPick = [...rooms];
-    console.log(eventTime)
 
     const [allDay, setAllDay] = useState(view == "month");
    function close() {
@@ -36,7 +35,6 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view }) {
   //end time slots
   //fix day/month/year format
     function monthFormat(time) {
-        console.log(time)
         const date = new Date(time)
         return moment(date).format('MM-DD-YYYY');
     }
@@ -53,7 +51,28 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view }) {
 
         return formattedTime;      
     }
-    
+    //fix the format on submiton
+    function replaceTimeInDate(originalMoment, newTime) {
+        let newDate = moment(originalMoment).format("YYYY-MM-DD h:mm:ss")
+
+        if (allDay) {
+            newDate = moment(originalMoment)
+                .startOf('day')
+                .format('yyyy-MM-ddTHH:mm:ss.fff')
+            return newDate;
+        }
+
+        const parsedTime1 = moment(newTime, 'h:mm A');
+        const formattedTime1 = parsedTime1.format('h:mm:ss');
+
+         newDate = moment(originalMoment)
+            .set('hour', parsedTime1.hours())
+            .set('minute', parsedTime1.minutes())
+            .set('second', parsedTime1.seconds())
+             .format('yyyy-MM-ddTHH:mm:ss.fff')
+        return newDate;
+    }
+
     const [formData, setFormData] = useState({
         description: "",
         start: timeFormat(eventTime.start),
@@ -62,7 +81,61 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view }) {
     title: "",
     NumberOfAttendees: 0,
     MeetingStatus: true,
-  });
+    });
+  
+  //save and cancel
+    function validateEventTimeSlots() {
+        const array = events.filter((x) => x.roomId == formData.room.roomId);
+        return array.some(
+            (event) =>
+            ((formData.start >= event.start && formData.start < event.end) ||
+                (formData.end > event.start && formData.end <= event.end))
+        );
+    }
+    async function saveEvent(event) {
+        event.preventDefault();
+        console.log(formData.start);
+        console.log(eventTime)
+        const startTime = replaceTimeInDate(eventTime.start, formData.start);
+        let endTime = replaceTimeInDate(eventTime.end, formData.end);
+        if (allDay) {
+            endTime = moment(endTime).add(1, 'day').format('yyyy-MM-ddTHH:mm:ss.fff');
+        }
+        console.log("start time " + startTime);
+        console.log("end time " + endTime)
+
+        if (!validateEventTimeSlots()) {
+            console.log("good")
+            //setEvents({start: formData.start,})
+            console.log(user);
+            try {
+                const response = await fetch(APIs.apiLink + "/api/Reservation", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        start: startTime,
+                        end: endTime,
+                        roomId: formData.room.roomId,
+                        title: formData.title,
+                        description: formData.description,
+                        numberOfAttendees: formData.NumberOfAttendees,
+                        aUserId: user.id
+                    })
+                }
+
+                );
+                if (response) {
+                    console.log(response);
+                    //setEvents()
+                } else {
+                    const errorResponse = await response.json();
+                    console.log("reservation failed:", errorResponse);
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
   useEffect(() => {
     validateEnd();
   }, [formData.start]);
@@ -73,7 +146,7 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view }) {
           <h2>Event Details</h2>
           <button onClick={close}>X</button>
         </div>
-        <form>
+              <form onSubmit={saveEvent}>
           <TextField
             className="input"
             sx={{
@@ -251,12 +324,12 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view }) {
                       }
                       value={formData.NumberOfAttendees}
                   />
+                  
                   <div id="buttonContainer">
                       <button id="cancelButton">Cancel</button>
-                      <button id="saveButton">Save</button></div>
-                  
+                      <button id="saveButton" type="submit">Save</button></div>
               </form>
-       
+             
       </div>
         </div>
     ) : "";

@@ -53,7 +53,7 @@ namespace calenderAPI.Controllers
             var validationResult = await validator.ValidateAsync(saveReservationResource);
 
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+                return BadRequest(validationResult.Errors); 
 
             var ReservationToCreate = _mapper.Map<SaveReservationResource, Reservation>(saveReservationResource);
 
@@ -109,12 +109,9 @@ namespace calenderAPI.Controllers
         }
         [HttpGet("/reservation/{companyId}")]//get rooms related to a company
         public async Task<ActionResult<IEnumerable<Reservation>>> GetReservationsByCompanyId(int companyId)
-        {
-            
+        { 
             var reservations = await _ReservationService.GetReservationsByCompanyId(companyId);
             return Ok(reservations);
-
-
         }
     }
 }

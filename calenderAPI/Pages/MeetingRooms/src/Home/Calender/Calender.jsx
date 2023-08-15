@@ -52,46 +52,74 @@ function CalendarView(props) {
         if (!roomsLoaded) {
             getAllRoomsWithCompanyId()
         }
+        if (!eventsLoaded) {
+            getAllEvents();
+        }
     })
   //events
-  const [eventss, setEventss] = useState([
-    {
-      title: "hey",
-      description: "room321",
-      start: new Date(2023, 7, 14, 10, 0),
-      end: new Date(2023, 7, 14, 12, 0),
-    },
-    {
-      title: "hey",
-      description: "room321",
-      start: new Date(2023, 7, 14, 10, 0),
-      end: new Date(2023, 7, 14, 12, 0),
-    },
-    {
-      title: "hey",
-      description: "room321",
-      start: new Date(2023, 7, 14, 10, 0),
-      end: new Date(2023, 7, 14, 12, 0),
-    },
-    {
-      title: "hey",
-      description: "room321",
-      start: new Date(2023, 7, 14, 10, 0),
-      end: new Date(2023, 7, 14, 12, 0),
-    },
-    {
-      title: "hey",
-      description: "room321",
-      start: new Date(2023, 7, 14, 10, 0),
-      end: new Date(2023, 7, 14, 12, 0),
-    },
-    {
-      title: "hey",
-      description: "room321",
-      start: new Date(2023, 7, 14, 10, 0),
-      end: new Date(2023, 7, 14, 12, 0),
-    },
-  ]);
+  //getEvents
+    const [eventsLoaded, setEventsLoaded] = useState(false);
+    const [eventss, setEventss] = useState([]);
+    async function getAllEvents() {
+        try {
+            const events = await fetch(APIs.apiLink + "/reservation/" + user.companyId).then(
+                (response) => {
+                    if (response) {
+                        response.json().then((result) => {
+                            //console.log(result.$values)
+                            setEventss(result.$values);
+                            setEventsLoaded(true)
+                        });
+                        //console.log(rooms);
+                    } else {
+                        throw new Error(
+                            "something went wrong loading the Rooms, try again later."
+                        );
+                    }
+                }
+            )
+        } catch (error) {
+            console.log(error);
+        }
+    }
+  
+  //  {
+  //    title: "hey",
+  //    description: "room321",
+  //    start: new Date(2023, 7, 14, 10, 0),
+  //    end: new Date(2023, 7, 14, 12, 0),
+  //  },
+  //  {
+  //    title: "hey",
+  //    description: "room321",
+  //    start: new Date(2023, 7, 14, 10, 0),
+  //    end: new Date(2023, 7, 14, 12, 0),
+  //  },
+  //  {
+  //    title: "hey",
+  //    description: "room321",
+  //    start: new Date(2023, 7, 14, 10, 0),
+  //    end: new Date(2023, 7, 14, 12, 0),
+  //  },
+  //  {
+  //    title: "hey",
+  //    description: "room321",
+  //    start: new Date(2023, 7, 14, 10, 0),
+  //    end: new Date(2023, 7, 14, 12, 0),
+  //  },
+  //  {
+  //    title: "hey",
+  //    description: "room321",
+  //    start: new Date(2023, 7, 14, 10, 0),
+  //    end: new Date(2023, 7, 14, 12, 0),
+  //  },
+  //  {
+  //    title: "hey",
+  //    description: "room321",
+  //    start: new Date(2023, 7, 14, 10, 0),
+  //    end: new Date(2023, 7, 14, 12, 0),
+  //  },
+  //]);
   //end of events
   //events drawer
   const [EventAncorState, setEventAncorState] = useState({
@@ -165,8 +193,8 @@ function CalendarView(props) {
       >
         <EventsAnchor state={EventAncorState} setState={setEventAncorState} />
       </Drawer>
-          {openMonthSave && roomsLoaded ? (
-              <SaveMonthEvent view={currentView}  rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} eventTime={eventToAddTime} />
+          {openMonthSave && roomsLoaded && eventsLoaded ? (
+              <SaveMonthEvent view={currentView} events={eventss} setEvents={setEventss}  rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} eventTime={eventToAddTime} />
       ) : (
         ""
       )}
