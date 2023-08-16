@@ -10,15 +10,37 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import moment from "moment";
+import { useSnackbar } from "notistack";
 
-function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,setEvents }) {
+function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,view,events,setEvents }) {
     const roomToPick = [...rooms];
-
+    console.log(eventTime);
     const [allDay, setAllDay] = useState(view == "month");
    function close() {
     setState(false);
     document.body.style.overflow = "unset";
-  }
+    }
+  //snack bars
+    const { enqueueSnackbar } = useSnackbar();
+    function handleSnackBar(error) {
+        enqueueSnackbar(error, {
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "right",
+            },
+            variant: "error",
+        });
+    }
+    function handleSnackBarSuccess(success) {
+        enqueueSnackbar(success, {
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "right",
+            },
+            variant: "success",
+        });
+    }
+    //end of snackbars
   //time slots
   function endFilter() {
     const end = timeSlots.slice(timeSlots.indexOf(formData.start) + 1);
@@ -93,13 +115,22 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,set
     }
     async function saveEvent(event) {
         event.preventDefault();
-        console.log(formData.start);
-        console.log(eventTime)
+        if (formData.title == "" || formData.description == "" || formData.NumberOfAttendees == 0) {
+            console.log("fill all the information");
+            handleSnackBar("fill all the information")
+            return;
+        }
         let startTime;
         let endTime;
         if (allDay) {
-            startTime = moment(replaceTimeInDate(eventTime.start, "12:00 AM")).format('YYYY-MM-DDTHH:mm:ss');
-            endTime = moment(replaceTimeInDate(eventTime.end, "11:59 PM")).format('YYYY-MM-DDTHH:mm:ss');
+            if (moment(eventTime.start).isSame(moment((eventTime.end, 'day')))) {
+                startTime = moment(replaceTimeInDate(eventTime.start, "12:00 AM")).format('YYYY-MM-DDTHH:mm:ss');
+                endTime = moment(replaceTimeInDate(eventTime.end, "12:00 AM")).format('YYYY-MM-DDTHH:mm:ss');
+            } else {
+                startTime = moment(replaceTimeInDate(eventTime.start, "12:00 AM")).format('YYYY-MM-DDTHH:mm:ss');
+                endTime = moment(replaceTimeInDate(eventTime.end, "12:00 AM")).add("day",1).format('YYYY-MM-DDTHH:mm:ss');
+            }
+        
         } else {
             startTime = moment(replaceTimeInDate(eventTime.start, formData.start)).format('YYYY-MM-DDTHH:mm:ss');
             endTime = moment(replaceTimeInDate(eventTime.end, formData.end)).format('YYYY-MM-DDTHH:mm:ss');
@@ -127,23 +158,39 @@ function SaveMonthEvent({ state, setState, rooms, user,eventTime,view,events,set
                 }
 
                 );
-                if (response) {
-                    console.log(response);
-                    setEvents([...events,])
+                if (response.ok) {
+                    response.json().then(data => {
+                        setEvents([...events, {
+                            start: moment(data.startTime).toDate(),
+                            end: moment(data.endTime).toDate(),
+                            title: data.title,
+                            description: data.description,
+                            roomId: data.roomId,
+                            aUserId: data.aUserId,
+                        }]);
+                    }).catch(error => {
+                        console.error('Error parsing response JSON:', error);
+                    });
+                    handleSnackBarSuccess("Meeting added!")
                 } else {
                     const errorResponse = await response.json();
                     console.log("reservation failed:", errorResponse);
+                    handleSnackBar(errorResponse.$values[0].errorMessage);
+                    throw new Error(errorResponse.$values[0]);
                 }
             } catch (error) {
                 console.log(error)
+                handleSnackBar(error)
             }
         } else {
             console.log("A meeting in the same room overlapping")
+            handleSnackBar("A meeting in the same room overlapping")
         }
     }
-  useEffect(() => {
-    validateEnd();
-  }, [formData.start]);
+    useEffect(() => {
+
+      validateEnd();
+  }, [formData.start],eventTime.end);
   return state ?  (
     <div id="SaveMonthEvent">
       <div id="SaveMonthContainer">

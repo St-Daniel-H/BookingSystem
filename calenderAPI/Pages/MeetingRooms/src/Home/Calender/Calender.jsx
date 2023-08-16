@@ -49,6 +49,7 @@ function CalendarView(props) {
         }
     }
     useEffect(() => {
+        console.log(eventss)
         if (!roomsLoaded) {
             getAllRoomsWithCompanyId()
         }
@@ -134,7 +135,8 @@ function CalendarView(props) {
   });
   const anchor = "right";
 
-  const toggleDrawer = (anchor, open) => (event) => {
+    const toggleDrawer = (anchor, open) => (event) => {
+      console.log(eventss)
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -154,8 +156,6 @@ function CalendarView(props) {
   //slot
   const handleSlotSelect = (event) => {
     document.body.style.overflow = "hidden";
-      console.log(event);
-
     const newEvent = {
       title: "New Event",
       start: moment(event.start).toDate(), // Convert to Date object
@@ -163,6 +163,11 @@ function CalendarView(props) {
       };
       if (currentView == "month") {
           newEvent.end = moment(newEvent.end).subtract("day", 1).toDate();
+      } else if((currentView === "week" || currentView === "day") && !moment(newEvent.start).isSame(moment(newEvent.end), 'day')) {
+          console.log(moment(newEvent.start).isSame(moment(newEvent.end), 'day'));
+          console.log(newEvent.start);
+          console.log(newEvent.end);
+          newEvent.end = moment(newEvent.end).subtract(1, 'day').toDate();
       }
       console.log(newEvent)
       openMonthEvent();
@@ -206,7 +211,7 @@ function CalendarView(props) {
         <EventsAnchor state={EventAncorState} setState={setEventAncorState} />
       </Drawer>
           {openMonthSave && roomsLoaded && eventsLoaded ? (
-              <SaveMonthEvent view={currentView} events={eventss} setEvents={setEventss}  rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} eventTime={eventToAddTime} />
+              <SaveMonthEvent view={currentView} events={eventss} setEvents={setEventss} rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} setEventTime={setEventToAddTime} eventTime={eventToAddTime} />
       ) : (
         ""
       )}
