@@ -95,5 +95,6 @@ const timeSlots = [
   "11:15 PM",
   "11:30 PM",
   "11:45 PM",
+  "11:59 PM"
 ];
 export default timeSlots;

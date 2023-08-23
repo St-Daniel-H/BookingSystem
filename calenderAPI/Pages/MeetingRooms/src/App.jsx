@@ -19,7 +19,7 @@ function App() {
         <Route path="/test" element={<MessageButtons />} />
         {/* <Home /> */}
               <Route path="/Calender" element={<CalendarView />} />
-
+                <Route path="*" element={<h1>Error 404 </h1>} />
               <Route path="/Home" element={<Home />}>
                   <Route index element={<h2>Welcome to Home!</h2>} />
                   <Route path="/Home/Calender" element={<CalendarView />} />

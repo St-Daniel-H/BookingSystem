@@ -10,11 +10,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import moment from "moment";
+import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from "notistack";
 
 function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,view,events,setEvents }) {
     const roomToPick = [...rooms];
-    console.log(eventTime);
     const [allDay, setAllDay] = useState(view == "month");
    function close() {
     setState(false);
@@ -85,7 +85,6 @@ function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,
             .set('minute', time[1])
             .set('second', 0)
             .format('YYYY-MM-DDTHH:mm:ss')
-        console.log(newDate);
         return newDate;
     }
 
@@ -101,6 +100,7 @@ function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,
     });
   
   //save and cancel
+    const [loading, setLoading] = useState(false);
     function validateEventTimeSlots(start,end) {
         console.log(formData.room.roomId)
         const array = events.filter((x) => x.roomId == formData.room.roomId);
@@ -110,14 +110,15 @@ function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,
             moment(end).isBetween(event.start, event.end) ||
             (moment(start).isSameOrBefore(event.start) && moment(end).isSameOrAfter(event.end))
         );
-        console.log(arr);
         return arr;
     }
     async function saveEvent(event) {
+        setLoading(true);
         event.preventDefault();
         if (formData.title == "" || formData.description == "" || formData.NumberOfAttendees == 0) {
             console.log("fill all the information");
             handleSnackBar("fill all the information")
+            setLoading(false);
             return;
         }
         let startTime;
@@ -172,6 +173,7 @@ function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,
                         console.error('Error parsing response JSON:', error);
                     });
                     handleSnackBarSuccess("Meeting added!")
+                    close();
                 } else {
                     const errorResponse = await response.json();
                     console.log("reservation failed:", errorResponse);
@@ -179,6 +181,7 @@ function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,
                     throw new Error(errorResponse.$values[0]);
                 }
             } catch (error) {
+                setLoading(false);
                 console.log(error)
                 handleSnackBar(error)
             }
@@ -186,13 +189,17 @@ function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,
             console.log("A meeting in the same room overlapping")
             handleSnackBar("A meeting in the same room overlapping")
         }
+        setLoading(false);
+        
     }
     useEffect(() => {
 
       validateEnd();
   }, [formData.start],eventTime.end);
-  return state ?  (
-    <div id="SaveMonthEvent">
+    return state ? (
+
+      <div id="SaveMonthEvent">
+            <div id="background-color">              </div>
       <div id="SaveMonthContainer">
         <div id="saveMonthTitle">
           <h2>Event Details</h2>
@@ -378,10 +385,11 @@ function SaveMonthEvent({ state, setState, rooms, user, eventTime, setEventTime,
                   />
                   
                   <div id="buttonContainer">
-                      <button id="cancelButton">Cancel</button>
-                      <button id="saveButton" type="submit">Save</button></div>
+                      <button id="cancelButton" onClick={close}>Cancel</button>
+                      {!loading ? <button id="saveButton" type="submit">Save</button> : <CircularProgress />
+}
+                      </div>
               </form>
-             
       </div>
         </div>
     ) : "";

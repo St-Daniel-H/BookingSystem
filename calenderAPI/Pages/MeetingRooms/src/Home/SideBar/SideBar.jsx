@@ -92,23 +92,36 @@ function SideBar(props) {
       <Toolbar />
       <Divider />
       <List>
-        {["Rooms", "Reservation", "Calender", "Employees"].map(
-          (text, index) => (
-            <ListItem key={text} disablePadding className="links">
-              <ListItemButton href={`/Home/${text}`}>
+        {/*{["Rooms", "Calender", "Employees"]*/}
+            <ListItem  disablePadding className="links">
+              <ListItemButton href={`/Home/Rooms`}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                   <InboxIcon /> 
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary="Rooms" />
               </ListItemButton>
-            </ListItem>
-          )
-        )}
+              </ListItem>
+              <ListItem  disablePadding className="links">
+                  <ListItemButton href={`/Home/Employees`}>
+                      <ListItemIcon>
+                         <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Employees" />
+                  </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding className="links">
+                  <ListItemButton href={`/Home/Calender`}>
+                      <ListItemIcon>
+                          <MailIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Calendar" />
+                  </ListItemButton>
+              </ListItem>
       </List>
       <div id="signout">
         <Divider />
         <ListItem disablePadding className="links">
-          <ListItemButton href="login">
+          <ListItemButton href="../Login">
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>

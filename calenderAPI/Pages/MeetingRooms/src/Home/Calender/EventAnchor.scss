@@ -1,0 +1,179 @@
+@import '../../scss/variables';
+
+#eventDetails {
+    width: 250px;
+    height: 100vh;
+    word-break: break-word;
+    position: relative;
+
+    .css-h4y409-MuiList-root {
+        padding: 0;
+    }
+
+    #events {
+        height: 100%;
+        background-color: $primary-color;
+        color: white;
+    }
+
+    #eventRoom {
+        margin-top: 20px;
+    }
+
+    #updateDelete {
+        height: 100px;
+
+        @keyframes changeShapeUpdate {
+            0% {
+                clip-path: polygon(0% 100.3%, 100% 100%, 0% 0%);
+                -webkit-box-shadow: 3px 3px 13.5px -16px #0003ff;
+                -moz-box-shadow: 3px 3px 13.5px -16px #0003ff;
+                box-shadow: 3px 3px 13.5px -16px #0003ff;
+            }
+
+            25% {
+                clip-path: polygon(0% 0%, 11.8% 0%, 100% 100%, 0% 100%);
+                -webkit-box-shadow: 3px 3px 13.5px -5px #0003ff;
+                -moz-box-shadow: 3px 3px 13.5px -5px #0003ff;
+                box-shadow: 3px 3px 13.5px -5px #0003ff;
+            }
+
+            50% {
+                clip-path: polygon(0% 0%, 40.1% 0%, 100% 100%, 0% 100%);
+                -webkit-box-shadow: 3px 3px 13.5px -1px #0003ff;
+                -moz-box-shadow: 3px 3px 13.5px -1px #0003ff;
+                box-shadow: 3px 3px 13.5px -1px #0003ff;
+            }
+
+            75% {
+                clip-path: polygon(0% 0%, 67.6% 0%, 100% 100%, 0% 100%);
+                -webkit-box-shadow: 3px 3px 13.5px 1px #0003ff;
+                -moz-box-shadow: 3px 3px 13.5px 1px #0003ff;
+                box-shadow: 3px 3px 13.5px 1px #0003ff;
+            }
+
+            100% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100.1% 100.3%, 0% 100.3%);
+                -webkit-box-shadow: 3px 3px 13.5px 3.5px #0003ff;
+                -moz-box-shadow: 3px 3px 13.5px 3.5px #0003ff;
+                box-shadow: 3px 3px 13.5px 3.5px #0003ff;
+            }
+        }
+
+        @keyframes changeShapeDelete {
+            0% {
+                clip-path: polygon(100.1% 0%, 100% 100%, 0% 0%);
+                text-align: end;
+            }
+
+            10% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 90% 100%);
+            }
+
+            20% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 80% 100%);
+            }
+
+            30% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 70% 100%);
+            }
+
+            40% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 60% 100%);
+            }
+
+            50% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 50% 100%);
+            }
+
+            60% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 40% 100%);
+            }
+
+            70% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 30% 100%);
+            }
+
+            80% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 20% 100%);
+            }
+
+            90% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100% 100%, 10% 100%);
+                text-align: center;
+            }
+
+            100% {
+                clip-path: polygon(0% 0%, 100.1% 0%, 100.1% 100.3%, 0% 100.3%);
+                text-align: center;
+            }
+        }
+
+
+        #updateDeleteContainer {
+            display: flex;
+            align-content: center;
+            width: 120px;
+            position: relative;
+            //-webkit-box-shadow: 3px 3px 13.5px 0.5px #3b3b3b;
+            //-moz-box-shadow: 3px 3px 13.5px 0.5px #3b3b3b;
+            //box-shadow: 3px 3px 13.5px 0.5px #3b3b3b;
+            height: 55px;
+            margin: 0;
+            padding: 0;
+
+            #updateButton {
+                clip-path: polygon(0% 100.3%, 100% 100%, 0% 0%);
+                border: 2px solid $primary-color;
+                width: 120px;
+                height: 100%;
+                text-align: start;
+                padding: 2px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-color: $primary-color;
+                cursor: pointer;
+                color: white;
+                transition: 1s;
+                box-shadow: 3px 3px 10px 3px rgba(30, 0, 255, 0.5);
+
+
+                &:hover {
+                    animation: changeShapeUpdate 0.3s forwards;
+                    z-index: 2;
+                    text-align: center;
+                }
+            }
+
+            #deleteButton {
+                clip-path: polygon(100.1% 0%, 100% 100%, 0% 0%);
+                border: 2px solid red;
+                text-align: end;
+                padding: 2px;
+                height: 100%;
+                width: 120px;
+                position: absolute;
+                top: 0;
+                right: 0;
+                background-color: red;
+                cursor: pointer;
+                transition: 1s;
+
+                &:hover {
+                    animation: changeShapeDelete 0.3s forwards; /* Apply the animation */
+                    z-index: 2;
+                }
+            }
+        }
+    }
+
+    #reservedBy {
+        position: relative;
+        padding: 10px;
+        //background-color: $primary-color;
+        margin-top: auto; /* Push "Reserved By" to the bottom */
+        font-family: italic;
+    }
+}
+

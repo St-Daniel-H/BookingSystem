@@ -105,7 +105,7 @@ function Signup() {
         lastName: userData.lastName,
         email: userData.email,
         password: userData.password,
-        role: "Admin",
+        role: "Owner",
         companyId: companyId,
       };
       const response = await fetch(APIs.apiLink + "/api/Auth/signup", {

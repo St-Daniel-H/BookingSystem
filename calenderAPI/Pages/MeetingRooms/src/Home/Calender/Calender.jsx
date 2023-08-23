@@ -49,7 +49,6 @@ function CalendarView(props) {
         }
     }
     useEffect(() => {
-        console.log(eventss)
         if (!roomsLoaded) {
             getAllRoomsWithCompanyId()
         }
@@ -67,7 +66,6 @@ function CalendarView(props) {
                 (response) => {
                     if (response) {
                         response.json().then((result) => {
-                            console.log(result.$values)
                             setEventss(result.$values.map(obj => ({
     
                                 start: moment(obj.startTime).toDate(),
@@ -90,53 +88,24 @@ function CalendarView(props) {
             console.log(error);
         }
     }
-  
-  //  {
-  //    title: "hey",
-  //    description: "room321",
-  //    start: new Date(2023, 7, 14, 10, 0),
-  //    end: new Date(2023, 7, 14, 12, 0),
-  //  },
-  //  {
-  //    title: "hey",
-  //    description: "room321",
-  //    start: new Date(2023, 7, 14, 10, 0),
-  //    end: new Date(2023, 7, 14, 12, 0),
-  //  },
-  //  {
-  //    title: "hey",
-  //    description: "room321",
-  //    start: new Date(2023, 7, 14, 10, 0),
-  //    end: new Date(2023, 7, 14, 12, 0),
-  //  },
-  //  {
-  //    title: "hey",
-  //    description: "room321",
-  //    start: new Date(2023, 7, 14, 10, 0),
-  //    end: new Date(2023, 7, 14, 12, 0),
-  //  },
-  //  {
-  //    title: "hey",
-  //    description: "room321",
-  //    start: new Date(2023, 7, 14, 10, 0),
-  //    end: new Date(2023, 7, 14, 12, 0),
-  //  },
-  //  {
-  //    title: "hey",
-  //    description: "room321",
-  //    start: new Date(2023, 7, 14, 10, 0),
-  //    end: new Date(2023, 7, 14, 12, 0),
-  //  },
-  //]);
   //end of events
   //events drawer
+    const [eventDrawerInfo, setEventDrawerInfo] = useState({
+        title: "Title",
+        description: "Description",
+        start: "",
+        end: "",
+        room: "Room",
+        user: "Name",
+
+    })
   const [EventAncorState, setEventAncorState] = useState({
     right: false,
   });
   const anchor = "right";
-
+    
     const toggleDrawer = (anchor, open) => (event) => {
-      console.log(eventss)
+      console.log(event)
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -153,8 +122,10 @@ function CalendarView(props) {
     async function openMonthEvent() {
         setOpenMonthSave(true)
     }
-  //slot
-  const handleSlotSelect = (event) => {
+  //slot (chosing time)
+    const handleSlotSelect = (event) => {
+        const today = moment();
+        if (moment(event.start).isBefore(today, 'day')) return;
     document.body.style.overflow = "hidden";
     const newEvent = {
       title: "New Event",
@@ -164,9 +135,6 @@ function CalendarView(props) {
       if (currentView == "month") {
           newEvent.end = moment(newEvent.end).subtract("day", 1).toDate();
       } else if((currentView === "week" || currentView === "day") && !moment(newEvent.start).isSame(moment(newEvent.end), 'day')) {
-          console.log(moment(newEvent.start).isSame(moment(newEvent.end), 'day'));
-          console.log(newEvent.start);
-          console.log(newEvent.end);
           newEvent.end = moment(newEvent.end).subtract(1, 'day').toDate();
       }
       console.log(newEvent)
@@ -192,7 +160,16 @@ function CalendarView(props) {
         tooltipAccessor="description"
         //min={minTime}
         //max={maxTime}
-        onSelectEvent={(event) => {
+              onSelectEvent={(event) => {
+            console.log(event)
+            setEventDrawerInfo({
+                title: event.title,
+                description: event.description,
+                room: event.roomId,
+                user: event.aUserId,
+                start: event.start,
+                end:event.end,
+            })
           setEventAncorState({ right: true });
           console.log(EventAncorState);
         }}
@@ -208,7 +185,7 @@ function CalendarView(props) {
         open={EventAncorState[anchor]}
         onClose={toggleDrawer(anchor, false)}
       >
-        <EventsAnchor state={EventAncorState} setState={setEventAncorState} />
+              <EventsAnchor user={user}  state={EventAncorState} setState={setEventAncorState} info={eventDrawerInfo} />
       </Drawer>
           {openMonthSave && roomsLoaded && eventsLoaded ? (
               <SaveMonthEvent view={currentView} events={eventss} setEvents={setEventss} rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} setEventTime={setEventToAddTime} eventTime={eventToAddTime} />

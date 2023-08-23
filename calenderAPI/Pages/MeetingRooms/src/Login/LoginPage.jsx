@@ -49,8 +49,6 @@ function Login() {
       });
       if (response.ok) {
         const data = await response.text();
-        console.log(data);
-        alert(data);
         localStorage.setItem("token", data);
         navigateTo("/Home/Rooms");
       } else {
