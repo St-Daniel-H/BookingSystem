@@ -16,8 +16,7 @@ import { useSnackbar } from "notistack";
 import "./EventAnchor.scss"
 import Box from "@mui/material/Box";
 
-export default function EventsAnchor({ state, setState, info }) {
-
+export default function EventsAnchor({ state, setState, info, updateState, setUpdateState, setEventTime, updatingEvent, setUpdatingEvent }) {
     //snack bars
     const { enqueueSnackbar } = useSnackbar();
     function handleSnackBar(error) {
@@ -93,6 +92,12 @@ export default function EventsAnchor({ state, setState, info }) {
         getUserById();
         getRoomById();
     })
+    //update POPUP
+    function popupUpdate() {
+        setUpdatingEvent(true);
+        setEventTime(info);
+        setUpdateState(true);
+    }
   const list = (anchor) => (
       <Box
       id="eventDetails"
@@ -143,7 +148,7 @@ export default function EventsAnchor({ state, setState, info }) {
           <List>
               <ListItem id="updateDelete">
                   <div id="updateDeleteContainer">
-                      <button id="updateButton"><b>Update</b></button>
+                      <button id="updateButton" onClick={popupUpdate}><b>Update</b></button>
                       <button id="deleteButton"><b>Delete</b></button>
                   </div>
 

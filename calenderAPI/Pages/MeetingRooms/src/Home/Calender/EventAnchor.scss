@@ -26,37 +26,22 @@
         @keyframes changeShapeUpdate {
             0% {
                 clip-path: polygon(0% 100.3%, 100% 100%, 0% 0%);
-                -webkit-box-shadow: 3px 3px 13.5px -16px #0003ff;
-                -moz-box-shadow: 3px 3px 13.5px -16px #0003ff;
-                box-shadow: 3px 3px 13.5px -16px #0003ff;
             }
 
             25% {
                 clip-path: polygon(0% 0%, 11.8% 0%, 100% 100%, 0% 100%);
-                -webkit-box-shadow: 3px 3px 13.5px -5px #0003ff;
-                -moz-box-shadow: 3px 3px 13.5px -5px #0003ff;
-                box-shadow: 3px 3px 13.5px -5px #0003ff;
             }
 
             50% {
                 clip-path: polygon(0% 0%, 40.1% 0%, 100% 100%, 0% 100%);
-                -webkit-box-shadow: 3px 3px 13.5px -1px #0003ff;
-                -moz-box-shadow: 3px 3px 13.5px -1px #0003ff;
-                box-shadow: 3px 3px 13.5px -1px #0003ff;
             }
 
             75% {
                 clip-path: polygon(0% 0%, 67.6% 0%, 100% 100%, 0% 100%);
-                -webkit-box-shadow: 3px 3px 13.5px 1px #0003ff;
-                -moz-box-shadow: 3px 3px 13.5px 1px #0003ff;
-                box-shadow: 3px 3px 13.5px 1px #0003ff;
             }
 
             100% {
                 clip-path: polygon(0% 0%, 100.1% 0%, 100.1% 100.3%, 0% 100.3%);
-                -webkit-box-shadow: 3px 3px 13.5px 3.5px #0003ff;
-                -moz-box-shadow: 3px 3px 13.5px 3.5px #0003ff;
-                box-shadow: 3px 3px 13.5px 3.5px #0003ff;
             }
         }
 
@@ -138,11 +123,22 @@
                 transition: 1s;
                 box-shadow: 3px 3px 10px 3px rgba(30, 0, 255, 0.5);
 
+                b {
+                    position: absolute;
+                    left: 2px;
+                    transition: 0.5s;
+                    width: 50px;
+                    top: 50%;
+                }
 
                 &:hover {
                     animation: changeShapeUpdate 0.3s forwards;
                     z-index: 2;
-                    text-align: center;
+
+                    b {
+                        left: 30%;
+                        top: 40%;
+                    }
                 }
             }
 
@@ -160,9 +156,22 @@
                 cursor: pointer;
                 transition: 1s;
 
+                b {
+                    position: absolute;
+                    right: 2px;
+                    transition: 0.5s;
+                    width: 50px;
+                    top: 30%;
+                }
+
                 &:hover {
                     animation: changeShapeDelete 0.3s forwards; /* Apply the animation */
                     z-index: 2;
+
+                    b {
+                        right: 30%;
+                        top: 40%;
+                    }
                 }
             }
         }

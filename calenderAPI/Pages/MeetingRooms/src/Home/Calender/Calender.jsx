@@ -74,9 +74,12 @@ function CalendarView(props) {
                                 description: obj.description,
                                 roomId: obj.roomId,
                                 aUserId: obj.aUserId,
+                                reservationId: obj.reservationId
+,
                             })));
                             setEventsLoaded(true)
                         });
+                       
                     } else {
                         throw new Error(
                             "something went wrong loading the Rooms, try again later."
@@ -97,6 +100,7 @@ function CalendarView(props) {
         end: "",
         room: "Room",
         user: "Name",
+        reservationId:"id"
 
     })
   const [EventAncorState, setEventAncorState] = useState({
@@ -105,7 +109,7 @@ function CalendarView(props) {
   const anchor = "right";
     
     const toggleDrawer = (anchor, open) => (event) => {
-      console.log(event)
+      
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -128,7 +132,9 @@ function CalendarView(props) {
         if (moment(event.start).isBefore(today, 'day')) return;
     document.body.style.overflow = "hidden";
     const newEvent = {
-      title: "New Event",
+        title: "New Event",
+        description: "",
+        NumberOfAttendees:0,
       start: moment(event.start).toDate(), // Convert to Date object
       end: moment(event.end).toDate(), // Convert to Date object
       };
@@ -137,7 +143,6 @@ function CalendarView(props) {
       } else if((currentView === "week" || currentView === "day") && !moment(newEvent.start).isSame(moment(newEvent.end), 'day')) {
           newEvent.end = moment(newEvent.end).subtract(1, 'day').toDate();
       }
-      console.log(newEvent)
       openMonthEvent();
     setEventToAddTime(newEvent);
   };
@@ -146,7 +151,10 @@ function CalendarView(props) {
   const maxTime = moment().set("hour", 20).set("minute", 0).toDate();
   const handleViewChange = (view) => {
     setCurrentView(view);
-  };
+    };
+  //for updating events
+    const [updatingEvent, setUpdatingEvent] = useState(false);
+    const [reservationToUpdate, setReservationToUpdate] = useState("");
   return (
     <div style={{ height: 700 }}>
       <Calendar
@@ -161,17 +169,18 @@ function CalendarView(props) {
         //min={minTime}
         //max={maxTime}
               onSelectEvent={(event) => {
-            console.log(event)
             setEventDrawerInfo({
                 title: event.title,
                 description: event.description,
                 room: event.roomId,
                 user: event.aUserId,
                 start: event.start,
-                end:event.end,
+                end: event.end,
+                reservationId: event.reservationId,
+
             })
+                  setReservationToUpdate(event.reservationId);
           setEventAncorState({ right: true });
-          console.log(EventAncorState);
         }}
         longpressthreshold={10}
         selectable={true} // Enable selection of slots
@@ -185,10 +194,10 @@ function CalendarView(props) {
         open={EventAncorState[anchor]}
         onClose={toggleDrawer(anchor, false)}
       >
-              <EventsAnchor user={user}  state={EventAncorState} setState={setEventAncorState} info={eventDrawerInfo} />
+              <EventsAnchor updatingEvent={updatingEvent} setUpdatingEvent={setUpdatingEvent} setEventTime={setEventToAddTime} eventTime={eventToAddTime} user={user} state={EventAncorState} setState={setEventAncorState} info={eventDrawerInfo} updateState={openMonthSave} setUpdateState={setOpenMonthSave} />
       </Drawer>
           {openMonthSave && roomsLoaded && eventsLoaded ? (
-              <SaveMonthEvent view={currentView} events={eventss} setEvents={setEventss} rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} setEventTime={setEventToAddTime} eventTime={eventToAddTime} />
+              <SaveMonthEvent reservationToUpdate={reservationToUpdate} setReservationToUpdate={setReservationToUpdate} updatingEvent={updatingEvent} setUpdatingEvent={setUpdatingEvent}  view={currentView} events={eventss} setEvents={setEventss} rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} setEventTime={setEventToAddTime} eventTime={eventToAddTime} />
       ) : (
         ""
       )}

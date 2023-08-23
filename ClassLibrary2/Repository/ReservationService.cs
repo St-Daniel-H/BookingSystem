@@ -43,6 +43,12 @@ namespace BookingSystem.Services.Repository
         public async Task UpdateReservation(Reservation ReservationToBeUpdated, Reservation Reservation)
         {
             ReservationToBeUpdated.StartTime = Reservation.StartTime;
+            ReservationToBeUpdated.EndTime = Reservation.EndTime;
+            ReservationToBeUpdated.Title = Reservation.Title;
+            ReservationToBeUpdated.Description = Reservation.Description;
+            ReservationToBeUpdated.NumberOfAttendees = Reservation.NumberOfAttendees;
+            ReservationToBeUpdated.Room = Reservation.Room;
+            ReservationToBeUpdated.RoomId = Reservation.RoomId;
             await _unitOfWork.CommitAsync();
         }
         public async Task<IEnumerable<Reservation>> GetReservationsByCompanyId(int companyId)
