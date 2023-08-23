@@ -118,7 +118,7 @@ function Signup() {
           lastName: authData2.lastName,
           email: authData2.email,
           password: authData2.password,
-          role: "Admin",
+            role: "Owner",
           companyId: authData2.companyId,
         }),
       });

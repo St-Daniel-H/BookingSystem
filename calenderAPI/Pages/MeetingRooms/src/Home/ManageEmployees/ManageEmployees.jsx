@@ -13,6 +13,8 @@ import { useSnackbar } from "notistack";
 import CircularProgress from "@mui/material/CircularProgress";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteEmployee from "./deleteEmployee";
+import "../../scss/deleteUpdateButton.scss"
+
 import Box from "@mui/material/Box";
 
 export default function ManageEmployees(props) {
@@ -45,7 +47,7 @@ export default function ManageEmployees(props) {
   const { role, companyId } = user;
   const [employees, setEmployees] = useState([]);
   function isAdmin() {
-    return role == "Admin";
+    return role == "Admin" || role=="Owner";
   }
   async function getAllEmployeesWithCompanyId() {
     try {
@@ -363,8 +365,7 @@ export default function ManageEmployees(props) {
               <th>Role</th>
               {isAdmin() ? (
                 <>
-                  <th>Update</th>
-                  <th>Delete</th>
+                  <th>Actions</th>
                 </>
               ) : (
                 ""
@@ -383,31 +384,23 @@ export default function ManageEmployees(props) {
                       <td>{units.role}</td>
                       {isAdmin() ? (
                         <>
-                          <td>
-                            <button
-                              onClick={() => {
-                                //document.body.style.overflow = "hidden";
-                                updateTheEmployeeOnClick(
-                                  units.id,
-                                  units.firstName,
-                                  units.lastName,
-                                  units.role,
-                                  units.email,
-                                  units.password
-                                );
-                              }}
-                            >
-                              Update
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                              onClick={() => {
-                                deleteTheEmployeeOnClick(units.Id);
-                              }}
-                            >
-                              Delete
-                            </button>
+                                  <td>
+                                      <div id="updateDeleteContainer">
+                                          <button id="updateButton" onClick={() => {
+                                              //document.body.style.overflow = "hidden";
+                                              updateTheEmployeeOnClick(
+                                                  units.id,
+                                                  units.firstName,
+                                                  units.lastName,
+                                                  units.role,
+                                                  units.email,
+                                                  units.password
+                                              );
+                                          }}><b>Update</b></button>
+                                          <button onClick={() => {
+                                              deleteTheEmployeeOnClick(units.Id);
+                                          }}  id="deleteButton"><b>Delete</b></button>
+                                      </div>
                           </td>
                         </>
                       ) : (

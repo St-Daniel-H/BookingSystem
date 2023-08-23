@@ -36,6 +36,10 @@ namespace BookingSystem.Services.Repository
 
         public async Task DeleteRoom(Room music)
         {
+            if (music.Reservations.Any())
+            {
+                throw new InvalidOperationException("Cannot delete the room because it has reservations.");
+            }
             _unitOfWork.Rooms.Remove(music);
             await _unitOfWork.CommitAsync();
         }

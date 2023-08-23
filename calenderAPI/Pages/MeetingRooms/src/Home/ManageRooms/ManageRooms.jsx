@@ -10,6 +10,8 @@ import { useSnackbar } from "notistack";
 import CircularProgress from "@mui/material/CircularProgress";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteRoom from "./deleteRoom";
+import "../../scss/deleteUpdateButton.scss"
+
 import Box from "@mui/material/Box";
 
 export default function ManageRooms(props) {
@@ -41,7 +43,7 @@ export default function ManageRooms(props) {
   const { role, companyId } = user;
   const [rooms, setRooms] = useState([]);
   function isAdmin() {
-    return role == "Admin";
+    return role == "Admin" || role == "Owner";
   }
   async function getAllRoomsWithCompanyId() {
     try {
@@ -352,8 +354,7 @@ export default function ManageRooms(props) {
               <th>Description</th>
               {isAdmin() ? (
                 <>
-                  <th>Update</th>
-                  <th>Delete</th>
+                  <th>Actions</th>
                 </>
               ) : (
                 ""
@@ -372,30 +373,22 @@ export default function ManageRooms(props) {
                       <td>{units.description}</td>
                       {isAdmin() ? (
                         <>
-                          <td>
-                            <button
-                              onClick={() => {
-                                //document.body.style.overflow = "hidden";
-                                updateTheRoomOnClick(
-                                  units.roomId,
-                                  units.name,
-                                  units.location,
-                                  units.capacity,
-                                  units.description
-                                );
-                              }}
-                            >
-                              Update
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                              onClick={() => {
-                                deleteTheRoomOnClick(units.roomId);
-                              }}
-                            >
-                              Delete
-                            </button>
+                                  <td>
+                                      <div id="updateDeleteContainer">
+                                          <button id="updateButton" onClick={() => {
+                                              //document.body.style.overflow = "hidden";
+                                              updateTheRoomOnClick(
+                                                  units.roomId,
+                                                  units.name,
+                                                  units.location,
+                                                  units.capacity,
+                                                  units.description
+                                              );
+                                          }}><b>Update</b></button>
+                                          <button id="deleteButton" onClick={() => {
+                                              deleteTheRoomOnClick(units.roomId);
+                                          }}><b>Delete</b></button>
+                                      </div>
                           </td>
                         </>
                       ) : (

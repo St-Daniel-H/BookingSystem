@@ -19,7 +19,7 @@ const localizer = momentLocalizer(moment);
 //const formattedEnd = moment(event.end).format("YYYY, M, D, H, m");
 
 function CalendarView(props) {
-  const user = props.user;
+    const user = props.user;
   //month view
   const [openMonthSave, setOpenMonthSave] = useState(false);
   //get the rooms
@@ -194,7 +194,7 @@ function CalendarView(props) {
         open={EventAncorState[anchor]}
         onClose={toggleDrawer(anchor, false)}
       >
-              <EventsAnchor updatingEvent={updatingEvent} setUpdatingEvent={setUpdatingEvent} setEventTime={setEventToAddTime} eventTime={eventToAddTime} user={user} state={EventAncorState} setState={setEventAncorState} info={eventDrawerInfo} updateState={openMonthSave} setUpdateState={setOpenMonthSave} />
+              <EventsAnchor userId={user.id} userRole={user.role} updatingEvent={updatingEvent} setUpdatingEvent={setUpdatingEvent} setEventTime={setEventToAddTime} eventTime={eventToAddTime} user={user} state={EventAncorState} setState={setEventAncorState} info={eventDrawerInfo} updateState={openMonthSave} setUpdateState={setOpenMonthSave} />
       </Drawer>
           {openMonthSave && roomsLoaded && eventsLoaded ? (
               <SaveMonthEvent reservationToUpdate={reservationToUpdate} setReservationToUpdate={setReservationToUpdate} updatingEvent={updatingEvent} setUpdatingEvent={setUpdatingEvent}  view={currentView} events={eventss} setEvents={setEventss} rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} setEventTime={setEventToAddTime} eventTime={eventToAddTime} />

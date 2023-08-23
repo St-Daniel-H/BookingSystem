@@ -39,8 +39,8 @@ function DeleteRoom({ state, setState, roomToDelete }) {
       window.location.reload();
     } else {
       const errorResponse = await response.json();
-      console.log(errorResponse);
-      handleSnackBar(errorResponse.$value[0].errorMessage);
+        console.log(errorResponse.detail);
+      handleSnackBar(errorResponse.detail);
     }
   }
   return state ? (

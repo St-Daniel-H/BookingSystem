@@ -3,7 +3,10 @@
 #ManageRooms {
     width: 100%;
 
-    h3 {
+    #updateDeleteContainer{
+        height:35px;
+    }
+        h3 {
         margin-left: 20px;
     }
 
@@ -23,7 +26,6 @@
         @media screen and (max-width:420px) {
             display: block;
         }
-
         //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         .input {
             width: 100%;
@@ -64,12 +66,12 @@
             margin-top: 230px;
         }
 
-        margin-top:10px;
+        margin-top: 10px;
         margin-left: 20px;
         display: flex;
         align-items: center;
-        width:100%;
-        max-width:500px;
+        width: 100%;
+        max-width: 500px;
 
 
         #searchButton {
@@ -92,7 +94,6 @@
         /* You can adjust this as needed */
         box-sizing: border-box;
         overflow-x: auto;
-
         /* Use media queries to adjust the width of the table container for smaller screens */
         @media (max-width: 550px) {
             width: 100vw;
@@ -100,7 +101,6 @@
             max-width: none;
             /* Reset the max-width for smaller screens */
         }
-
         /* Add styles for the table rows and header row */
         table {
             width: 100%;

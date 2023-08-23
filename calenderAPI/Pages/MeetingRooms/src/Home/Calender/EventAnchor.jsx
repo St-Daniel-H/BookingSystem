@@ -14,11 +14,14 @@ import {useState,useEffect } from "react"
 import APIs from "../../Backend/backend";
 import { useSnackbar } from "notistack";
 import "./EventAnchor.scss"
+import "../../scss/deleteUpdateButton.scss"
 import Box from "@mui/material/Box";
 
-export default function EventsAnchor({ state, setState, info, updateState, setUpdateState, setEventTime, updatingEvent, setUpdatingEvent }) {
+export default function EventsAnchor({userId, userRole,state, setState, info, updateState, setUpdateState, setEventTime, updatingEvent, setUpdatingEvent }) {
     //snack bars
     const { enqueueSnackbar } = useSnackbar();
+    console.log(userRole)
+    console.log(userId)
     function handleSnackBar(error) {
         enqueueSnackbar(error, {
             anchorOrigin: {
@@ -48,7 +51,13 @@ export default function EventsAnchor({ state, setState, info, updateState, setUp
     setState({ [anchor]: open });
   };
   //ger user name and room name
+    const [reservedByInfo, setReservedByInfo] = useState({
+        userName: "Loading",
+        role: "Employee",
+        Id:"0",
+    })
     const [userName, setUserName] = useState("");
+    const [userLoaded,setUserLooded] = useState(false)
     async function getUserById() {
         try {
             const userId = info.user;
@@ -60,15 +69,23 @@ export default function EventsAnchor({ state, setState, info, updateState, setUp
                     throw new Error("Network response was not ok");
                 }
                 response.json().then((user) => {
-                    setUserName(user.firstName + " " + user.lastName);
+                    console.log(user)
+                    setReservedByInfo({
+                        userName: user.firstName + " " + user.lastName,
+                        role: user.role,
+                        Id: user.Id,
+                    });
                 });
+                setUserLooded(true);
             });
         } catch (error) {
+            setUserLooded(true);
             console.log(error.message);
             handleSnackBar(error.message);
         }
     }
     const [roomName, setRoomName] = useState("");
+    const [roomLoaded, setRoomLoaded] = useState(false);
     async function getRoomById() {
         try {
             const roomId = info.room;
@@ -82,14 +99,19 @@ export default function EventsAnchor({ state, setState, info, updateState, setUp
                 response.json().then((user) => {
                     setRoomName(user.name);
                 });
+                setRoomLoaded(true);
             });
         } catch (error) {
             console.log(error.message);
             handleSnackBar(error.message);
+            setRoomLoaded(true);
+
         }
     }
     useEffect(() => {
-        getUserById();
+        if(!userLoaded )
+            getUserById();
+        if(!roomLoaded)
         getRoomById();
     })
     //update POPUP
@@ -144,20 +166,23 @@ export default function EventsAnchor({ state, setState, info, updateState, setUp
         </ListItem>
         
           </List>
-          <Divider />
-          <List>
-              <ListItem id="updateDelete">
-                  <div id="updateDeleteContainer">
-                      <button id="updateButton" onClick={popupUpdate}><b>Update</b></button>
-                      <button id="deleteButton"><b>Delete</b></button>
-                  </div>
+          {userRole == "Admin" || userRole == "Owner" || reservedByInfo.id == userId   ? 
+              <List>
+                  <ListItem id="updateDelete">
+                      <div id="updateDeleteContainer">
+                          <button id="updateButton" onClick={popupUpdate}><b>Update</b></button>
+                          <button id="deleteButton"><b>Delete</b></button>
+                      </div>
 
-              </ListItem>
-          </List>
+                  </ListItem>
+              </List>
+          : ""}
+          <Divider />
+         
       <Divider />
       <List>
         <ListItem id="reservedBy">
-                  <ListItemText>Reserved By {userName}</ListItemText>
+                  <ListItemText>Reserved By {reservedByInfo.userName}</ListItemText>
         </ListItem>
       </List>
     </Box>

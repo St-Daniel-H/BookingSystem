@@ -97,15 +97,29 @@ namespace calenderAPI.Controllers
             if (id == 0)
                 return BadRequest();
 
-            var Room = await _RoomService.GetRoomById(id);
+            try
+            {
+                var room = await _RoomService.GetRoomById(id);
 
-            if (Room == null)
-                return NotFound();
+                if (room == null)
+                    return NotFound();
 
-            await _RoomService.DeleteRoom(Room);
+                await _RoomService.DeleteRoom(room);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Handle the case where related data prevents deletion
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                // For other exceptions, return a generic error message
+                return Problem("An error occurred while deleting the room. Please try again later.", null, 500);
+            }
         }
+
         [HttpGet("/company/{companyId}")]//get rooms related to a company
         public async Task<ActionResult<IEnumerable<Room>>> GetRoomsByCompanyId(int companyId)
         {
