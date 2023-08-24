@@ -13,6 +13,8 @@ namespace BookingSystem.Services.Interfaces
         Task<IEnumerable<AUser>> GetUsersByCompanyId(int companyId);
         Task DeleteUser(AUser user);
         Task UpdateUser(AUser userToBeUpdated, AUser user);
+        Task TransferOwner(AUser from, AUser to);
+
 
     }
 }

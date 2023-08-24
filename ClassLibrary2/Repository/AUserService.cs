@@ -34,5 +34,12 @@ namespace BookingSystem.Services.Repository
             userToBeUpdated.Role = user.Role;
             await _unitOfWork.CommitAsync();
         }
+
+        public async Task TransferOwner(AUser from,AUser to)
+        {
+            from.Role = "Admin";
+            to.Role = "Owner";
+            await _unitOfWork.CommitAsync();
+        }
     }
 }

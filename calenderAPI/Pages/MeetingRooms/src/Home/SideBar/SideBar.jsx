@@ -133,7 +133,9 @@ function SideBar(props) {
       <div id="signout">
         <Divider />
         <ListItem disablePadding className="links">
-          <ListItemButton href="../Login">
+                  <ListItemButton onClick={() => {
+                      localStorage.clear();
+                  }} href="../Login">
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>

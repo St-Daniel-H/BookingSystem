@@ -19,26 +19,26 @@ using FluentValidation;
 
 namespace calenderAPI.Controllers
 {
-    
-        [Route("api/[controller]")]
-        [ApiController]
-        public class AuthController : ControllerBase
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly UserManager<AUser> _userManager;
+        private readonly IMapper _mapper;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly JwtSettings _jwtSettings;
+
+        public AuthController(IMapper mapper, UserManager<AUser> userManager, IAUserService AUserService, RoleManager<Role> roleManager,
+            IOptionsSnapshot<JwtSettings> jwtSettings)
         {
-            private readonly UserManager<AUser> _userManager;
-            private readonly IMapper _mapper;
-            private readonly RoleManager<Role> _roleManager;
-            private readonly JwtSettings _jwtSettings;
+            _mapper = mapper;
+            _userManager = userManager;
+            _auserService = AUserService;
+            _roleManager = roleManager;
+            _jwtSettings = jwtSettings.Value;
 
-            public AuthController(IMapper mapper, UserManager<AUser> userManager,IAUserService AUserService, RoleManager<Role> roleManager,
-                IOptionsSnapshot<JwtSettings> jwtSettings)
-            {
-                _mapper = mapper;
-                _userManager = userManager;
-                _auserService = AUserService;
-                _roleManager = roleManager;
-                _jwtSettings = jwtSettings.Value;
-
-            }
+        }
         private readonly IAUserService _auserService;
         [HttpPost("signup")]
 
@@ -58,10 +58,10 @@ namespace calenderAPI.Controllers
                 return Problem(userCreateResult.Errors.First().Description, null, 500);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if(ex.Message == "Data is Null. This method or property cannot be called on Null values.")
-                return BadRequest(new { detail = "Email already exists" });
+                if (ex.Message == "Data is Null. This method or property cannot be called on Null values.")
+                    return BadRequest(new { detail = "Email already exists" });
 
                 else return BadRequest(ex.Message);
             }
@@ -140,27 +140,27 @@ namespace calenderAPI.Controllers
             return Ok(user);
         }
         [HttpPost("Roles")]
-            public async Task<IActionResult> CreateRole(string roleName)
+        public async Task<IActionResult> CreateRole(string roleName)
+        {
+            if (string.IsNullOrWhiteSpace(roleName))
             {
-                if (string.IsNullOrWhiteSpace(roleName))
-                {
-                    return BadRequest("Role name should be provided.");
-                }
-
-                var newRole = new Role
-                {
-                    Name = roleName
-                };
-
-                var roleResult = await _roleManager.CreateAsync(newRole);
-
-                if (roleResult.Succeeded)
-                {
-                    return Ok();
-                }
-
-                return Problem(roleResult.Errors.First().Description, null, 500);
+                return BadRequest("Role name should be provided.");
             }
+
+            var newRole = new Role
+            {
+                Name = roleName
+            };
+
+            var roleResult = await _roleManager.CreateAsync(newRole);
+
+            if (roleResult.Succeeded)
+            {
+                return Ok();
+            }
+
+            return Problem(roleResult.Errors.First().Description, null, 500);
+        }
         //get user by companyId
         [HttpGet("/auth/company/{companyId}")]
         public async Task<ActionResult<IEnumerable<Room>>> GetUsersByCompanyId(int companyId)
@@ -206,22 +206,22 @@ namespace calenderAPI.Controllers
             return NoContent();
         }
         [HttpPost("User/{userEmail}/Role")]
-            public async Task<IActionResult> AddUserToRole(string userEmail, [FromBody] string roleName)
+        public async Task<IActionResult> AddUserToRole(string userEmail, [FromBody] string roleName)
+        {
+            var user = _userManager.Users.SingleOrDefault(u => u.Email == userEmail);
+
+            var result = await _userManager.AddToRoleAsync(user, roleName);
+
+            if (result.Succeeded)
             {
-                var user = _userManager.Users.SingleOrDefault(u => u.Email == userEmail);
-
-                var result = await _userManager.AddToRoleAsync(user, roleName);
-
-                if (result.Succeeded)
-                {
-                    return Ok();
-                }
-
-                return Problem(result.Errors.First().Description, null, 500);
+                return Ok();
             }
-            private string GenerateJwt(AUser user, IList<string> roles)
-            {
-                var claims = new List<Claim>
+
+            return Problem(result.Errors.First().Description, null, 500);
+        }
+        private string GenerateJwt(AUser user, IList<string> roles)
+        {
+            var claims = new List<Claim>
     {
         new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
         new Claim(ClaimTypes.Name, user.UserName),
@@ -229,26 +229,48 @@ namespace calenderAPI.Controllers
         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
     };
 
-                var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
-                claims.AddRange(roleClaims);
+            var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
+            claims.AddRange(roleClaims);
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var expires = DateTime.Now.AddDays(Convert.ToDouble(_jwtSettings.ExpirationInDays));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_jwtSettings.ExpirationInDays));
 
-                var token = new JwtSecurityToken(
-                    issuer: _jwtSettings.Issuer,
-                    audience: _jwtSettings.Audience,
-                    claims,
-                    expires: expires,
-                    signingCredentials: creds
-                );
+            var token = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
 
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            }
-
-
-
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        //transfer ownership
+        [HttpPost("transfer-owner")]
+        public async Task<IActionResult> TransferOwner([FromBody] TransferOwnershipResource request)
+        {
+            try
+            {
+                var fromUser = await _userManager.FindByIdAsync(request.FromUserId.ToString());
+                var toUser = await _userManager.FindByIdAsync(request.ToUserId.ToString());
+
+                if (fromUser == null || toUser == null)
+                {
+                    return BadRequest(new { Message = "Invalid user IDs." });
+                }
+
+                await _auserService.TransferOwner(fromUser, toUser);
+
+                return Ok(new { Message = "Owner transferred successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while transferring owner.", Error = ex.Message });
+            }
+        }
+
+
+    }
     
 }

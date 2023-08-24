@@ -24,6 +24,7 @@ namespace BookingSystem.core.Repository
                 .Where(user => user.CompanyId == companyId)
                 .ToListAsync();
         }
+
         private BookingSystemContext BookingSystemContext
         {
             get { return Context as BookingSystemContext; }

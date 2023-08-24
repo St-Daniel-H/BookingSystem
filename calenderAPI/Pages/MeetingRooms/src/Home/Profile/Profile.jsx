@@ -1,13 +1,17 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import {useState } from "react"
+import {useState,useEffect } from "react"
 import TextField from "@mui/material/TextField";
 import { useSnackbar } from "notistack";
 import colors from "../../scss/SCSSVariables";
 import "./Profile.scss"
+import Autocomplete from '@mui/material/Autocomplete';
+import { useNavigate } from "react-router-dom";
 import APIs from "../../Backend/backend";
-
+import CompanyProfile from "./companyProfile"
 function Profile({ user }) {
+    const navigateTo = useNavigate();
+
     //snackbars
     const { enqueueSnackbar } = useSnackbar();
     function handleSnackBar(error) {
@@ -59,14 +63,91 @@ function Profile({ user }) {
     }    
         //transfer ownership
     const [isTransfering, setIsTransfering] = useState(false);
+    const [employees, setEmployees] = useState([]);
+    const [employeesLoaded, setEmployeesLoaded] = useState(false);
+    //get all employees
+    async function getAllEmployeesWithCompanyId() {
+        try {
+            const getEmployees = await fetch(
+                APIs.apiLink + "/auth/company/" + user.companyId
+            ).then((response) => {
+                if (response) {
+                    response.json().then((result) => {
+                        //console.log(result.$values)
+                        const employeesData = result.$values.map(employee => ({
+                            id: employee.id,
+                            firstName: employee.firstName,
+                            lastName: employee.lastName
+                        }));
+                        setEmployees(employeesData);
+                    });
+                    setEmployeesLoaded(true)
+                    // console.log(rooms);
+                } else {
+                    throw new Error(
+                        "something went wrong loading the Employees, try again later."
+                    );
+                }
+            });
+        } catch (error) {
+            handleSnackBar(error);
+        }
+        setEmployeesLoaded(true);
+    }
+    useEffect(() => {
+            getAllEmployeesWithCompanyId();
+            console.log(employees)
+    },[employeesLoaded])
     async function transferOwnership() {
         if (isUpdate) {
             setIsUpdate(false);
         }
         setIsTransfering(!isTransfering)
     }
-    async function deleteProfile() {
-        handleSnackBar("User deleted");
+    const [selectedEmployee,setSelectedEmployee] = useState(0)
+    async function transferOwnershipNow(event) {
+        if (user.role != "Owner" || selectedEmployee == "") {
+            return;
+        }
+        event.preventDefault();
+        try {
+            const response = await fetch(APIs.apiLink + "/api/Auth/transfer-owner", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fromUserId: user.id,
+                    toUserId: selectedEmployee,
+                }),
+            }
+            )
+            handleSnackBarSuccess("transfered ownership");
+            window.location.reload();
+
+        } catch (error) {
+            handleSnackBar("something went wrog")
+            console.log(error);
+        }
+        
+        console.log(selectedEmployee)
+    }
+
+    //delete Account
+    async function deleteProfile(e) {
+        e.preventDefault();
+        const response = await fetch(APIs.apiLink + "/auth/User/" + user.id, {
+            method: "DELETE",
+        });
+        if (response.ok) {
+            handleSnackBarSuccess("User deleted");
+            localStorage.clear(); 
+            navigateTo("/login");
+        } else {
+            const errorResponse = await response;
+            console.log(errorResponse);
+            handleSnackBar(errorResponse.$value[0].errorMessage);
+        }
     }
     function changeTextToForm() {
         setIsUpdate(!isUpdate);
@@ -155,7 +236,25 @@ function Profile({ user }) {
                             </> :
                            
                             <div id="transfering">
-                          <h1>Transfer Ownership</h1>
+                                <h3>Transfer Ownership</h3>
+                                <p>Who do you want to transfer the owner ship to?</p>
+                                <Autocomplete
+                                    onChange={(event, value) => setSelectedEmployee(value.value)}
+                                    isOptionEqualToValue={(option, value) =>
+                                        value === undefined || value === "" || option.id === value.id
+                                    }
+                                    options={employees
+                                        .filter(employee => employee.id !== user.id)
+                                        .map(employee => ({
+                                            value: employee.id,
+                                            label: `${employee.firstName} ${employee.lastName}`
+                                        }))
+                                    }
+                                    getOptionLabel={(option) => option.label}
+                                    sx={{ width: 300, marginTop: "30px" }}
+                                    renderInput={(params) => <TextField {...params} label="User" />}
+                                />
+                                <button id="transferNOW" className="deleteButton" onClick={transferOwnershipNow}>Transfer</button>
                           </div>
                           
                 }
@@ -168,7 +267,8 @@ function Profile({ user }) {
                     <button  className="deleteButton" onClick={deleteProfile}>Delete Account</button> :
                         <button className="deleteButton" onClick={transferOwnership}>{!isTransfering ? "Transfer Ownership" : "Cancel"}</button>}
             </div>
-           </div>
+            </div>
+            <CompanyProfile/>
         </div>
     )
 }
