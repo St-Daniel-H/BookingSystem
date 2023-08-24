@@ -40,7 +40,8 @@ function UpdateEmployee({ state, setState, userToUpdate }) {
       body: JSON.stringify({
         firstName: theNewUser.firstName,
         lastName: theNewUser.lastName,
-        role: theNewUser.role,
+          role: theNewUser.role,
+        email: theNewUser.email,
       }),
     });
     if (response.ok) {
@@ -81,7 +82,8 @@ function UpdateEmployee({ state, setState, userToUpdate }) {
                 },
                 "& .MuiInputLabel-root:focused": {
                   color: colors.primaryColor,
-                },
+                  }, width: "100%"
+
               }}
               id="standard-basic name"
               label="First Name"
@@ -91,7 +93,7 @@ function UpdateEmployee({ state, setState, userToUpdate }) {
                 setTheNewUser({ ...theNewUser, firstName: e.target.value })
               }
               value={theNewUser.firstName}
-            />
+            /><br/>
             <TextField
               className="input"
               sx={{
@@ -104,7 +106,8 @@ function UpdateEmployee({ state, setState, userToUpdate }) {
                 },
                 "& .MuiInputLabel-root:focused": {
                   color: colors.primaryColor,
-                },
+                  },
+                width:"100%"
               }}
               id="standard-basic lastName"
               label="Last Name"
@@ -114,7 +117,31 @@ function UpdateEmployee({ state, setState, userToUpdate }) {
                 setTheNewUser({ ...theNewUser, lastName: e.target.value })
               }
               value={theNewUser.lastName}
-            />
+                      /><br />
+                      <TextField
+                          className="input"
+                          sx={{
+                              input: { color: colors.accentColor },
+                              "& .MuiInput-underline:before": {
+                                  borderBottomColor: colors.accentColor,
+                              },
+                              "& .MuiFormLabel-root": {
+                                  color: colors.accentColor,
+                              },
+                              "& .MuiInputLabel-root:focused": {
+                                  color: colors.primaryColor,
+                              }, width: "100%"
+
+                          }}
+                          id="standard-basic email"
+                          label="Email"
+                          variant="standard"
+                          type="text"
+                          onChange={(e) =>
+                              setTheNewUser({ ...theNewUser, email: e.target.value })
+                          }
+                          value={theNewUser.email}
+                      />
           </div>
           <div id="updateLeftSide">
             <InputLabel id="demo-simple-select-label">Role</InputLabel>

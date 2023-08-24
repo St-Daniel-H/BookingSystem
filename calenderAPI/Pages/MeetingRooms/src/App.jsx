@@ -8,6 +8,8 @@ import ManageRooms from "./Home/ManageRooms/ManageRooms";
 import ManageReservation from "./Home/ManageReservation/ManageReservation";
 import ManageEmployees from "./Home/ManageEmployees/ManageEmployees";
 import CalendarView from "./Home/Calender/Calender";
+import Profile from "./Home/Profile/Profile";
+
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 function App() {
@@ -25,7 +27,9 @@ function App() {
                   <Route path="/Home/Calender" element={<CalendarView />} />
                   <Route path="/Home/Rooms" element={<ManageRooms />} />
                   <Route path="/Home/Reservation" element={<ManageReservation />} />
-                  <Route path="/Home/Employees" element={<ManageEmployees />} />
+                    <Route path="/Home/Employees" element={<ManageEmployees />} />
+                    <Route path="/Home/Profile" element={<Profile />} />
+
               </Route>
           </Routes>
             </SnackbarProvider>

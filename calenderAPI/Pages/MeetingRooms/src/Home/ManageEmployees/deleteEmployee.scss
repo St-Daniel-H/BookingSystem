@@ -3,7 +3,7 @@
 #deleteRoom {
     top: 0;
     left: 150px;
-
+    z-index:2;
     @media screen and (max-width:835px) {
         left: 100px;
     }
@@ -24,7 +24,7 @@
 
     #DeleteRoomContainer {
         width: 100%;
-        max-width: 300px;
+        max-width: 350px;
         background-color: white;
         height: 220px;
         border-radius: 25px;

@@ -30,6 +30,7 @@ namespace BookingSystem.Services.Repository
         {
             userToBeUpdated.FirstName = user.FirstName;
             userToBeUpdated.LastName = user.LastName;
+            userToBeUpdated.Email = user.Email;
             userToBeUpdated.Role = user.Role;
             await _unitOfWork.CommitAsync();
         }

@@ -20,6 +20,8 @@ import ManageRooms from "../ManageRooms/ManageRooms";
 import ManageReservation from "../ManageReservation/ManageReservation";
 import ManageEmployees from "../ManageEmployees/ManageEmployees";
 import CalenderView from "../Calender/Calender";
+import Profile from "../Profile/Profile";
+
 import "./SideBar.scss";
 import { useSnackbar } from "notistack";
 import noLogo from "../../Images/defLogo.jpg";
@@ -55,7 +57,9 @@ function SideBar(props) {
       case "Rooms":
         return <ManageRooms user={userData} />;
       case "Reservation":
-        return <ManageReservation user={userData} />;
+            return <ManageReservation user={userData} />;
+        case "Profile":
+            return <Profile user={userData} />;
     }
   }
   const handleDrawerToggle = () => {
@@ -115,6 +119,14 @@ function SideBar(props) {
                           <MailIcon />
                       </ListItemIcon>
                       <ListItemText primary="Calendar" />
+                  </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding className="links">
+                  <ListItemButton href={`/Home/Profile`}>
+                      <ListItemIcon>
+                          <MailIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Profile" />
                   </ListItemButton>
               </ListItem>
       </List>

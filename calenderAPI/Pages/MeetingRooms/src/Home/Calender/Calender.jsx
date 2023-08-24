@@ -12,6 +12,8 @@ import EventsAnchor from "./EventAnchor";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import SaveMonthEvent from "./SaveMonthEvent.jsx";
+import DeleteEvent from "./deleteEvent"
+
 moment.locale("en-GB");
 
 const localizer = momentLocalizer(moment);
@@ -155,6 +157,9 @@ function CalendarView(props) {
   //for updating events
     const [updatingEvent, setUpdatingEvent] = useState(false);
     const [reservationToUpdate, setReservationToUpdate] = useState("");
+    //for deleting events
+    const [deletePopup, setDeletePopup] = useState(false);
+    const [deleteEvent, setDeleteEvent] = useState("0")
   return (
     <div style={{ height: 700 }}>
       <Calendar
@@ -194,13 +199,24 @@ function CalendarView(props) {
         open={EventAncorState[anchor]}
         onClose={toggleDrawer(anchor, false)}
       >
-              <EventsAnchor userId={user.id} userRole={user.role} updatingEvent={updatingEvent} setUpdatingEvent={setUpdatingEvent} setEventTime={setEventToAddTime} eventTime={eventToAddTime} user={user} state={EventAncorState} setState={setEventAncorState} info={eventDrawerInfo} updateState={openMonthSave} setUpdateState={setOpenMonthSave} />
+              <EventsAnchor
+                  setDeleteEvent={setDeleteEvent} deleteEvent={deleteEvent} setDeletePopup={setDeletePopup} deletePopup={deletePopup}
+                  userId={user.id} userRole={user.role} updatingEvent={updatingEvent} setUpdatingEvent={setUpdatingEvent} setEventTime={setEventToAddTime} eventTime={eventToAddTime} user={user} state={EventAncorState} setState={setEventAncorState} info={eventDrawerInfo} updateState={openMonthSave} setUpdateState={setOpenMonthSave} />
       </Drawer>
           {openMonthSave && roomsLoaded && eventsLoaded ? (
               <SaveMonthEvent reservationToUpdate={reservationToUpdate} setReservationToUpdate={setReservationToUpdate} updatingEvent={updatingEvent} setUpdatingEvent={setUpdatingEvent}  view={currentView} events={eventss} setEvents={setEventss} rooms={rooms} user={user} state={openMonthSave} setState={setOpenMonthSave} setEventTime={setEventToAddTime} eventTime={eventToAddTime} />
       ) : (
         ""
-      )}
+          )}
+          {deletePopup ? (
+              <DeleteEvent
+                  eventToDelete={deleteEvent}
+                  setState={setDeletePopup}
+                  state={deletePopup}
+              />
+          ) : (
+              ""
+          )}
     </div>
   );
 }

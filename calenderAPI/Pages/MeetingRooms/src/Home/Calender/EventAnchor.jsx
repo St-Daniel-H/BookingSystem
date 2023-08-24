@@ -17,11 +17,12 @@ import "./EventAnchor.scss"
 import "../../scss/deleteUpdateButton.scss"
 import Box from "@mui/material/Box";
 
-export default function EventsAnchor({userId, userRole,state, setState, info, updateState, setUpdateState, setEventTime, updatingEvent, setUpdatingEvent }) {
+export default function EventsAnchor({ userId, userRole, state, setState, info, updateState, setUpdateState, setEventTime, updatingEvent, setUpdatingEvent,
+    setDeleteEvent, deleteEvent, setDeletePopup, deletePopup
+
+}) {
     //snack bars
     const { enqueueSnackbar } = useSnackbar();
-    console.log(userRole)
-    console.log(userId)
     function handleSnackBar(error) {
         enqueueSnackbar(error, {
             anchorOrigin: {
@@ -69,7 +70,6 @@ export default function EventsAnchor({userId, userRole,state, setState, info, up
                     throw new Error("Network response was not ok");
                 }
                 response.json().then((user) => {
-                    console.log(user)
                     setReservedByInfo({
                         userName: user.firstName + " " + user.lastName,
                         role: user.role,
@@ -119,6 +119,13 @@ export default function EventsAnchor({userId, userRole,state, setState, info, up
         setUpdatingEvent(true);
         setEventTime(info);
         setUpdateState(true);
+    }
+    //delete popup
+
+    function popupDelete(eventId) {
+        document.body.style.overflow = "hidden";
+        setDeleteEvent(eventId)
+        setDeletePopup(true);
     }
   const list = (anchor) => (
       <Box
@@ -171,7 +178,7 @@ export default function EventsAnchor({userId, userRole,state, setState, info, up
                   <ListItem id="updateDelete">
                       <div id="updateDeleteContainer">
                           <button id="updateButton" onClick={popupUpdate}><b>Update</b></button>
-                          <button id="deleteButton"><b>Delete</b></button>
+                          <button id="deleteButton" onClick={()=>popupDelete(info.reservationId)}><b>Delete</b></button>
                       </div>
 
                   </ListItem>
@@ -184,7 +191,8 @@ export default function EventsAnchor({userId, userRole,state, setState, info, up
         <ListItem id="reservedBy">
                   <ListItemText>Reserved By {reservedByInfo.userName}</ListItemText>
         </ListItem>
-      </List>
+          </List>
+         
     </Box>
   );
   const anchor = "right";

@@ -1,0 +1,50 @@
+@import '../../scss/variables';
+
+#ProfileContainer {
+
+
+    #UserProfile {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .normalButton {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        height: 40px;
+        width: 80px;
+        background-color: white;
+        border: 2px solid $primary-color;
+        cursor: pointer;
+        transition: 0.6s;
+
+        &:hover {
+            background-color: $primary-color;
+            color: #fff;
+        }
+    }
+
+    .deleteButton {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        height: 40px;
+        width: 80px;
+        background-color: white;
+        border: 2px solid red;
+        cursor: pointer;
+        transition: 0.6s;
+
+        &:hover {
+            background-color: red;
+            color: #fff;
+        }
+    }
+}

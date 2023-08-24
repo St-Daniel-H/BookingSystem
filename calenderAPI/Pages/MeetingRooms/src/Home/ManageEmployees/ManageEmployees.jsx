@@ -145,13 +145,14 @@ export default function ManageEmployees(props) {
     email: "",
     role: "",
   });
-  async function updateTheEmployeeOnClick(Id, firstName, lastName, role) {
+  async function updateTheEmployeeOnClick(Id, firstName, lastName, role,email) {
     document.body.style.overflow = "hidden";
     setEmployeeToUpdate({
       Id: Id,
       firstName: firstName,
       lastName: lastName,
-      role: role,
+        role: role,
+      email:email,
     });
     setUpdateEmployee(true);
   }
