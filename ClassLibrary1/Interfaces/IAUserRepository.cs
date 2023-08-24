@@ -12,6 +12,8 @@ namespace BookingSystem.core.Interfaces
     public  interface IAUserRepository : IRepository<AUser>
     {
         Task<IEnumerable<AUser>> GetUsersByCompanyId(int companyId);
+        Task<AUser> GetUserByEmail(String email);
+
 
     }
 }

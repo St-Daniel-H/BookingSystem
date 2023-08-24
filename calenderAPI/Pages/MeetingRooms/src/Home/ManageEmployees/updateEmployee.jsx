@@ -55,7 +55,7 @@ function UpdateEmployee({ state, setState, userToUpdate }) {
     }
   }
   return state ? (
-    <div id="updateRoom">
+    <div id="updateEmployee">
       <div id="updateRoomContainer">
         <div id="topUpdateRoom">
           <h1>Update User</h1>

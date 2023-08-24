@@ -181,7 +181,7 @@ export default function ManageEmployees(props) {
     setSearching(true);
   }
   return (
-    <div id="ManageRooms">
+    <div id="ManageEmployees">
       <h1>Employees</h1>
       {isAdmin() ? (
         <>

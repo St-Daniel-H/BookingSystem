@@ -200,7 +200,11 @@ namespace calenderAPI.Controllers
             }
 
             var user = _mapper.Map<UpdateAUserResource, AUser>(updateUseresource);
-
+            var exist = await _auserService.getUserByEmail(user.Email);
+            if(exist != null)
+            {
+                return Problem("User already exist");
+            }
             await _auserService.UpdateUser(userToBeUpdated, user);
 
             return NoContent();

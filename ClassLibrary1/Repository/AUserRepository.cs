@@ -24,7 +24,12 @@ namespace BookingSystem.core.Repository
                 .Where(user => user.CompanyId == companyId)
                 .ToListAsync();
         }
-
+        public async Task<AUser> GetUserByEmail(String email)
+        {
+            return await BookingSystemContext.AUsers
+                .Where(user => user.Email == email)
+                .SingleOrDefaultAsync();
+        }
         private BookingSystemContext BookingSystemContext
         {
             get { return Context as BookingSystemContext; }

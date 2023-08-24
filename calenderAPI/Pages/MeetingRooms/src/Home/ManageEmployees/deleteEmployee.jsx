@@ -43,7 +43,7 @@ function DeleteEmployee({ state, setState, userToDelete }) {
     }
   }
   return state ? (
-    <div id="deleteRoom">
+    <div id="deleteEmployee">
       <div id="DeleteRoomContainer">
         <div id="topDeleteRoom">
           <h1>Delete Employee</h1>

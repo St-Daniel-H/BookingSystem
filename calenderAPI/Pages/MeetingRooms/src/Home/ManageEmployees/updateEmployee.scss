@@ -1,8 +1,9 @@
 @import '../../scss/variables';
 
-#updateRoom {
+#updateEmployee {
     top: 0;
     left: 150px;
+    z-index: 22111;
 
     @media screen and (max-width:835px) {
         left: 100px;
@@ -45,7 +46,9 @@
     #updateRoomContainer {
         width: 100%;
         max-width: 500px;
-        height:450px;
+        height: 450px;
+        background-color: white;
+
         @media screen and (max-width:800px) {
             max-width: 300px;
         }
@@ -53,18 +56,14 @@
         @media screen and (max-width:600px) {
             max-width: 500px;
         }
-
         //background-color: white;
         //height: 300px;
-
         //@media screen and (max-width:800px) {
         //    height: 450px;
         //}
-
         //@media screen and (max-width:600px) {
         //    height: 300px;
         //}
-
         //@media screen and (max-width:400px) {
         //    height: 450px;
         //}

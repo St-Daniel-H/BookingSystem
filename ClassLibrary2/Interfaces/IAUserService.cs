@@ -14,6 +14,7 @@ namespace BookingSystem.Services.Interfaces
         Task DeleteUser(AUser user);
         Task UpdateUser(AUser userToBeUpdated, AUser user);
         Task TransferOwner(AUser from, AUser to);
+        Task<AUser> getUserByEmail(String Email);
 
 
     }

@@ -58,7 +58,7 @@ function Profile({ user,company }) {
             } else {
                 const errorResponse = await response.json();
                 console.log("Update failed:", errorResponse);
-                handleSnackBar(errorResponse.$value[0].errorMessage);
+                handleSnackBar("Email already exist");
             }
     }    
         //transfer ownership
@@ -134,6 +134,7 @@ function Profile({ user,company }) {
     }
 
     //delete Account
+    const [deletingProfile, setDeletingProfile] = useState(false);
     async function deleteProfile(e) {
         e.preventDefault();
         const response = await fetch(APIs.apiLink + "/auth/User/" + user.id, {
@@ -157,7 +158,7 @@ function Profile({ user,company }) {
             <h1>Profile</h1>
             <div id="UserProfile">
             <div id="userProfileLeft">
-                    {isUpdate && !isTransfering ? 
+                    {isUpdate && !isTransfering && !deletingProfile ? 
                     <>
                     <TextField
                         className="input"
@@ -233,7 +234,7 @@ function Profile({ user,company }) {
                         Email: <b>{user.email} </b><br />
                         Role: <b>{user.role} </b><br />
 
-                            </> :
+                            </> :isTransfering && !deletingProfile  ?
                            
                             <div id="transfering">
                                 <h3>Transfer Ownership</h3>
@@ -255,7 +256,10 @@ function Profile({ user,company }) {
                                     renderInput={(params) => <TextField {...params} label="User" />}
                                 />
                                 <button id="transferNOW" className="deleteButton" onClick={transferOwnershipNow}>Transfer</button>
-                          </div>
+                                </div> : <>
+                                    <h3>Are you sure you want to delete your account?</h3>
+                                    <button className="deleteButton" onClick={deleteProfile}>Delete Account</button> :
+                                </>
                           
                 }
                 
@@ -264,7 +268,7 @@ function Profile({ user,company }) {
             <div id="userProfileRight">
                     {!isTransfering ? <button className="normalButton" onClick={changeTextToForm}>{!isUpdate ? "Update" : "Cancel"}</button> : ""}<br/>
                 {user.role != "Owner" ?
-                    <button  className="deleteButton" onClick={deleteProfile}>Delete Account</button> :
+                        <button className="deleteButton" onClick={() => { setDeletingProfile(!deletingProfile) }}>{deletingProfile ? "Cancel" : "Delete Account"}</button> :
                         <button className="deleteButton" onClick={transferOwnership}>{!isTransfering ? "Transfer Ownership" : "Cancel"}</button>}
             </div>
             </div>

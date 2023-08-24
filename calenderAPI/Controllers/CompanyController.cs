@@ -17,13 +17,20 @@ namespace calenderAPI.Controllers
      
     public class CompanyController : ControllerBase
    {
-        public CompanyController(ICompanyService companyService, IMapper mapper)
+        public CompanyController(ICompanyService companyService,IReservationService reservationService, IAUserService auserService, IRoomService roomService, IMapper mapper)
         {
             this._mapper = mapper;
             this._companyService = companyService;
+            this._roomService = roomService;
+            this._auserService = auserService;
+            this._reservationService = reservationService;
+
         }
 
         private readonly IMapper _mapper;
+        private readonly IRoomService _roomService;
+        private readonly IAUserService _auserService;
+        private readonly IReservationService _reservationService;
         private readonly ICompanyService _companyService;
         [HttpGet("")]
        public async Task<ActionResult<IEnumerable<Company>>> GetAllCompanies()
@@ -127,7 +134,25 @@ namespace calenderAPI.Controllers
                 return BadRequest();
 
             var company = await _companyService.GetCompanyById(id);
+            if (company == null)
+                return NotFound();
+            var Rooms = await _roomService.GetRoomsByCompanyId(id);
+            var Users = await _auserService.GetUsersByCompanyId(id);
+            foreach(var User in Users)
+            {
+                await _auserService.DeleteUser(User);
+            }
+            foreach(var Room in Rooms)
+            {
+                var reservations = await _reservationService.GetReservationsByRoomId(Room.RoomId);
 
+                // Delete each reservation
+                foreach (var reservation in reservations)
+                {
+                    await _reservationService.DeleteReservation(reservation);
+                }
+                await _roomService.DeleteRoom(Room);
+            }
             if (company == null)
                 return NotFound();
 

@@ -88,8 +88,9 @@ function Home() {
         });
       });
     } catch (error) {
-      console.log(error.message);
-      handleSnackBar(error.message);
+        console.log(error.message);
+        handleSnackBar(error.message);
+      navigateTo("/Login")
     }
   }
 
