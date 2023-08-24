@@ -17,5 +17,8 @@ namespace BookingSystem.Services.Interfaces
 
         Task<IEnumerable<Reservation>> GetReservationsByCompanyId(int companyId);
 
+        Task<IEnumerable<Reservation>> GetReservationsByRoomId(int roomId);
+
+
     }
 }

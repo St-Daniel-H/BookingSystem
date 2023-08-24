@@ -37,6 +37,12 @@ namespace startup.Repository
             .Where(r => r.AUser.CompanyId == companyId)
             .ToListAsync();
         }
+        public async Task<IEnumerable<Reservation>> GetReservationsByRoomId(int roomId)
+        {
+            return await BookingSystemContext.Reservations
+            .Where(r => r.Room.RoomId == roomId)
+            .ToListAsync();
+        }
     }
 }
 

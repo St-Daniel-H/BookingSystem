@@ -7,8 +7,7 @@ import colors from "../../scss/SCSSVariables";
 import "./deleteEmployee.scss";
 import { useSnackbar } from "notistack";
 
-function DeleteEmployee({ state, setState, roomToDelete }) {
-  console.log(roomToDelete);
+function DeleteEmployee({ state, setState, userToDelete }) {
   const { enqueueSnackbar } = useSnackbar();
   function handleSnackBar(error) {
     enqueueSnackbar(error, {
@@ -31,14 +30,14 @@ function DeleteEmployee({ state, setState, roomToDelete }) {
 
   async function deleteTheRoomFunc(e) {
     e.preventDefault();
-    const response = await fetch(APIs.apiLink + "/api/Room/" + roomToDelete, {
+      const response = await fetch(APIs.apiLink + "/auth/User/" + userToDelete, {
       method: "DELETE",
     });
     if (response.ok) {
-      handleSnackBarSuccess("Room deleted");
+      handleSnackBarSuccess("Employee deleted");
       window.location.reload();
     } else {
-      const errorResponse = await response.json();
+        const errorResponse = await response;
       console.log(errorResponse);
       handleSnackBar(errorResponse.$value[0].errorMessage);
     }
@@ -47,7 +46,7 @@ function DeleteEmployee({ state, setState, roomToDelete }) {
     <div id="deleteRoom">
       <div id="DeleteRoomContainer">
         <div id="topDeleteRoom">
-          <h1>Delete Room</h1>
+          <h1>Delete Employee</h1>
           <button
             onClick={() => {
               document.body.style.overflow = "unset";
@@ -60,7 +59,7 @@ function DeleteEmployee({ state, setState, roomToDelete }) {
         <div id="message">
           {" "}
           <b>
-            Are you sure you want to delete this room? This action can't be
+            Are you sure you want to delete this employee? This action can't be
             changed
           </b>
         </div>

@@ -44,7 +44,15 @@ namespace calenderAPI.Controllers
 
             return Ok(ReservationResource);
         }
+        [HttpGet("RoomId")]
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservationByRoomId(int roomId)
+        {
+            var Reservations = await _ReservationService.GetReservationsByRoomId(roomId);
+            var ReservationResources = _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationResource>>(Reservations);
+            return Ok(ReservationResources);
 
+
+        }
         //create
         [HttpPost("")]
         public async Task<ActionResult<ReservationResource>> CreateReservation([FromBody] SaveReservationResource saveReservationResource)

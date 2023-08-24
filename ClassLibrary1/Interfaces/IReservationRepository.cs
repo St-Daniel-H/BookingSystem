@@ -13,5 +13,8 @@ namespace startup.Interfaces
         Task<Reservation> GetReservationById(int id);
         Task<IEnumerable<Reservation>> GetReservationsByCompanyId(int companyId);
 
+        Task<IEnumerable<Reservation>> GetReservationsByRoomId(int roomId);
+
+
     }
 }

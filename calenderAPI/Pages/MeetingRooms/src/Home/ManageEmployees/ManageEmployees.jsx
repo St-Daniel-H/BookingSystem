@@ -126,18 +126,14 @@ export default function ManageEmployees(props) {
         setRerenderEmployees(true);
         //window.location.reload();
       } else {
-        const errorResponse = await response.json();
-        console.log(
-          "Adding Employee failed:",
-          errorResponse.$values[0].errorMessage
-        );
-        handleSnackBar(errorResponse.$values[0].errorMessage);
-        throw new Error(errorResponse.$values[0]);
+          const errorResponse = await response.json();
+        console.log(errorResponse.detail)
+          handleSnackBar(errorResponse.detail);
+        throw new Error("Failed, validation error");
       }
     } catch (error) {
       //handleSnackBar(error.errorMessage || error);
       setLoading(false);
-      console.log(error);
     }
   }
   //handling updates
@@ -163,9 +159,9 @@ export default function ManageEmployees(props) {
   const [deleteTheEmployee, setDeleteTheEmployee] = useState(false); //delet popup
   const [employeeToDelete, setEmployeeToDelete] = useState(0);
 
-  async function deleteTheEmployeeOnClick(roomId) {
-    document.body.style.overflow = "hidden";
-    setEmployeeToDelete(roomId);
+  async function deleteTheEmployeeOnClick(employeeId) {
+      document.body.style.overflow = "hidden";
+      setEmployeeToDelete(employeeId);
     setDeleteTheEmployee(true);
   }
   //search bar
@@ -383,25 +379,30 @@ export default function ManageEmployees(props) {
                       <td>{units.email}</td>
                       <td>{units.role}</td>
                       {isAdmin() ? (
-                        <>
-                                  <td>
-                                      <div id="updateDeleteContainer">
-                                          <button id="updateButton" onClick={() => {
-                                              //document.body.style.overflow = "hidden";
-                                              updateTheEmployeeOnClick(
-                                                  units.id,
-                                                  units.firstName,
-                                                  units.lastName,
-                                                  units.role,
-                                                  units.email,
-                                                  units.password
-                                              );
-                                          }}><b>Update</b></button>
-                                          <button onClick={() => {
-                                              deleteTheEmployeeOnClick(units.Id);
-                                          }}  id="deleteButton"><b>Delete</b></button>
-                                      </div>
-                          </td>
+                              <>
+                                  {units.role == "Owner" ? <td></td>
+                              
+                                      :
+                                      <td>
+                                          <div id="updateDeleteContainer">
+                                              <button id="updateButton" onClick={() => {
+                                                  //document.body.style.overflow = "hidden";
+                                                  updateTheEmployeeOnClick(
+                                                      units.id,
+                                                      units.firstName,
+                                                      units.lastName,
+                                                      units.role,
+                                                      units.email,
+                                                      units.password
+                                                  );
+                                              }}><b>Update</b></button>
+                                              <button onClick={() => {
+                                                  deleteTheEmployeeOnClick(units.id);
+                                              }} id="deleteButton"><b>Delete</b></button>
+                                          </div>
+                                      </td>
+                          }
+                                 
                         </>
                       ) : (
                         ""
@@ -417,7 +418,7 @@ export default function ManageEmployees(props) {
                       </td>
                       <td>{units.email}</td>
                       <td>{units.role}</td>
-                      {isAdmin() ? (
+                          {isAdmin() && units.role !== "Owner"  ? (
                         <>
                           <td>
                             <button
@@ -437,7 +438,7 @@ export default function ManageEmployees(props) {
                           <td>
                             <button
                               onClick={() => {
-                                deleteTheEmployeeOnClick(units.Id);
+                                              deleteTheEmployeeOnClick(units.id);
                               }}
                             >
                               Delete

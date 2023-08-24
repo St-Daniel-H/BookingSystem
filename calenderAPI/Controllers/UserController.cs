@@ -61,6 +61,22 @@ namespace calenderAPI.Controllers
 
             return Ok(UserResource);
         }
+        //delete
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            var User = await _userService.GetUserById(id);
+
+            if (User == null)
+                return NotFound();
+
+            await _userService.DeleteUser(User);
+
+            return NoContent();
+        }
         //update
         [HttpPut("{id}")]
         public async Task<ActionResult<UserResource>> UpdateUser(int id, [FromBody] SaveUserResource saveUserResource)
@@ -87,21 +103,6 @@ namespace calenderAPI.Controllers
 
             return Ok(updatedUserResource);
         }
-        //delete
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            if (id == 0)
-                return BadRequest();
-
-            var User = await _userService.GetUserById(id);
-
-            if (User == null)
-                return NotFound();
-
-            await _userService.DeleteUser(User);
-
-            return NoContent();
-        }
+       
     }
 }

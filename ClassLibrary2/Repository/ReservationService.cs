@@ -55,6 +55,10 @@ namespace BookingSystem.Services.Repository
         {
             return await _unitOfWork.Reservations.GetReservationsByCompanyId(companyId);
         }
+        public async Task<IEnumerable<Reservation>> GetReservationsByRoomId(int roomId)
+        {
+            return await _unitOfWork.Reservations.GetReservationsByRoomId(roomId);
+        }
     }
 }
 

@@ -9,5 +9,7 @@
         public string Description { get; set; }
 
         public int companyId { get; set; }
+        public List<ReservationResource> Reservations { get; set; }
+
     }
 }

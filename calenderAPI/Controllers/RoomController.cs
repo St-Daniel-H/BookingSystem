@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using startup.Models;
 using FluentValidation;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Runtime.CompilerServices;
 
 namespace calenderAPI.Controllers
 {
@@ -17,14 +18,16 @@ namespace calenderAPI.Controllers
 
     public class RoomController : ControllerBase
     {
-        public RoomController(IRoomService RoomService, IMapper mapper)
+        public RoomController(IRoomService RoomService,IReservationService ReservationService, IMapper mapper)
         {
             this._mapper = mapper;
             this._RoomService = RoomService;
+            this._ReservationService = ReservationService;
         }
 
         private readonly IMapper _mapper;
         private readonly IRoomService _RoomService;
+        private readonly IReservationService _ReservationService;
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllrooms()
         {
@@ -99,6 +102,14 @@ namespace calenderAPI.Controllers
 
             try
             {
+                var reservations = await _ReservationService.GetReservationsByRoomId(id);
+
+                // Delete each reservation
+                foreach (var reservation in reservations)
+                {
+                    await _ReservationService.DeleteReservation(reservation);
+                }
+
                 var room = await _RoomService.GetRoomById(id);
 
                 if (room == null)

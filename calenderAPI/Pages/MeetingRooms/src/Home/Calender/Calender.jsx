@@ -132,7 +132,7 @@ function CalendarView(props) {
         if (moment(event.start).isBefore(today, 'day')) return;
     document.body.style.overflow = "hidden";
     const newEvent = {
-        title: "New Event",
+        title: "",
         description: "",
         NumberOfAttendees:0,
       start: moment(event.start).toDate(), // Convert to Date object

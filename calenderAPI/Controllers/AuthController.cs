@@ -169,7 +169,7 @@ namespace calenderAPI.Controllers
             return Ok(users);
         }
         //delete User request.
-        [HttpDelete("/auth/User")]
+        [HttpDelete("/auth/User/{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             if (id == null)
