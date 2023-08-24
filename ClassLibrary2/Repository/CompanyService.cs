@@ -34,9 +34,9 @@ namespace BookingSystem.Services.Repository
             return newCompany;
         }
 
-        public async Task DeleteCompany(Company music)
+        public async Task DeleteCompany(Company company)
         {
-            _unitOfWork.Companies.Remove(music);
+            _unitOfWork.Companies.Remove(company);
             await _unitOfWork.CommitAsync();
         }
     
@@ -44,10 +44,9 @@ namespace BookingSystem.Services.Repository
         {
             companyToBeUpdated.Name = company.Name;
             companyToBeUpdated.Email = company.Email;
-            if(company.Logo != null)
+            if (company.Logo != null)
             {
                 companyToBeUpdated.Logo = company.Logo;
-
             }
 
 

@@ -55,7 +55,7 @@ function CompanyProfile({ company, userRole }) {
             })
             if (response.ok) {
                 handleSnackBarSuccess("Company Updated");
-              //  window.location.reload();
+                window.location.reload();
 
             } else {
                 throw new Error("error")
