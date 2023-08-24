@@ -1,10 +1,155 @@
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import APIs from "../../Backend/backend";
+import colors from "../../scss/SCSSVariables";
+import TextField from "@mui/material/TextField";
+import { useSnackbar } from "notistack";
+import noLogo from "../../Images/defLogo.jpg";
 
+function CompanyProfile({ company, userRole }) { 
+    const { enqueueSnackbar } = useSnackbar();
+    function handleSnackBar(error) {
+        enqueueSnackbar(error, {
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "right",
+            },
+            variant: "error",
+        });
+    }
+    function handleSnackBarSuccess(succsess) {
+        enqueueSnackbar(succsess, {
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "right",
+            },
+            variant: "success",
+        });
+    }
+    const [updatingCompany, setUpdatingCompany] = useState(false);
+    const [formData, setFormData] = useState({
+        name: company.name,
+        email: company.email,
+        logo:null,
 
-function CompanyProfile() { 
+    })
+    const [image, setImage] = useState(
+        `../../../public/Uploads/${company.logo}`
+    );
+    async function updateTheCompany(e) {
+        console.log(company);
+        e.preventDefault()
+        const companyData2 = new FormData();
+        companyData2.append("Name", formData.name);
+        companyData2.append("email", formData.email);
+        console.log(formData.logo);
+        if (formData.logo != null) {
+            companyData2.append("logo", formData.logo[0]);
 
+        }
+        try {
+            const response = await fetch(APIs.apiLink + "/api/Company/"+company.companyId, {
+                method: "PUT",
+                body: companyData2,
+
+            })
+            if (response.ok) {
+                handleSnackBarSuccess("Company Updated");
+              //  window.location.reload();
+
+            } else {
+                throw new Error("error")
+            }
+        } catch (error) {
+            console.log(error);
+            handleSnackBar("Something went wrong, try again later")
+        }
+    }
+    const [deletingCompany, setDeletingCompany] = useState(false);
     return (
         <div id="companyProfile">
-        <h1>Company</h1>
+            <div id="companyProfileLeft">
+               
+                {!updatingCompany ? <>
+                    {company.logo ? (
+                        <img id="imgcompany" src={image}></img>
+                    ) : (
+                        <img id="imgcompany" src={noLogo}></img>
+                    )}   <br />
+                    Name: <b>{company.name}</b><br />
+                    Email: <b>{company.email}</b>
+                </> : <>
+                        <TextField
+                            className="input"
+                            sx={{
+                                input: { color: colors.accentColor },
+                                "& .MuiInput-underline:before": {
+                                    borderBottomColor: colors.accentColor,
+                                },
+                                "& .MuiFormLabel-root": {
+                                    color: colors.accentColor,
+                                },
+                                "& .MuiInputLabel-root:focused": {
+                                    color: colors.primaryColor,
+                                },
+                                marginBottom: "20px"
+                            }}
+                            label="Name"
+                            id="standard-basic Name"
+                            type="text"
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            value={formData.name}
+                            variant="standard"
+                        ></TextField><br />
+                        <TextField
+                            className="input"
+                            sx={{
+                                input: { color: colors.accentColor },
+                                "& .MuiInput-underline:before": {
+                                    borderBottomColor: colors.accentColor,
+                                },
+                                "& .MuiFormLabel-root": {
+                                    color: colors.accentColor,
+                                },
+                                "& .MuiInputLabel-root:focused": {
+                                    color: colors.primaryColor,
+                                },
+                                marginBottom: "20px"
+                            }}
+                            label="Email"
+                            id="standard-basic email"
+                            type="text"
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            value={formData.email}
+                            variant="standard"
+                        ></TextField><br />
+                        <label id="customLabel" htmlFor="chooseLogo">
+                            Logo
+                        </label>
+                        {/* </div> */}
+                        <input
+                            id="chooseLogo"
+                            className="input"
+                            type="file"
+                            onChange={(ev) => setFormData({ ...formData, logo: ev.target.files })}
+                            accept="image/x-png,image/gif,image/jpeg"
+                        />
+                        <br/>
+                        <button onClick={updateTheCompany} className="normalButton">Update</button><br />
+
+                </>}
+
+            </div>
+            {userRole != "Owner" ?
+                <div id="companyProfileRight">
+                    <button className="normalButton" onClick={() => { setUpdatingCompany(!updatingCompany) }}>{!updatingCompany ? "Update" : "Cancel"}</button><br />
+                    <button className="deleteButton">Delete Company</button>
+                </div>
+                :""
+            }
+
+
+
         </div>
     )
 }

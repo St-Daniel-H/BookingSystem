@@ -44,7 +44,11 @@ namespace BookingSystem.Services.Repository
         {
             companyToBeUpdated.Name = company.Name;
             companyToBeUpdated.Email = company.Email;
-            companyToBeUpdated.Logo = company.Logo;
+            if(company.Logo != null)
+            {
+                companyToBeUpdated.Logo = company.Logo;
+
+            }
 
 
             await _unitOfWork.CommitAsync();

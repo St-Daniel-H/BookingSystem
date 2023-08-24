@@ -9,7 +9,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useNavigate } from "react-router-dom";
 import APIs from "../../Backend/backend";
 import CompanyProfile from "./companyProfile"
-function Profile({ user }) {
+function Profile({ user,company }) {
     const navigateTo = useNavigate();
 
     //snackbars
@@ -23,8 +23,8 @@ function Profile({ user }) {
             variant: "error",
         });
     }
-  function handleSnackBarSuccess() {
-    enqueueSnackbar("Signup Successful", {
+  function handleSnackBarSuccess(success) {
+      enqueueSnackbar(success, {
       anchorOrigin: {
         vertical: "bottom",
         horizontal: "right",
@@ -268,7 +268,11 @@ function Profile({ user }) {
                         <button className="deleteButton" onClick={transferOwnership}>{!isTransfering ? "Transfer Ownership" : "Cancel"}</button>}
             </div>
             </div>
-            <CompanyProfile/>
+            <div style={{marginTop:"50px"}}>
+                <h1>Company</h1>
+                <CompanyProfile userRole={user.role}  company={company} />
+            </div>
+
         </div>
     )
 }

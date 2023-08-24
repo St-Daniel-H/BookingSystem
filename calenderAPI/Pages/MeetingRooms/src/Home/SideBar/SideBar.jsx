@@ -59,7 +59,7 @@ function SideBar(props) {
       case "Reservation":
             return <ManageReservation user={userData} />;
         case "Profile":
-            return <Profile user={userData} />;
+            return <Profile company={companyData}  user={userData} />;
     }
   }
   const handleDrawerToggle = () => {

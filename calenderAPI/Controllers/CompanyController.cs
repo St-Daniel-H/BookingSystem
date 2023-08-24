@@ -79,30 +79,46 @@ namespace calenderAPI.Controllers
         }
         //update
         [HttpPut("{id}")]
-        public async Task<ActionResult<CompanyResource>> UpdateCompany(int id, [FromBody] SaveCompanyResource saveCompanyResource)
+        public async Task<ActionResult<CompanyResource>> UpdateCompany(int id, [FromForm] SaveCompanyResource saveCompanyResource)
         {
+
+            var uploadsFolderPath = "../calenderAPI/Pages/MeetingRooms/public/Uploads/";
             var validator = new SaveCompanyResourceValidator();
             var validationResult = await validator.ValidateAsync(saveCompanyResource);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+            var CompanyToBeUpdate = await _companyService.GetCompanyById(id);
 
-            var requestIsInvalid = id == 0 || !validationResult.IsValid;
-
-            if (requestIsInvalid)
-                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
-
-            var companyToBeUpdate = await _companyService.GetCompanyById(id);
-
-            if (companyToBeUpdate == null)
+            if (CompanyToBeUpdate == null)
                 return NotFound();
 
-            var company = _mapper.Map<SaveCompanyResource, Company>(saveCompanyResource);
+            CompanyToBeUpdate = _mapper.Map<SaveCompanyResource, Company>(saveCompanyResource);
+            if (saveCompanyResource.Logo != null && saveCompanyResource.Logo.Length > 0)
+            {
+                // Generate the filename using the CompanyId or any other unique identifier
+                var guidFileName = Guid.NewGuid().ToString() + Path.GetExtension(saveCompanyResource.Logo.FileName);
+                var filePath = Path.Combine(uploadsFolderPath, guidFileName);
 
-            await _companyService.UpdateCompany(companyToBeUpdate, company);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await saveCompanyResource.Logo.CopyToAsync(stream);
+                }
+
+                // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
+                CompanyToBeUpdate.Logo = guidFileName;
+            }
+
+            var Company =  await _companyService.GetCompanyById(id); 
+
+            await _companyService.UpdateCompany(Company, CompanyToBeUpdate);
 
             var updatedCompany = await _companyService.GetCompanyById(id);
             var updatedCompanyResource = _mapper.Map<Company, CompanyResource>(updatedCompany);
 
             return Ok(updatedCompanyResource);
         }
+
+
         //delete
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
