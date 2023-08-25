@@ -405,36 +405,29 @@ export default function ManageRooms(props) {
                       <td>{units.location}</td>
                       <td>{units.capacity}</td>
                       <td>{units.description}</td>
-                      {isAdmin() ? (
-                        <>
-                          <td>
-                            <button
-                              onClick={() => {
-                                updateTheRoomOnClick(
-                                  units.roomId,
-                                  units.name,
-                                  units.location,
-                                  units.capacity,
-                                  units.description
-                                );
-                              }}
-                            >
-                              Update
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                              onClick={() => {
-                                deleteTheRoomOnClick(units.roomId);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </>
-                      ) : (
-                        ""
-                      )}
+                          {isAdmin() ? (
+                              <>
+                                  <td>
+                                      <div id="updateDeleteContainer">
+                                          <button id="updateButton" onClick={() => {
+                                              //document.body.style.overflow = "hidden";
+                                              updateTheRoomOnClick(
+                                                  units.roomId,
+                                                  units.name,
+                                                  units.location,
+                                                  units.capacity,
+                                                  units.description
+                                              );
+                                          }}><b>Update</b></button>
+                                          <button id="deleteButton" onClick={() => {
+                                              deleteTheRoomOnClick(units.roomId);
+                                          }}><b>Delete</b></button>
+                                      </div>
+                                  </td>
+                              </>
+                          ) : (
+                              ""
+                          )}
                     </tr>
                   );
                 })}

@@ -419,36 +419,35 @@ export default function ManageEmployees(props) {
                       </td>
                       <td>{units.email}</td>
                       <td>{units.role}</td>
-                          {isAdmin() && units.role !== "Owner"  ? (
-                        <>
-                          <td>
-                            <button
-                              onClick={() => {
-                                //document.body.style.overflow = "hidden";
-                                updateTheEmployeeOnClick(
-                                  units.id,
-                                  units.firstName,
-                                  units.lastName,
-                                  units.role
-                                );
-                              }}
-                            >
-                              Update
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                              onClick={() => {
-                                              deleteTheEmployeeOnClick(units.id);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </>
-                      ) : (
-                        ""
-                      )}
+                          {isAdmin() ? (
+                              <>
+                                  {units.role == "Owner" ? <td></td>
+
+                                      :
+                                      <td>
+                                          <div id="updateDeleteContainer">
+                                              <button id="updateButton" onClick={() => {
+                                                  //document.body.style.overflow = "hidden";
+                                                  updateTheEmployeeOnClick(
+                                                      units.id,
+                                                      units.firstName,
+                                                      units.lastName,
+                                                      units.role,
+                                                      units.email,
+                                                      units.password
+                                                  );
+                                              }}><b>Update</b></button>
+                                              <button onClick={() => {
+                                                  deleteTheEmployeeOnClick(units.id);
+                                              }} id="deleteButton"><b>Delete</b></button>
+                                          </div>
+                                      </td>
+                                  }
+
+                              </>
+                          ) : (
+                              ""
+                          )}
                     </tr>
                   );
                 })}

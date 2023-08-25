@@ -49,9 +49,10 @@ function UpdateEmployee({ state, setState, userToUpdate }) {
       //setState(false);
       window.location.reload();
     } else {
-      const errorResponse = await response.json();
+        const errorResponse = await response.json();
+      console.log(errorResponse)
       console.log("Update failed:", errorResponse);
-      handleSnackBar(errorResponse.$value[0].errorMessage);
+      handleSnackBar("Something went wrong" );
     }
   }
   return state ? (

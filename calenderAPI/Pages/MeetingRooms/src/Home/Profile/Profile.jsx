@@ -102,6 +102,9 @@ function Profile({ user,company }) {
         if (isUpdate) {
             setIsUpdate(false);
         }
+        if (deletingProfile) {
+            setDeletingProfile(false);
+        }
         setIsTransfering(!isTransfering)
     }
     const [selectedEmployee,setSelectedEmployee] = useState(0)
@@ -151,6 +154,12 @@ function Profile({ user,company }) {
         }
     }
     function changeTextToForm() {
+        if (deletingProfile) {
+            setDeletingProfile(false);
+        }
+        if (isTransfering) {
+            setIsTransfering(false);
+        }
         setIsUpdate(!isUpdate);
     }
     return (
@@ -228,13 +237,13 @@ function Profile({ user,company }) {
                         ></TextField><br />
                         Role: <b>{user.role} </b><br />
                             <button className="normalButton" onClick={updateTheUser}>Update</button>
-                        </> : !isUpdate && !isTransfering ?
+                        </> : !isUpdate && !isTransfering && !deletingProfile ?
                     <>
                         Name: <b>{user.firstName} {user.lastName}</b><br />
                         Email: <b>{user.email} </b><br />
                         Role: <b>{user.role} </b><br />
 
-                            </> :isTransfering && !deletingProfile  ?
+                            </> :isTransfering && !deletingProfile && !isUpdate ?
                            
                             <div id="transfering">
                                 <h3>Transfer Ownership</h3>
@@ -256,10 +265,10 @@ function Profile({ user,company }) {
                                     renderInput={(params) => <TextField {...params} label="User" />}
                                 />
                                 <button id="transferNOW" className="deleteButton" onClick={transferOwnershipNow}>Transfer</button>
-                                </div> : <>
+                                </div> : !isTransfering && !isUpdate && deletingProfile ? <>
                                     <h3>Are you sure you want to delete your account?</h3>
                                     <button className="deleteButton" onClick={deleteProfile}>Delete Account</button> :
-                                </>
+                                </> : ""
                           
                 }
                 
@@ -268,7 +277,7 @@ function Profile({ user,company }) {
             <div id="userProfileRight">
                     {!isTransfering ? <button className="normalButton" onClick={changeTextToForm}>{!isUpdate ? "Update" : "Cancel"}</button> : ""}<br/>
                 {user.role != "Owner" ?
-                        <button className="deleteButton" onClick={() => { setDeletingProfile(!deletingProfile) }}>{deletingProfile ? "Cancel" : "Delete Account"}</button> :
+                        <button className="deleteButton" onClick={() => { setDeletingProfile(!deletingProfile); setIsUpdate(false) }}>{deletingProfile ? "Cancel" : "Delete Account"}</button> :
                         <button className="deleteButton" onClick={transferOwnership}>{!isTransfering ? "Transfer Ownership" : "Cancel"}</button>}
             </div>
             </div>

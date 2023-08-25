@@ -17,7 +17,7 @@ function App() {
     return (
     <SnackbarProvider maxSnack={3}>
             <Routes>
-                <Route path='/' element={<Navigate to="/Home/Room" />} />
+                <Route path='/' element={<Navigate to="/Home/Rooms" />} />
 
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Login" element={<Login />} />
