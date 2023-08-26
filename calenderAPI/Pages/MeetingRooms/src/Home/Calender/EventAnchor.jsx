@@ -32,6 +32,7 @@ export default function EventsAnchor({ userId, userRole, state, setState, info, 
             variant: "error",
         });
     }
+    console.log(info);
     function handleSnackBarSuccess(success) {
         enqueueSnackbar(success, {
             anchorOrigin: {
@@ -61,9 +62,8 @@ export default function EventsAnchor({ userId, userRole, state, setState, info, 
     const [userLoaded,setUserLooded] = useState(false)
     async function getUserById() {
         try {
-            const userId = info.user;
 
-            const apiUrl = `${APIs.apiLink}/api/auth/users/${userId}`;
+            const apiUrl = `${APIs.apiLink}/api/auth/users/${info.user}`;
             const res = await fetch(apiUrl).then((response) => {
                 if (!response.ok) {
                     handleSnackBar("Network response was not ok");
@@ -173,7 +173,7 @@ export default function EventsAnchor({ userId, userRole, state, setState, info, 
         </ListItem>
         
           </List>
-          {userRole == "Admin" || userRole == "Owner" || reservedByInfo.id == userId   ? 
+          {userRole == "Admin" || userRole == "Owner" || info.user == userId   ? 
               <List>
                   <ListItem id="updateDelete">
                       <div id="updateDeleteContainer">
